@@ -1,0 +1,187 @@
+collections:
+  ### In defult/universe ###
+  # MCU, Wizirding World, Middle Eearth, Fast Saga, Kevin Smith, xmen, Star Wars
+
+  Pirates of the Caribbean:
+    plex_search:
+      all:
+        title:
+          - "Pirates of the Caribbean"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Pirates of the Caribbean Collection
+
+  The Lord of the Rings:
+    plex_search:
+      all:
+        title:
+          - "The Lord of the Rings"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: The Lord of the Rings Collection
+
+  Indiana Jones:
+    plex_search:
+      all:
+        title:
+          - "Indiana Jones"
+    sync_mode: sync
+    item_assets: true
+
+  Back to the Future:
+    plex_search:
+      all:
+        title:
+          - "Back to the Future"
+    sync_mode: sync
+    item_assets: true
+
+  The Hunger Games:
+    plex_search:
+      all:
+        title:
+          - "The Hunger Games"
+    sync_mode: sync
+    item_assets: true
+
+  Kill Bill:
+    plex_search:
+      all:
+        title:
+          - "Kill Bill"
+    sync_mode: sync
+    item_assets: true
+
+  A Star Is Born:
+    plex_search:
+      all:
+        title:
+          - "A Star Is Born"
+    sync_mode: sync
+    item_assets: true
+
+  The Chronicles of Narnia:
+    plex_search:
+      all:
+        title:
+          - "The Chronicles of Narnia"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: The Chronicles of Narnia Collection
+
+  Mamma Mia:
+    plex_search:
+      all:
+        title:
+          - "Mamma Mia"
+    sync_mode: sync
+    item_assets: true
+
+  Robin Williams Live:
+    plex_search:
+      all:
+        title:
+          - "Robin Williams -"
+          - "An Evening with Robin Williams"
+    sync_mode: sync
+    item_assets: true
+
+  Iron Man:
+    plex_search:
+      all:
+        title:
+          - "Iron Man"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Iron Man Collection
+  
+  Thor:
+    plex_search:
+      all:
+        title:
+          - "Thor"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Thor Collection
+
+  Captain America:
+    plex_search:
+      all:
+        title:
+          - "Captain America"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Captain America Collection
+  
+  The Avengers:
+    plex_search:
+      all:
+        title:  
+          - "The Avengers"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: The Avengers Collection
+  
+  Ant-Man:
+    plex_search:
+      any:
+        title:
+          - "Ant-Man"
+          - "Ant Man"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Ant-Man Collection
+  
+  Guardians of the Galaxy:
+    plex_search:
+      all: 
+        title:
+          - "Guardians of the Galaxy"
+    sync_mode: sync
+    item_assets: true
+    name_mapping: Guardians of the Galaxy Collection
+  
+  #refine
+  Spider-Man (MCU):
+    plex_search:
+      any:
+        title:
+          - "Spider-Man"
+  
+  Terminator:
+    plex_search:
+      any:
+        title:
+          - "Terminator"
+    name_mapping: Terminator Collection
+
+  Before...:
+    plex_search:
+      any:
+        title:
+          - "Before Sunrise"
+          - "Before Sunset"
+          - "Before Midnight"
+    name_mapping: "Before... Collection"
+
+  Harry Potter:
+    plex_search:
+      any:
+        title:
+          - "Harry Potter"
+    name_mapping: "Harry Potter Collection"
+
+  Die Hard:
+    plex_search:
+      any:
+        title:
+          - "Die Hard"
+    name_mapping: "Die Hard Collection"
+
+  James Bond:
+    plex_search:
+      any:
+        title:
+          - "James Bond"
+          - "007"
+    name_mapping: "James Bond Collection"

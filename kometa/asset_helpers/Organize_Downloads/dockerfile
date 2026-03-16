@@ -1,0 +1,11 @@
+FROM python:3.14-slim
+
+WORKDIR /app
+
+COPY . .
+
+# Install build dependencies and package
+RUN pip install --no-cache-dir --upgrade pip==24.3.1 setuptools==75.6.0 wheel==0.45.1 && \
+    pip install --no-cache-dir .
+
+CMD ["python", "organize_assets.py"]

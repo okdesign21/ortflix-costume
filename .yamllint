@@ -1,0 +1,15 @@
+extends: default
+rules:
+  line-length:
+    max: 160
+    level: warning
+  indentation:
+    spaces: consistent
+    level: warning
+  trailing-spaces: disable
+  comments:
+    min-spaces-from-content: 1
+    level: warning
+  document-start: disable
+  document-end: disable
+  truthy: disable

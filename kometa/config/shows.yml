@@ -1,0 +1,25 @@
+collections:
+  Ghosts:
+    plex_search:
+      all:
+        title: "Ghosts"
+        genre: Comedy
+  Pirates:
+    plex_search:
+      any:
+        title:
+          - "Black Sails"
+          - "Our Flag Means Death"
+          - "One Piece"
+  Musicals:
+    plex_search:
+      all:
+        genre: Musical
+  This is what i'll talk about:
+    plex_search:
+      any:
+        title:
+          - "Our Flag Means Death"
+          - "Interview with the Vampire"
+          - "Heated Rivalry"
+    name_mapping: " 00_This is what i'll talk about Collection"

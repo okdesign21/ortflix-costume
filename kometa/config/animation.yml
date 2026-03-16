@@ -1,0 +1,218 @@
+templates:
+  Animation_Title_Collection:
+    default:
+      studios:
+        - DreamWorks Animation
+        - Blue Sky Studios
+        - Illumination
+        - Illumination Entertainment
+        - Sony Pictures Animation
+        - Aardman Animations
+        - Aardman
+        - LAIKA
+        - Laika
+        - Studio Ghibli
+    plex_search:
+      all:
+        title: <<txt>>
+        any:
+          studio: <<studios>>
+      validate: false
+    name_mapping: <<txt>> Collection
+    sync_mode: sync
+
+  Animation_Title_Collection_Exact:
+    default:
+      studios:
+        - DreamWorks Animation
+        - Blue Sky Studios
+        - Illumination
+        - Illumination Entertainment
+        - Sony Pictures Animation
+        - Aardman Animations
+        - Aardman
+        - LAIKA
+        - Laika
+        - Studio Ghibli
+    smart_filter:
+      all:
+        title: <<txt>>
+        any:
+          studio: <<studios>>
+      validate: false
+    name_mapping: <<coll>>
+    sync_mode: sync
+
+  Animation_Studio_Collection:
+    plex_search:
+      all:
+        studio: <<studio>>
+    name_mapping: <<coll>>
+    sync_mode: sync
+
+collections:
+  DreamWorks Animation:
+    template:
+      name: Animation_Studio_Collection
+      studio: DreamWorks Animation
+      coll: DreamWorks Animation
+
+  Blue Sky Studios:
+    template:
+      name: Animation_Studio_Collection
+      studio: Blue Sky Studios
+      coll: Blue Sky Studios
+
+  Illumination Entertainment:
+    plex_search:
+      any:
+        studio:
+          - Illumination
+          - Illumination Entertainment
+    sync_mode: sync
+    name_mapping: Illumination Entertainment Collection
+
+  Sony Pictures Animation:
+    template:
+      name: Animation_Studio_Collection
+      studio: Sony Pictures Animation
+      coll: Sony Pictures Animation Collection
+
+  Studio Ghibli:
+    template:
+      name: Animation_Studio_Collection
+      studio: Studio Ghibli
+      coll: Studio Ghibli
+
+  Laika Studios:
+    plex_search:
+      any:
+        studio:
+          - LAIKA
+          - Laika
+    sync_mode: sync
+    name_mapping: Laika Studios
+
+  Aardman:
+    plex_search:
+      any:
+        studio:
+          - Aardman Animations
+          - Aardman
+    sync_mode: sync
+    name_mapping: Aardman
+
+  Shrek:
+    template:
+      name: Animation_Title_Collection
+      txt: Shrek
+      studios: 
+        - DreamWorks Animation
+        - Pacific Data Images
+
+  Madagascar:
+    template:
+      name: Animation_Title_Collection
+      txt: Madagascar
+
+  How to Train Your Dragon:
+    template:
+      name: Animation_Title_Collection
+      txt: How to Train Your Dragon
+
+  Trolls:
+    template:
+      name: Animation_Title_Collection_Exact
+      txt: Trolls
+      coll: The Trolls Collection
+
+  Ice Age:
+    template:
+      name: Animation_Title_Collection
+      txt: Ice Age
+
+  Kung Fu Panda:
+    template:
+      name: Animation_Title_Collection
+      txt: Kung Fu Panda
+
+  Puss in Boots:
+    template:
+      name: Animation_Title_Collection
+      txt: Puss in Boots
+
+  Cloudy with a Chance of Meatballs:
+    template:
+      name: Animation_Title_Collection
+      txt: Cloudy with a Chance of Meatballs
+
+  Spider-Verse:
+    template:
+      name: Animation_Title_Collection_Exact
+      txt: Spider-Verse
+      coll: Spider-Man Spider-Verse Collection
+
+  Hotel Transylvania:
+    template:
+      name: Animation_Title_Collection
+      txt: Hotel Transylvania
+
+  Open Season:
+    template:
+      name: Animation_Title_Collection
+      txt: Open Season
+
+  The Croods:
+    template:
+      name: Animation_Title_Collection
+      txt: The Croods
+
+  Megamind:
+    template:
+      name: Animation_Title_Collection
+      txt: Megamind
+
+  The Bad Guys:
+    template:
+      name: Animation_Title_Collection
+      txt: The Bad Guys
+
+  Despicable Me:
+    template:
+      name: Animation_Title_Collection
+      txt: Despicable Me
+
+  Minions:
+    template:
+      name: Animation_Title_Collection
+      txt: Minions
+
+  The Secret Life of Pets:
+    template:
+      name: Animation_Title_Collection
+      txt: The Secret Life of Pets
+
+  Alvin and the Chipmunks:
+    template:
+      name: Animation_Title_Collection
+      txt: Alvin and the Chipmunks
+
+  Rio:
+    template:
+      name: Animation_Title_Collection
+      txt: Rio
+
+  Sing:
+    template:
+      name: Animation_Title_Collection
+      txt: Sing
+
+  Spirit:
+    template:
+      name: Animation_Title_Collection
+      txt: Spirit
+
+  Happy Feet:
+    template:
+      name: Animation_Title_Collection
+      txt: Happy Feet

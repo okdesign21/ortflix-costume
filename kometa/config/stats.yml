@@ -1,0 +1,53 @@
+collections:
+  Israeli Movies:
+    plex_all: true
+    filters:
+        country: Israel
+  Movies with Commentary:
+    plex_all: true
+    filters:
+      audio_track_title: Commentary
+  Unwatched Musicals:
+    smart_filter:
+      all:
+        unplayed: true
+        any:
+          genre: [Music, Musical]
+
+  Fisheye Movies of the Year:
+    letterboxd_list_details:
+      url: https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
+    summary: Top 10 movies of the year according to fisheye community, for each year.
+    collection_order: custom
+  Fisheye Best Performances:
+    letterboxd_list: >-
+      https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
+    summary: Best performances according to fisheye community
+    collection_order: custom
+  List of Lists:
+    letterboxd_list:
+      - https://letterboxd.com/okdesign/list/most-popular-not-horror-movies-from-each/
+      - https://letterboxd.com/okdesign/list/ors-birth-year-challange-1991/
+      - https://letterboxd.com/okdesign/list/100-degrees-of-kevin-bacon/
+      - https://letterboxd.com/okdesign/list/scavenger-hunt-49-april-2019-association/
+    summary: Challanged i wanted to do at some point.
+    smart_filter:
+      all:
+        unplayed: true
+    collection_order: custom
+  ###################################
+  LSC:
+    letterboxd_list:
+      - https://letterboxd.com/okdesign/list/ors-8th-annual-letterboxd-season-challenge/
+      - https://letterboxd.com/okdesign/list/ors-7th-annual-letterboxd-season-challenge/
+      - https://letterboxd.com/okdesign/list/ors-letterboxd-season-challenge-2020-21/
+      - https://letterboxd.com/okdesign/list/letterboxd-season-challenge-2018-19-final/
+      - https://letterboxd.com/okdesign/list/letterbox-season-challenge-2019-20/
+      - https://letterboxd.com/okdesign/list/lsc-9-letterboxd-season-challenge-2023-24/
+      - https://letterboxd.com/okdesign/list/the-10th-annual-letterboxd-season-challenge/
+      - https://letterboxd.com/okdesign/list/the-11th-annual-letterboxd-season-challenge/
+    summary: Letterboxd Season Challenge lists, for each year.
+    smart_filter:
+      all:
+        unplayed: true
+    collection_order: custom

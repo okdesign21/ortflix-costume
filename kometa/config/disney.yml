@@ -1,0 +1,265 @@
+templates:
+  Mouse_House_Collection:
+    plex_search:
+      all:
+        title: <<txt>>
+      any:
+        studio:
+          - Disney
+          - Pixar
+      validate: false
+      sort_by: release.asc
+    name_mapping: <<coll>> Collection
+    collection_order: custom
+    sync_mode: sync
+
+collections:
+  Disney Animation:
+    plex_search:
+      all:
+        studio: "Walt Disney Animation Studios"
+    name_mapping: Walt Disney Animation Studios
+  
+  Disney Live-Action Remakes:
+    plex_search:
+      all:
+        title:
+          - "Aladdin"
+          - "Beauty and the Beast"
+          - "Cinderella"
+          - "Dumbo"
+          - "The Jungle Book"
+          - "The Lion King"
+          - "Maleficent"
+          - "Mulan"
+          - "101 Dalmatians"
+          - "Alice in Wonderland"
+          - "The Little Mermaid"
+          - "Pinocchio"
+          - "Peter Pan"
+          - "Lady and the Tramp"
+          - "Christopher Robin"
+          - "Pete's Dragon"
+          - "Cruella"
+          - "Snow White"
+        year.gte: 2010
+    name_mapping: Disney Live-Action Remakes
+
+  Pixar Animation:
+    plex_all: true
+    filters:
+      studio: "Pixar Animation Studios"
+      duration.gt: 40
+    name_mapping: Pixar Animation Studios
+
+  Pixar Shorts:
+    plex_all: true
+    filters:
+      duration.lte: 15
+      studio: "Pixar Animation Studios"
+    name_mapping: Pixar Shorts
+
+  Disney's Fantasia:
+    template:
+      name: Mouse_House_Collection
+      txt: Fantasia
+      coll: Fantasia
+  
+  Moana:
+    template:
+      name: Mouse_House_Collection
+      txt: Moana
+      coll: Moana
+
+  Lilo & Stitch:
+    template:
+      name: Mouse_House_Collection
+      txt: "Stitch"
+      coll: "Lilo & Stitch"
+  The Little Mermaid:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Little Mermaid"
+      coll: "The Little Mermaid"
+  The Jungle Book:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Jungle Book"
+      coll: "The Jungle Book"
+  Peter Pan:
+    template:
+      name: Mouse_House_Collection
+      txt: "Peter Pan"
+      coll: "Peter Pan"
+  Lady and the Tramp:
+    template:
+      name: Mouse_House_Collection
+      txt: "Lady and the Tramp"
+      coll: "Lady and the Tramp"
+  Cinderella:
+    template:
+      name: Mouse_House_Collection
+      txt: "Cinderella"
+      coll: "Cinderella"
+  Mulan:
+    template:
+      name: Mouse_House_Collection
+      txt: "Mulan"
+      coll: "Mulan"
+  Atlantis:
+    template:
+      name: Mouse_House_Collection
+      txt: "Atlantis"
+      coll: "Atlantis"
+  Zootopia:
+    template:
+      name: Mouse_House_Collection
+      txt: "Zoot"
+      coll: "Zootopia"
+    name_mapping: Zootopia
+  Wreck-It Ralph:
+    template:
+      name: Mouse_House_Collection
+      txt: "Ralph"
+      coll: "Wreck-It Ralph"
+  Goofy:
+    template:
+      name: Mouse_House_Collection
+      txt: "Goofy"
+      coll: "Goofy"
+  The Lion King:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Lion King"
+      coll: "The Lion King"
+  Tarzan:
+    template:
+      name: Mouse_House_Collection
+      txt: "Tarzan"
+      coll: "Tarzan"
+  Bambi:
+    template:
+      name: Mouse_House_Collection
+      txt: "Bambi"
+      coll: "Bambi"
+  Brother Bear:
+    template:
+      name: Mouse_House_Collection
+      txt: "Brother Bear"
+      coll: "Brother Bear"
+  Beauty and the Beast:
+    template:
+      name: Mouse_House_Collection
+      txt: "Beauty and the Beast"
+      coll: "Beauty and the Beast"
+  Frozen:
+    template:
+      name: Mouse_House_Collection
+      txt: "Frozen"
+      coll: "Frozen"
+  Winnie the Pooh:
+    template:
+      name: Mouse_House_Collection
+      txt: "Pooh"
+      coll: "Winnie the Pooh"
+  The Rescuers:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Rescuers"
+      coll: "The Rescuers"
+  Pocahontas:
+    template:
+      name: Mouse_House_Collection
+      txt: "Pocahontas"
+      coll: "Pocahontas"
+  Aladdin:
+    template:
+      name: Mouse_House_Collection
+      txt: "Aladdin"
+      coll: "Aladdin"
+  101 Dalmatians:
+    template:
+      name: Mouse_House_Collection
+      txt: "Dalmatians"
+      coll: "101 Dalmatians"
+  Mary Poppins:
+    template:
+      name: Mouse_House_Collection
+      txt: "Mary Poppins"
+      coll: "Mary Poppins"
+  Pete's Dragon:
+    template:
+      name: Mouse_House_Collection
+      txt: "Pete's Dragon"
+      coll: "Pete's Dragon"
+  Enchanted:
+    template:
+      name: Mouse_House_Collection
+      txt: "Enchanted"
+      coll: "Enchanted"
+  Toy Story:
+    template:
+      name: Mouse_House_Collection
+      txt: "Toy Story"
+      coll: "Toy Story"
+  Cars:
+    template:
+      name: Mouse_House_Collection
+      txt: "Cars"
+      coll: "Cars"
+  Monsters:
+    template:
+      name: Mouse_House_Collection
+      txt: "Monsters"
+      coll: "Monsters"
+    name_mapping: "Monsters, Inc. Collection"
+
+  The Incredibles:
+    template:
+      name: Mouse_House_Collection
+      txt: "Incredibles"
+      coll: "The Incredibles"
+
+  Tangled:
+    template:
+      name: Mouse_House_Collection
+      txt: "Tangled"
+      coll: "Tangled"
+
+  The Princess and the Frog:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Princess and the Frog"
+      coll: "The Princess and the Frog"
+
+  Snow White:
+    template:
+      name: Mouse_House_Collection
+      txt: "Snow White"
+      coll: "Snow White"
+
+  High School Musical:
+    template:
+      name: Mouse_House_Collection
+      txt: "High School Musical"
+      coll: "High School Musical"
+
+  Hocus Pocus:
+    template:
+      name: Mouse_House_Collection
+      txt: "Hocus Pocus"
+      coll: "Hocus Pocus"
+
+  The Three Caballeros:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Three Caballeros"
+      coll: "Caballeros"
+    name_mapping: Caballeros Collection
+
+  The Emperor's New Groove:
+    template:
+      name: Mouse_House_Collection
+      txt: "The Emperor's New Groove"
+      coll: "The Emperors New Groove"
+    name_mapping: The Emperors New Groove Collection

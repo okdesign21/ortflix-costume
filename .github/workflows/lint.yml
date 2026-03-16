@@ -1,0 +1,45 @@
+name: Lint - Ortflix Costume
+
+on:
+  workflow_call:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.run_id }}
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install ruff
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff
+      - name: Run ruff checks
+        run: |
+          ruff check kometa tautulli
+          ruff format --check kometa tautulli
+
+  hadolint-kometa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run hadolint on Kometa Assets Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: kometa/asset_helpers/Organize_Downloads/dockerfile
+          failure-threshold: warning

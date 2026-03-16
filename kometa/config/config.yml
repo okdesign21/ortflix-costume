@@ -1,0 +1,186 @@
+# Plex and TMDb are required
+plex:
+  url: <<PLEXURL>>
+  token: <<PLEXTOKEN>>
+  timeout: 60
+  db_cache: 40
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+  verify_ssl: false
+tmdb:
+  apikey: <<TMDBAPIKEY>>
+  cache_expiration: 60
+  language: en
+tautulli:
+  url: <<TAUTULLIURL>>
+  apikey: <<TAUTULLIAPIKEY>>
+
+# At least one library has to be configured for the script to do
+# anything meaningful
+libraries:
+  # test_movie_lib:
+  #   type: movie
+  #   agent: plex
+  #   template_variables:
+  #     sep_style: oecan
+  #   collection_files:
+  #     # NOTE: It is important to disable Plex's in-built Automatic Collections
+  #     # stil need to check
+  #     - file: config/disney.yml
+  #     - file: config/IMDBGenres.yml
+  #     - file: config/franchises.yml
+  #   operations:
+  #     assets_for_all: false  # true when not testing
+  #     assets_for_all_collections: true
+  #   defualts code: https://github.com/Kometa-Team/Kometa/tree/master/defaults
+
+  Films:
+    type: movie
+    agent: plex
+    collection_files:
+      - file: config/stats.yml
+      - default: tautulli
+        template_variables:
+          list_size: 10
+          list_days: 30
+          collection_section: "00"
+      - default: separator_chart
+      - default: letterboxd
+        template_variables:
+          use_1001_movies: false
+          use_edgarwright: false
+          use_rogerebert: false
+          use_women_directors: true
+          use_animation: true
+      - default: imdb
+        template_variables:
+          use_popular: false
+          use_lowest: false
+      - default: separator_award
+      - default: oscars
+        template_variables:
+          use_year_collections: false
+      - default: golden
+        template_variables:
+          use_year_collections: false
+      - default: razzie
+        template_variables:
+          use_year_collections: false
+      - default: audio_language
+        template_variables:
+          use_other: false
+          use_separator: true
+          sort_by: title.asc
+      - default: studio
+      #- default: franchise > build it my own, not good enough
+      - default: universe
+      - default: based
+      - default: seasonal
+      - file: config/disney.yml
+      - file: config/animation.yml
+      - file: config/franchises.yml
+      - file: config/IMDBGenres.yml
+      - file: config/People.yml
+
+    operations:
+        assets_for_all: true
+        assets_for_all_collections: true
+
+  TV Programmes:
+    # agent: tv.plex.agents.series
+    # type: tv
+    collection_files:
+      - default: tautulli
+        template_variables:
+          list_size: 10
+          list_days: 30
+          collection_section: "00"
+      - file: config/shows.yml
+      - default: audio_language
+        template_variables:
+          use_other: false
+          use_separator: true
+          sort_by: title.asc
+      - default: studio
+      - default: network
+      - default: franchise
+      - default: based
+
+    operations:
+      assets_for_all: true
+      assets_for_all_collections: true
+
+  Musicals:
+    type: movie
+    agent: plex
+    collection_files:
+      - file: config/musicals.yml
+    operations:
+      assets_for_all: true
+      assets_for_all_collections: true
+
+settings:
+  # Or's settings
+  run_order:
+    - metadata
+    - collections
+    - operations
+    - overlays
+  cache: true
+  cache_expiration: 60
+  asset_directory:
+    - config/assets/Movies_Shows
+    - config/assets/People
+    - config/assets/Genres
+    - config/assets/Companies
+  collection_mode: default
+  sync_mode: sync
+  minimum_items: 1
+  default_collection_order: release
+  show_missing: false
+  tvdb_language: eng
+  verify_ssl: false
+
+  # assests
+  asset_folders: true
+  asset_depth: 1
+  create_asset_folders: false
+  prioritize_assets: false
+  dimensional_asset_rename: false
+  download_url_assets: false
+  show_missing_assets: true
+  show_missing_season_assets: false
+  show_missing_episode_assets: false
+  show_asset_not_needed: true
+
+  # was here
+  delete_below_minimum: true
+  delete_not_scheduled: false
+  run_again_delay: 2
+  missing_only_released: false
+  only_filter_missing: false
+  show_unmanaged: true
+  show_unconfigured: true
+  show_filtered: false
+  show_unfiltered: false
+  show_options: true
+  save_report: true
+  ignore_ids:
+  ignore_imdb_ids:
+  item_refresh_delay: 0
+  playlist_sync_to_users:
+  playlist_exclude_users:
+  playlist_report: false
+  custom_repo:
+  overlay_artwork_filetype: webp_lossy
+  overlay_artwork_quality: 90
+
+# Can be individually specified per library as well
+webhooks:
+  changes:
+  delete:
+  error:
+  run_end:
+  run_start:
+  version:

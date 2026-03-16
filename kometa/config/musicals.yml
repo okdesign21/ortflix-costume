@@ -1,0 +1,36 @@
+collections:
+  Lost Treasures:
+    plex_search:
+      any:
+        title:
+          - "Lost Treasures"
+          - "Tony Awards"
+  
+  Starkid:
+    plex_search:
+      any:
+        studio: 
+          - Starkid Productions
+          - StarKid
+          - Team StarKid
+          - Tin Can Brothers
+  
+  Pro-Shots:
+    plex_search:
+      any:
+        actor.count_gt: 0
+        director.count_gt: 0
+        studio.regex: ".+"
+  
+  Hebrew Musicals:
+    plex_search:
+      any:
+        country: Israel
+        original_language: Hebrew
+        title: [י, ה, ו, א]
+
+  A Very Potter Musical:
+    plex_search:
+      all:
+        title: "A Very Potter Musical"
+    name_mapping: "A Very Potter Musical Collection"
