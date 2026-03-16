@@ -1,18 +1,22 @@
 #!/bin/bash
 
-# Script to generate .env file from docker_secrets/
-# Maps secret files to KOMETA env variables
+# Script to generate .env file from the main ortflix repo's docker_secrets/
+# Expects layout: ortflix-costume and ortflix as siblings (e.g. myserver/ortflix-costume, myserver/ortflix).
+# Maps secret files to KOMETA env variables; writes to this repo's kometa/config/.env.
 #
 # Usage:
-#   ./generate_kometa_env.sh          # Uses SERVER_IP from .env (docker-compose)
+#   ./generate_kometa_env.sh          # Uses SERVER_IP from ortflix/.env (docker-compose)
 #   ./generate_kometa_env.sh -k3      # Uses K3s service DNS names (k3s mode)
 
-# Determine script directory and repo root
+# Determine script directory and repo roots (ortflix-costume vs main ortflix)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+COSTUME_ROOT="$(dirname "$SCRIPT_DIR")"
+PARENT_DIR="$(dirname "$COSTUME_ROOT")"
+ORTFLIX_MAIN="${PARENT_DIR}/ortflix"
 
-SECRETS_DIR="${REPO_ROOT}/docker_secrets"
-ENV_FILE="${REPO_ROOT}/kometa/config/.env"
+# Secrets and SERVER_IP .env live in the main ortflix repo; output goes in this repo
+SECRETS_DIR="${ORTFLIX_MAIN}/compose/docker_secrets"
+ENV_FILE="${COSTUME_ROOT}/kometa/config/.env"
 K3S_MODE=0
 
 # Parse arguments
@@ -29,14 +33,14 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Load SERVER_IP from repo root .env when present (falls back to current environment)
-if [ -f "${REPO_ROOT}/.env" ]; then
+# Load SERVER_IP from main ortflix repo .env when present (falls back to current environment)
+if [ -f "${ORTFLIX_MAIN}/.env" ]; then
     # shellcheck source=/dev/null
-    . "${REPO_ROOT}/.env"
+    . "${ORTFLIX_MAIN}/.env"
 fi
 
 # Create kometa/config directory if it doesn't exist
-mkdir -p "${REPO_ROOT}/kometa/config"
+mkdir -p "${COSTUME_ROOT}/kometa/config"
 
 # Create or overwrite the .env file
 true > "$ENV_FILE"
