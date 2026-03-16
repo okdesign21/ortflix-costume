@@ -1,12 +1,14 @@
 #!/bin/bash
 
-# Script to generate .env file from the main ortflix repo's docker_secrets/
-# Expects layout: ortflix-costume and ortflix as siblings (e.g. myserver/ortflix-costume, myserver/ortflix).
-# Maps secret files to KOMETA env variables; writes to this repo's kometa/config/.env.
+# DEPRECATED for ortflix: Kometa env vars are now set in the Compose file and K3s manifest
+# (no .env file). Use this script only if you run Kometa outside ortflix and need a .env.
+#
+# Generates .env from the main ortflix repo's docker_secrets/. Expects layout: ortflix-costume
+# and ortflix as siblings (e.g. myserver/ortflix-costume, myserver/ortflix).
 #
 # Usage:
 #   ./generate_kometa_env.sh          # Uses SERVER_IP from ortflix/.env (docker-compose)
-#   ./generate_kometa_env.sh -k3      # Uses K3s service DNS names (k3s mode)
+#   ./generate_kometa_env.sh -k3     # Uses K3s service DNS names (k3s mode)
 
 # Determine script directory and repo roots (ortflix-costume vs main ortflix)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
