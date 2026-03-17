@@ -20,9 +20,7 @@ def test_is_collection_poster_exact_match(tmp_path):
 def test_is_collection_poster_matches_collection_suffix_pair(tmp_path):
     organizer = make_organizer(tmp_path)
 
-    assert organizer._is_collection_poster(
-        "Atlantis Collection", "Atlantis Collection"
-    )
+    assert organizer._is_collection_poster("Atlantis Collection", "Atlantis Collection")
     assert organizer._is_collection_poster("Atlantis", "Atlantis Collection")
 
 
