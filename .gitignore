@@ -25,7 +25,6 @@ venv/
 kometa/asset_helpers/Organize_Downloads/Posters/
 kometa/config/assets/
 kometa/kometa source code/
-logs/
 
 # OS/editor
 .DS_Store
