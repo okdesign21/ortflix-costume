@@ -1,3 +1,54 @@
+Plex Popular:
+  Shows Added (TVDb IDs):
+    463588: The Fall and Rise of Reggie Dinkins
+    464461: Heated Rivalry
+    79168: Friends
+    411364: Shrinking
+    433120: 'Star Trek: Starfleet Academy'
+    402910: Abbott Elementary
+    85249: 'Fullmetal Alchemist: Brotherhood'
+    70761: ER
+    390093: Our Flag Means Death
+  Shows Added:
+  - Zaguri Empire
+Plex Watched:
+  Shows Added (TVDb IDs):
+    79168: Friends
+    85249: 'Fullmetal Alchemist: Brotherhood'
+    295777: Crazy Ex-Girlfriend
+    464461: Heated Rivalry
+    411364: Shrinking
+    463588: The Fall and Rise of Reggie Dinkins
+    70761: ER
+    72368: Law & Order
+    390093: Our Flag Means Death
+  Shows Added:
+  - Zaguri Empire
+Ghosts:
+  Shows Added (TVDb IDs):
+    400267: Ghosts
+    361701: Ghosts
+    452558: Ghosts
+    451668: Ghosts
+    454573: 'Ghosts: Australia'
+Pirates:
+  Shows Added (TVDb IDs):
+    262407: Black Sails
+    390093: Our Flag Means Death
+Musicals:
+  Shows Added (TVDb IDs):
+    72199: Cop Rock
+    295777: Crazy Ex-Girlfriend
+    281619: Galavant
+    76548: Great Performances
+    358805: Hazbin Hotel
+    393154: Schmigadoon!
+    248789: Smash
+This is what i'll talk about:
+  Shows Added (TVDb IDs):
+    464461: Heated Rivalry
+    405535: Interview with the Vampire
+    390093: Our Flag Means Death
 Doctor Who:
   Shows Missing (TVDb IDs):
     76107: Doctor Who
@@ -6,7 +57,11 @@ Doctor Who:
     79511: Torchwood
     79708: The Sarah Jane Adventures
     309893: Class
+    449991: Doctor Who (2023)
 Star Trek:
+  Shows Added (TVDb IDs):
+    382389: 'Star Trek: Strange New Worlds'
+    367138: 'Star Trek: Lower Decks'
   Shows Missing (TVDb IDs):
     77526: Star Trek
     71470: 'Star Trek: The Next Generation'
@@ -19,6 +74,9 @@ Star Trek:
     364093: 'Star Trek: Picard'
     385811: 'Star Trek: Prodigy'
 Law & Order:
+  Shows Added (TVDb IDs):
+    72368: Law & Order
+    71489: 'Law & Order: Criminal Intent'
   Shows Missing (TVDb IDs):
     75692: 'Law & Order: Special Victims Unit'
     74191: 'Law & Order: Trial by Jury'
@@ -312,6 +370,7 @@ Based on a Book:
     360295: His Dark Materials
     440564: The Stolen Girl
     370853: Masters of the Air
+    448764: Sandokan (2025)
     296065: Childhood's End
     320286: The Son
     78895: Agatha Christie's Marple
@@ -342,6 +401,7 @@ Based on a Book:
     369844: Shadow and Bone
     76582: Inspector Morse
     306304: A Series of Unfortunate Events
+    413074: Anne Rice's Mayfair Witches
     445610: Say Nothing
     400723: The Crowded Room
     451177: The Institute
@@ -397,8 +457,6 @@ Based on a Book:
     344141: The Little Drummer Girl
     289096: The Shannara Chronicles
     208791: Camelot
-    460903: Jack-of-All-Trades, Party of None
-    354972: I Know This Much Is True
 Based on a Comic:
   Shows Missing (TVDb IDs):
     355567: The Boys
@@ -631,6 +689,7 @@ Based on a True Story:
     363024: The Dropout
     400400: The Empress (2022)
     399904: 'Winning Time: The Rise of the Lakers Dynasty'
+    471423: 'Bhay: The Gaurav Tiwari Mystery'
     313024: Medici
     432040: Supersex
     447905: Good American Family
@@ -781,7 +840,6 @@ Based on a True Story:
     426593: Riding in Darkness
     438799: Of Money and Blood
     412789: Nolly
-    443526: Killer Soup
 Based on a Video Game:
   Shows Missing (TVDb IDs):
     416744: Fallout
