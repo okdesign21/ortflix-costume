@@ -1,0 +1,65 @@
+# Israeli / Jewish seasonal movie collections (Films library).
+#
+# Hebrew-calendar holidays move on the Gregorian calendar. Kometa only supports
+# schedule: range(MM/DD-MM/DD) — one window per collection. The ranges below are
+# broad "almost" bands (Purim ≈ Feb–Mar, Passover ≈ Mar–Apr, Hanukkah ≈ late Nov–Dec,
+# Yom Ha'atzmaut ≈ Apr–May). Tighten or split yearly if you want shorter windows.
+#
+# For year-exact dates, either edit this file once a year or use an external script
+# with config/israeli_holiday_dates.json (Kometa does not load that JSON).
+#
+# Replace keyword imdb_search with imdb_list: https://www.imdb.com/list/ls...
+# when you have curated lists.
+
+templates:
+  IsraeliHoliday:
+    smart_label: title.asc
+    summary: |-
+      Themed picks for this period (broad Gregorian window; Hebrew dates vary yearly).
+    sort_title: +0_<<collection_name>>
+    schedule: range(<<start_date>>-<<end_date>>)
+    delete_not_scheduled: true
+    sync_mode: sync
+    visible_home: true
+    visible_shared: true
+
+collections:
+  Purim Movies:
+    template:
+      name: IsraeliHoliday
+      start_date: 02/15
+      end_date: 03/31
+    imdb_search:
+      keyword.any: purim, esther, book of esther
+      limit: 400
+    item_assets: true
+
+  Passover Movies:
+    template:
+      name: IsraeliHoliday
+      start_date: 03/15
+      end_date: 04/30
+    imdb_search:
+      keyword.any: passover, pesach, seder, exodus
+      limit: 400
+    item_assets: true
+
+  Yom Ha'atzmaut Movies:
+    template:
+      name: IsraeliHoliday
+      start_date: 04/15
+      end_date: 05/15
+    imdb_search:
+      keyword.any: israel, israeli, tel aviv, jerusalem
+      limit: 400
+    item_assets: true
+
+  Hanukkah Movies:
+    template:
+      name: IsraeliHoliday
+      start_date: 11/25
+      end_date: 12/31
+    imdb_search:
+      keyword.any: hanukkah, chanukah, menorah, maccabee
+      limit: 400
+    item_assets: true

@@ -38,6 +38,10 @@ ASSET_FORCE_PNG = os.getenv("ASSET_FORCE_PNG", "true").strip().lower() in {
 ASSET_EXCEPTION_MAPPINGS = os.getenv(
     "ASSET_EXCEPTION_MAPPINGS", "exception_mappings.json"
 )
+# Match Kometa movie franchise remove_suffix: "Collection" when naming output folders
+KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
+    "KOMETA_STRIP_COLLECTION_SUFFIX", "true"
+).strip().lower() in {"1", "true", "yes", "on"}
 
 HANDLERS = {"poster_handler"}  # Future: add overlay_handler, etc.
 
@@ -113,6 +117,12 @@ def main() -> int:
         action="store_true",
         help="Create empty exception mappings JSON if it does not exist",
     )
+    parser.add_argument(
+        "--strip-collection-suffix",
+        action=argparse.BooleanOptionalAction,
+        default=KOMETA_STRIP_COLLECTION_SUFFIX,
+        help="Strip trailing ' Collection' from folder names (Kometa franchise default)",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -131,7 +141,12 @@ def main() -> int:
         logger.info("Using handler: %s", handler)
         if handler == "poster_handler":
             organizer = PosterOrganizer(
-                source, target, exception_mappings, args.force_png, dry_run=args.dry_run
+                source,
+                target,
+                exception_mappings,
+                args.force_png,
+                dry_run=args.dry_run,
+                strip_collection_suffix=args.strip_collection_suffix,
             )
         else:
             logger.warning("Unknown handler: %s", handler)

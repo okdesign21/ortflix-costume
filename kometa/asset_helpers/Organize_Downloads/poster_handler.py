@@ -31,6 +31,11 @@ class PosterOrganizer(Organizer):
     # Collection poster identification patterns
     COLLECTION_SUFFIXES = (" Collection", "Collection")
 
+    # Kometa movie franchise default uses remove_suffix: "Collection" on TMDb titles, so
+    # Plex/Kometa collection names are usually "Cars" / "Pirates of the Caribbean", not
+    # "... Collection". Output folders must match that for assets_for_all to apply.
+    _COLLECTION_SUFFIX = " collection"
+
     def __init__(
         self,
         source_dir: Path,
@@ -38,9 +43,11 @@ class PosterOrganizer(Organizer):
         exception_file: Path,
         force_png: bool,
         dry_run: bool,
+        strip_collection_suffix: bool = True,
     ) -> None:
         """Initialize PosterOrganizer."""
         super().__init__(source_dir, target_dir, exception_file, force_png, dry_run)
+        self.strip_collection_suffix = strip_collection_suffix
 
     # --- Naming helpers (poster-specific) ------------------------------------------
     def normalize_people_name(self, stem: str) -> str:
@@ -69,6 +76,20 @@ class PosterOrganizer(Organizer):
         name = re.sub(r"\s*-\s*\d{4}-\d{2}-\d{2}$", "", folder_name)
         name = re.sub(r"\s+set by\s+[\w\-]+$", "", name, flags=re.IGNORECASE)
         return name.strip()
+
+    def normalize_kometa_collection_folder_name(self, raw: str) -> str:
+        """Normalize then strip trailing ' Collection' to match Kometa franchise naming.
+
+        See Kometa ``defaults/movie/franchise.yml`` (``remove_suffix: Collection``).
+        Disable via ``strip_collection_suffix=False`` when a Plex collection keeps
+        the full TMDb-style title including 'Collection'.
+        """
+        n = self.normalize_name(raw)
+        if not self.strip_collection_suffix:
+            return n
+        if n.lower().endswith(self._COLLECTION_SUFFIX):
+            return n[: -len(self._COLLECTION_SUFFIX)].strip()
+        return n
 
     # --- Filesystem helpers --------------------------------------------------------
     def get_target_poster_path(self, dir_path: Path, src: Path) -> Path:
@@ -148,7 +169,7 @@ class PosterOrganizer(Organizer):
     def process_collection_folder(
         self, folder_path: Path, target_base: Path, category: str
     ) -> None:
-        collection_name = self.normalize_name(
+        collection_name = self.normalize_kometa_collection_folder_name(
             self.extract_collection_name(folder_path.name)
         )
         if not collection_name:
@@ -217,9 +238,12 @@ class PosterOrganizer(Organizer):
                 if item.is_dir():
                     self.process_collection_folder(item, target_base, category)
 
-            # Then process any top-level poster files
+            # Then process any top-level poster files (franchise names match Kometa)
             self._process_images_to_subfolders(
-                folder_path, target_base, self.normalize_name, category
+                folder_path,
+                target_base,
+                self.normalize_kometa_collection_folder_name,
+                category,
             )
         except Exception as e:
             logger.error(

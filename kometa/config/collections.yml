@@ -1,0 +1,156 @@
+# Custom Plex collections that Kometa defaults do not create (curated bundles, shorts,
+# mega-franchise folders).
+#
+# Live-action remakes: each film uses nested all: title + year so you do not pull the
+# animated originals (same title, different year). Match title strings to Plex exactly
+# (open a movie → … → View XML / title as shown).
+#
+# Spider-Man (MCU): title contains "Spider-Man" + actor Tom Holland (TMDb person). New
+# Holland-led films match automatically. genre.not: Animation drops Spider-Verse / Across.
+
+collections:
+  Disney Live-Action Remakes:
+    plex_search:
+      any:
+        - all:
+            title: "101 Dalmatians"
+            year: 1996
+        - all:
+            title: "102 Dalmatians"
+            year: 2000
+        - all:
+            title: "Aladdin"
+            year: 2019
+        - all:
+            title: "Alice Through the Looking Glass"
+            year: 2016
+        - all:
+            title: "Alice in Wonderland"
+            year: 2010
+        - all:
+            title: "Beauty and the Beast"
+            year: 2017
+        - all:
+            title: "Christopher Robin"
+            year: 2018
+        - all:
+            title: "Cinderella"
+            year: 2015
+        - all:
+            title: "Cruella"
+            year: 2021
+        - all:
+            title: "Dumbo"
+            year: 2019
+        - all:
+            title: "Lady and the Tramp"
+            year: 2019
+        - all:
+            title: "Lilo & Stitch"
+            year: 2025
+        - all:
+            title: "Maleficent"
+            year: 2014
+        - all:
+            title: "Maleficent: Mistress of Evil"
+            year: 2019
+        - all:
+            title: "Mufasa: The Lion King"
+            year: 2024
+        - all:
+            title: "Mulan"
+            year: 2020
+        - all:
+            title: "Peter Pan & Wendy"
+            year: 2023
+        - all:
+            title: "Pete's Dragon"
+            year: 2016
+        - all:
+            title: "Pinocchio"
+            year: 2022
+        - all:
+            title: "Snow White"
+            year: 2025
+        - all:
+            title: "The Jungle Book"
+            year: 1994
+        - all:
+            title: "The Jungle Book"
+            year: 2016
+        - all:
+            title: "The Lion King"
+            year: 2019
+        - all:
+            title: "The Little Mermaid"
+            year: 2023
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Disney live-action remakes and companion films.
+
+  Spider-Man (MCU):
+    plex_search:
+      all:
+        title: "Spider-Man"
+        actor: tmdb
+        genre.not: Animation
+    tmdb_person: 1136406
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    name_mapping: Spider-Man (MCU) Collection
+    summary: Tom Holland MCU Spider-Man trilogy only (no Raimi, Amazing, or Spider-Verse).
+
+  Pixar Shorts:
+    plex_all: true
+    filters:
+      duration.lte: 15
+      studio: "Pixar Animation Studios"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Pixar shorts (≤15 min) from Pixar Animation Studios.
+
+  Cars Toons and Short Films:
+    plex_search:
+      any:
+        title:
+          - "Cars Toon"
+          - "Air Mater"
+          - "Mater and the Ghostlight"
+          - "Mater Private Eye"
+          - "Mater the Greater"
+          - "El Materdor"
+          - "Heavy Metal Mater"
+          - "Monster Truck Mater"
+          - "Moon Mater"
+          - "Rescue Squad Mater"
+          - "Time Travel Mater"
+          - "Tokyo Mater"
+          - "Unidentified Flying Mater"
+          - "The Radiator Springs 500"
+          - "Miss Fritter"
+          - "Spinning"
+          - "Hiccups"
+          - "Bugged"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Cars Toons / Mater’s Tall Tales–style shorts.
+
+  Frozen Complete Collection:
+    plex_search:
+      any:
+        title:
+          - "Frozen"
+          - "Frozen II"
+          - "Frozen Fever"
+          - "Olaf's Frozen Adventure"
+          - "Once Upon a Snowman"
+          - "Olaf Presents"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Frozen features and tie-in specials
+    # (overlaps default Frozen franchise; use one or the other if dupes bother you).

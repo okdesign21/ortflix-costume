@@ -27,6 +27,7 @@ Automated asset organization for Kometa. Downloads and organizes posters, overla
 | `ASSET_TARGET_DIR`         | ❌       | `../../config/assets`     | Target directory for organized assets (resolves to `kometa/config/assets`) |
 | `ASSET_FORCE_PNG`          | ❌       | `True`                    | Convert all images to PNG format                                           |
 | `ASSET_EXCEPTION_MAPPINGS` | ❌       | `exception_mappings.json` | Path to exception mappings configuration file                              |
+| `KOMETA_STRIP_COLLECTION_SUFFIX` | ❌ | `true` | Strip trailing ` Collection` from `Movies_Shows` folder names so output matches Kometa’s movie [franchise default](https://kometa.wiki/en/latest/defaults/movie/franchise/) (`remove_suffix: Collection`). Set to `false` if your Plex collections keep the full TMDb-style title. |
 
 Notes:
 
@@ -146,6 +147,15 @@ Use this tool as part of your Kometa automation pipeline:
 1. **Run Kometa** with `item_assets: true` in collection configs
 
 ## Configuration
+
+### Franchise / TMDb collection folders
+
+Downloaded sets are often named like `Cars Collection set by …`. Kometa’s default **Franchise** builder uses `remove_suffix: "Collection"`, so the Plex collection (and Kometa asset folder) is usually **`Cars`**, not `Cars Collection`. The organizer applies the same rule after `normalize_name`, so assets land in `config/assets/Movies_Shows/Cars/poster.png`.
+
+- Re-run the organizer after upgrading; remove stale `… Collection` folders under `Movies_Shows` if you still see duplicate poster slots.
+- CLI: `--strip-collection-suffix` / `--no-strip-collection-suffix` overrides the env default.
+
+For collections renamed by Kometa `title_override` / `name_mapping` (e.g. some *Star Wars* sets), add a row in `exception_mappings.json` so the organized folder matches Plex — that stays the right tool for one-off Kometa renames.
 
 ### Exception Mappings
 

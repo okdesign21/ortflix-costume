@@ -38,6 +38,11 @@ libraries:
   Films:
     type: movie
     agent: plex
+    overlay_files:
+      - default: resolution
+      - default: audio_codec
+      - default: language_count 
+      - default: mediastinger
     collection_files:
       - file: config/stats.yml
       - default: tautulli
@@ -73,16 +78,65 @@ libraries:
           use_other: false
           use_separator: true
           sort_by: title.asc
+      # Studio merges: fold duplicate *labels* into one collection.
+      # Do not merge animation houses.
       - default: studio
+        template_variables:
+          append_addons:
+            ABC Studios:
+              - ABC Signature
+            CBS Studios:
+              - CBS Productions
+              - CBS Television Studios
+            DreamWorks Studios:
+              - DreamWorks Pictures
+            Marvel Studios:
+              - Marvel Animation
+            Paramount Pictures:
+              - Paramount Animation
+              - Paramount Television Studios
+            Touchstone Pictures:
+              - Touchstone Television
+            Universal Pictures:
+              - Universal Television
+            Walt Disney Animation Studios:
+              - Disney Television Animation
+              - DisneyToon Studios
+            Walt Disney Pictures:
+              - Walt Disney Productions
+            Warner Bros. Pictures:
+              - Warner Premiere
+            "20th Century Studios":
+              - 20th Century Fox Television
+              - Fox Television Studios
+          remove_include:
+            - 20th Century Animation
+            - 20th Century Fox Television
+            - ABC Signature
+            - CBS Productions
+            - CBS Television Studios
+            - Disney Television Animation
+            - DisneyToon Studios
+            - DreamWorks Pictures
+            - Fox Television Studios
+            - Marvel Animation
+            - Paramount Animation
+            - Paramount Television Studios
+            - Touchstone Television
+            - Universal Animation Studios
+            - Universal Television
+            - Walt Disney Productions
+            - Warner Animation Group
+            - Warner Premiere
       - default: franchise # might build my own
       - default: universe
       - default: based
       - default: seasonal
-      # - file: config/disney.yml
-      # - file: config/animation.yml
-      # - file: config/franchises.yml
-      # - file: config/IMDBGenres.yml
+      - file: config/israeli_holidays.yml
+      # Curated bundles not built by default franchise / universe / studio (see file header).
+      - file: config/collections.yml
       - file: config/People.yml
+      # - file: config/IMDBGenres.yml
 
     operations:
         assets_for_all: true
@@ -91,6 +145,12 @@ libraries:
   TV Programmes:
     type: show
     agent: plex
+    overlay_files:
+      - default: resolution
+      - default: audio_codec
+      - default: language_count 
+      - default: mediastinger
+      - default: status
     collection_files:
       - default: tautulli
         template_variables:
@@ -108,7 +168,55 @@ libraries:
         template_variables:
           use_popular: false
           use_lowest: false
+      # Same studio rules as Films
       - default: studio
+        template_variables:
+          append_addons:
+            ABC Studios:
+              - ABC Signature
+            CBS Studios:
+              - CBS Productions
+              - CBS Television Studios
+            DreamWorks Studios:
+              - DreamWorks Pictures
+            Marvel Studios:
+              - Marvel Animation
+            Paramount Pictures:
+              - Paramount Animation
+              - Paramount Television Studios
+            Touchstone Pictures:
+              - Touchstone Television
+            Universal Pictures:
+              - Universal Television
+            Walt Disney Animation Studios:
+              - Disney Television Animation
+              - DisneyToon Studios
+            Walt Disney Pictures:
+              - Walt Disney Productions
+            Warner Bros. Pictures:
+              - Warner Premiere
+            "20th Century Studios":
+              - 20th Century Fox Television
+              - Fox Television Studios
+          remove_include:
+            - 20th Century Animation
+            - 20th Century Fox Television
+            - ABC Signature
+            - CBS Productions
+            - CBS Television Studios
+            - Disney Television Animation
+            - DisneyToon Studios
+            - DreamWorks Pictures
+            - Fox Television Studios
+            - Marvel Animation
+            - Paramount Animation
+            - Paramount Television Studios
+            - Touchstone Television
+            - Universal Animation Studios
+            - Universal Television
+            - Walt Disney Productions
+            - Warner Animation Group
+            - Warner Premiere
       - default: network
       - default: franchise
       - default: based
@@ -120,6 +228,11 @@ libraries:
   Musicals:
     type: movie
     agent: plex
+    overlay_files:
+      - default: resolution
+      - default: audio_codec
+      - default: language_count 
+      - default: mediastinger
     collection_files:
       - file: config/musicals.yml
     operations:

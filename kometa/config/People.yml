@@ -13,6 +13,9 @@ templates:
       validate: false
     tmdb_person: <<person>>
     sort_title: +4_<<collection_name>>
+    list_minimum: 3
+    # Hide from library Collections browse; items still list this collection on movie pages.
+    collection_mode: hide
 collections:
   # Abbott and Costello:
   #     template: {name: Person, person: "30111, 29642"}
