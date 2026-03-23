@@ -29,7 +29,7 @@ collections:
       name: Holiday
       start_date: 03/01
       end_date: 03/18
-    imdb_searc: https://www.imdb.com/list/ls063934595/
+    imdb_search: https://www.imdb.com/list/ls063934595/
   Thanksgiving Movies:
     template:
       name: Holiday

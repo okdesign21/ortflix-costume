@@ -34,7 +34,6 @@ collections:
     smart_filter:
       all:
         unplayed: true
-    collection_order: custom
   ###################################
   LSC:
     letterboxd_list:
@@ -50,4 +49,3 @@ collections:
     smart_filter:
       all:
         unplayed: true
-    collection_order: custom

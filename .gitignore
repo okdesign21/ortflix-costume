@@ -20,6 +20,7 @@ dist/
 venv/
 .env
 .env.local
+.env.sync
 
 # Repository-specific generated files
 kometa/asset_helpers/Organize_Downloads/Posters/

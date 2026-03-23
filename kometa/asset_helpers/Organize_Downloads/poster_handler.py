@@ -9,6 +9,7 @@ import importlib.util
 import logging
 import re
 from pathlib import Path
+
 from handlers import Organizer
 
 # Detect if Pillow is available without importing it (avoid unused import warnings)

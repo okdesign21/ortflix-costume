@@ -44,6 +44,7 @@ libraries:
         template_variables:
           list_size: 10
           list_days: 30
+          list_minimum: 0
           collection_section: "00"
       - default: separator_chart
       - default: letterboxd
@@ -73,14 +74,14 @@ libraries:
           use_separator: true
           sort_by: title.asc
       - default: studio
-      #- default: franchise > build it my own, not good enough
+      - default: franchise # might build my own
       - default: universe
       - default: based
       - default: seasonal
-      - file: config/disney.yml
-      - file: config/animation.yml
-      - file: config/franchises.yml
-      - file: config/IMDBGenres.yml
+      # - file: config/disney.yml
+      # - file: config/animation.yml
+      # - file: config/franchises.yml
+      # - file: config/IMDBGenres.yml
       - file: config/People.yml
 
     operations:
@@ -88,13 +89,14 @@ libraries:
         assets_for_all_collections: true
 
   TV Programmes:
-    # agent: tv.plex.agents.series
-    # type: tv
+    type: show
+    agent: plex
     collection_files:
       - default: tautulli
         template_variables:
           list_size: 10
           list_days: 30
+          list_minimum: 0
           collection_section: "00"
       - file: config/shows.yml
       - default: audio_language
@@ -102,6 +104,10 @@ libraries:
           use_other: false
           use_separator: true
           sort_by: title.asc
+      - default: imdb
+        template_variables:
+          use_popular: false
+          use_lowest: false
       - default: studio
       - default: network
       - default: franchise
@@ -146,7 +152,7 @@ settings:
   asset_folders: true
   asset_depth: 1
   create_asset_folders: false
-  prioritize_assets: false
+  prioritize_assets: true
   dimensional_asset_rename: false
   download_url_assets: false
   show_missing_assets: true
@@ -166,7 +172,7 @@ settings:
   show_unfiltered: false
   show_options: true
   save_report: true
-  ignore_ids:
+  ignore_ids: 1567451
   ignore_imdb_ids:
   item_refresh_delay: 0
   playlist_sync_to_users:

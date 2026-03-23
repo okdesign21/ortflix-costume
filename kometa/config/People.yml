@@ -14,14 +14,14 @@ templates:
     tmdb_person: <<person>>
     sort_title: +4_<<collection_name>>
 collections:
-  Abbott and Costello:
-      template: {name: Person, person: "30111, 29642"}
+  # Abbott and Costello:
+  #     template: {name: Person, person: "30111, 29642"}
 
   Adam Brody:
       template: {name: Person, person: 11702}
 
-  Adam Sandler:
-      template: {name: Person, person: 19292}
+  # Adam Sandler:
+  #     template: {name: Person, person: 19292}
 
   Alan Rickman:
       template: {name: Person, person: 4566}
@@ -116,9 +116,9 @@ collections:
 
       template: {name: Person, person: 8784}
 
-  David Bowie:
-
-      template: {name: Person, person: 7487}
+  # David Bowie:
+  #
+  #     template: {name: Person, person: 7487}
 
   David Tennant:
 
@@ -128,9 +128,9 @@ collections:
 
       template: {name: Person, person: 137427}
 
-  Denzel Washington:
-
-      template: {name: Person, person: 5292}
+  # Denzel Washington:
+  #
+  #     template: {name: Person, person: 5292}
 
   Dick Van Dyke:
 
@@ -168,13 +168,13 @@ collections:
 
       template: {name: Person, person: 13294}
 
-  George Clooney:
+  # George Clooney:
+  #
+  #     template: {name: Person, person: 1461}
 
-      template: {name: Person, person: 1461}
-
-  Glen Powell:
-
-      template: {name: Person, person: 83271}
+  # Glen Powell:
+  #
+  #     template: {name: Person, person: 83271}
 
   Guillermo del Toro:
 
@@ -354,8 +354,8 @@ collections:
   Orlando Bloom:
       template: {name: Person, person: 114}
 
-  Orson Welles:
-      template: {name: Person, person: 40}
+  # Orson Welles:
+  #     template: {name: Person, person: 40}
 
   Oscar Isaac:
       template: {name: Person, person: 25072}
