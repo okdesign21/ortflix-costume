@@ -166,6 +166,7 @@ rsync_kometa_yaml() {
   [[ "$dry" == "1" ]] && args+=(--dry-run)
   [[ "${ORTFLIX_RSYNC_DELETE:-0}" == "1" ]] && args+=(--delete)
   args+=(
+    --exclude='assets/***'
     --include='*/'
     --include='*.yml'
     --include='*.yaml'
