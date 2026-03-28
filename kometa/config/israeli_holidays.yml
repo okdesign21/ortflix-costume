@@ -16,10 +16,12 @@ templates:
     smart_label: title.asc
     summary: |-
       Themed picks for this period (broad Gregorian window; Hebrew dates vary yearly).
-    sort_title: +0_<<collection_name>>
+    # Same library ordering as default seasonal (!00_<<title>>).
+    sort_title: "!00_<<collection_name>>"
     schedule: range(<<start_date>>-<<end_date>>)
     delete_not_scheduled: true
     sync_mode: sync
+    cache_builders: 1
     visible_home: true
     visible_shared: true
 

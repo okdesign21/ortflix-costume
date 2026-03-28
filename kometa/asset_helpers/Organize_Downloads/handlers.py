@@ -2,12 +2,22 @@
 
 import json
 import logging
+import os
 import shutil
 import unicodedata
 from abc import ABC, abstractmethod
+from io import BytesIO
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+# Plex / Kometa reject custom posters larger than this (see plex.py "Image too large" in Kometa).
+PLEX_POSTER_MAX_BYTES = 10_480_000
+
+
+def effective_max_poster_bytes() -> int:
+    """Upper bound for poster.png size; override with env ASSET_MAX_POSTER_BYTES."""
+    return int(os.getenv("ASSET_MAX_POSTER_BYTES", str(PLEX_POSTER_MAX_BYTES)))
 
 
 class Organizer(ABC):
@@ -108,8 +118,8 @@ class Organizer(ABC):
                         out = img.convert("RGBA")
                     else:
                         out = img.convert("RGB")
-                    out.save(dest, format="PNG")
-                logger.debug("saved PNG %s", dest)
+                save_png_under_plex_limit(out, dest, max_bytes=effective_max_poster_bytes())
+                logger.debug("saved PNG %s (%d bytes)", dest, dest.stat().st_size)
                 return True
             except Exception as e:
                 logger.error("Error converting %s to PNG: %s", src.name, e)
@@ -240,3 +250,121 @@ class Organizer(ABC):
     def process_movies_and_shows(self, source_dir: Path) -> None:
         """Process movie and show assets."""
         ...
+
+
+def _encode_png(img: "Image.Image", *, optimize: bool = True, compress_level: int = 9) -> bytes:
+    """Serialize a PIL image to PNG bytes."""
+    buf = BytesIO()
+    img.save(
+        buf,
+        format="PNG",
+        optimize=optimize,
+        compress_level=compress_level,
+    )
+    return buf.getvalue()
+
+
+def save_png_under_plex_limit(
+    img: "Image.Image",
+    dest: Path,
+    *,
+    max_bytes: int | None = None,
+) -> None:
+    """Write PNG to ``dest``, scaling down if needed so file size is under ``max_bytes``."""
+    from PIL import Image
+
+    if max_bytes is None:
+        max_bytes = effective_max_poster_bytes()
+
+    data = _encode_png(img)
+    if len(data) <= max_bytes:
+        dest.write_bytes(data)
+        return
+
+    scale = 0.92
+    current = img
+    while scale >= 0.3:
+        w, h = current.size
+        nw = max(1, int(w * scale))
+        nh = max(1, int(h * scale))
+        current = current.resize((nw, nh), Image.Resampling.LANCZOS)
+        data = _encode_png(current)
+        if len(data) <= max_bytes:
+            dest.write_bytes(data)
+            logger.info(
+                "Poster scaled to %dx%d (%s bytes) to stay under Plex limit: %s",
+                nw,
+                nh,
+                f"{len(data):,}",
+                dest,
+            )
+            return
+        scale -= 0.04
+
+    dest.write_bytes(data)
+    logger.warning(
+        "Could not shrink poster under %s bytes (final %s): %s",
+        f"{max_bytes:,}",
+        f"{len(data):,}",
+        dest,
+    )
+
+
+def shrink_poster_file_if_needed(
+    path: Path,
+    *,
+    max_bytes: int | None = None,
+    dry_run: bool = False,
+) -> bool:
+    """If ``path`` is larger than ``max_bytes``, re-encode and optionally scale down. Returns True if changed."""
+    if max_bytes is None:
+        max_bytes = effective_max_poster_bytes()
+    try:
+        if not path.is_file() or path.stat().st_size <= max_bytes:
+            return False
+    except OSError:
+        return False
+
+    if dry_run:
+        logger.info(
+            "DRY-RUN: would shrink %s (%d bytes)",
+            path,
+            path.stat().st_size,
+        )
+        return True
+
+    try:
+        from PIL import Image
+
+        with Image.open(path) as img:
+            if img.mode in ("RGBA", "LA") or (
+                img.mode == "P" and "transparency" in img.info
+            ):
+                out = img.convert("RGBA")
+            else:
+                out = img.convert("RGB")
+        save_png_under_plex_limit(out, path, max_bytes=max_bytes)
+        return True
+    except Exception as e:
+        logger.error("Failed to shrink %s: %s", path, e)
+        return False
+
+
+def shrink_all_posters_under_limit(
+    root: Path,
+    *,
+    max_bytes: int | None = None,
+    dry_run: bool = False,
+    pattern: str = "poster.png",
+) -> int:
+    """Walk ``root`` for ``**/pattern`` and shrink any file over ``max_bytes``. Returns count shrunk."""
+    if max_bytes is None:
+        max_bytes = effective_max_poster_bytes()
+    count = 0
+    if not root.is_dir():
+        logger.warning("Not a directory: %s", root)
+        return 0
+    for path in sorted(root.rglob(pattern)):
+        if shrink_poster_file_if_needed(path, max_bytes=max_bytes, dry_run=dry_run):
+            count += 1
+    return count

@@ -1,127 +1,131 @@
 collections:
-  ### In defult/universe ###
-  # MCU, Wizirding World, Middle Eearth, Fast Saga, Kevin Smith, xmen, Star Wars
+  ### Franchises not covered by default/universe/franchise defaults ###
+  # MCU sub-franchises, Wizarding World, Middle Earth, Fast Saga, Kevin Smith,
+  # X-Men, Star Wars are handled by default: franchise / default: universe in config.yml.
 
   Pirates of the Caribbean:
     plex_search:
       all:
-        title:
-          - "Pirates of the Caribbean"
+        title: "Pirates of the Caribbean"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Pirates of the Caribbean Collection
 
   The Lord of the Rings:
     plex_search:
       all:
-        title:
-          - "The Lord of the Rings"
+        title: "The Lord of the Rings"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: The Lord of the Rings Collection
 
   Indiana Jones:
     plex_search:
       all:
-        title:
-          - "Indiana Jones"
+        title: "Indiana Jones"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   Back to the Future:
     plex_search:
       all:
-        title:
-          - "Back to the Future"
+        title: "Back to the Future"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   The Hunger Games:
     plex_search:
       all:
-        title:
-          - "The Hunger Games"
+        title: "The Hunger Games"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   Kill Bill:
     plex_search:
       all:
-        title:
-          - "Kill Bill"
+        title: "Kill Bill"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   A Star Is Born:
     plex_search:
-      all:
-        title:
-          - "A Star Is Born"
+      any:
+        title: "A Star Is Born"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   The Chronicles of Narnia:
     plex_search:
       all:
-        title:
-          - "The Chronicles of Narnia"
+        title: "The Chronicles of Narnia"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: The Chronicles of Narnia Collection
 
   Mamma Mia:
     plex_search:
       all:
-        title:
-          - "Mamma Mia"
+        title: "Mamma Mia"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   Robin Williams Live:
     plex_search:
-      all:
+      any:
         title:
           - "Robin Williams -"
           - "An Evening with Robin Williams"
     sync_mode: sync
     item_assets: true
+    collection_order: release
 
   Iron Man:
     plex_search:
       all:
-        title:
-          - "Iron Man"
+        title: "Iron Man"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Iron Man Collection
-  
+
   Thor:
     plex_search:
       all:
-        title:
-          - "Thor"
+        title: "Thor"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Thor Collection
 
   Captain America:
     plex_search:
       all:
-        title:
-          - "Captain America"
+        title: "Captain America"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Captain America Collection
-  
+
+  # "The Avengers" only matches the first film; search for "Avengers" (without "The")
+  # to also catch Age of Ultron, Infinity War, and Endgame.
   The Avengers:
     plex_search:
-      all:
-        title:  
-          - "The Avengers"
+      any:
+        title: "Avengers"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: The Avengers Collection
-  
+
   Ant-Man:
     plex_search:
       any:
@@ -130,29 +134,28 @@ collections:
           - "Ant Man"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Ant-Man Collection
-  
+
   Guardians of the Galaxy:
     plex_search:
-      all: 
-        title:
-          - "Guardians of the Galaxy"
+      all:
+        title: "Guardians of the Galaxy"
     sync_mode: sync
     item_assets: true
+    collection_order: release
     name_mapping: Guardians of the Galaxy Collection
-  
-  #refine
-  Spider-Man (MCU):
-    plex_search:
-      any:
-        title:
-          - "Spider-Man"
-  
+
+  # Spider-Man (MCU) is handled by collections.yml (Tom Holland only, via TMDb actor filter).
+  # The broad title-only version here is removed to avoid duplicate/conflict.
+
   Terminator:
     plex_search:
       any:
-        title:
-          - "Terminator"
+        title: "Terminator"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
     name_mapping: Terminator Collection
 
   Before...:
@@ -162,26 +165,36 @@ collections:
           - "Before Sunrise"
           - "Before Sunset"
           - "Before Midnight"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
     name_mapping: "Before... Collection"
 
   Harry Potter:
     plex_search:
       any:
-        title:
-          - "Harry Potter"
+        title: "Harry Potter"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
     name_mapping: "Harry Potter Collection"
 
   Die Hard:
     plex_search:
       any:
-        title:
-          - "Die Hard"
+        title: "Die Hard"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
     name_mapping: "Die Hard Collection"
 
+  # James Bond films don't share a common title word; search by studio instead.
+  # Eon Productions produced every official Bond film from Dr. No onward.
   James Bond:
-    plex_search:
-      any:
-        title:
-          - "James Bond"
-          - "007"
+    plex_all: true
+    filters:
+      studio: "Eon Productions"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
     name_mapping: "James Bond Collection"

@@ -1,0 +1,1101 @@
+kometa/asset_helpers/Organize_Downloads/Posters/
+├── Companies
+│   ├── A24.jpg
+│   ├── ABC Television.jpg
+│   ├── AMC Studios.jpg
+│   ├── Apple TV+.jpg
+│   ├── BBC Four.jpg
+│   ├── BBC One.jpg
+│   ├── BBC Three.jpg
+│   ├── BBC Two.jpg
+│   ├── BBC.jpg
+│   ├── CBS.jpg
+│   ├── Cartoon Saloon.png
+│   ├── Disney Channel.jpg
+│   ├── Disney+.jpg
+│   ├── Fox.jpg
+│   ├── HBO.jpg
+│   ├── Hulu (US).jpg
+│   ├── ITV.jpg
+│   ├── Lifetime.jpg
+│   ├── NBC.jpg
+│   ├── Netflix.jpg
+│   ├── PBS.jpg
+│   ├── Paramount+.jpg
+│   ├── Peacock Productions.jpg
+│   ├── Prime Video.jpg
+│   ├── Showtime.jpg
+│   ├── Starkid Productions.jpg
+│   ├── Starz Network.jpg
+│   ├── Syfy.jpg
+│   ├── TNT.jpg
+│   ├── The CW.jpg
+│   └── channel 4.jpg
+├── Genres
+│   ├── Action Heroines.jpg
+│   ├── Action.png
+│   ├── Adventure.png
+│   ├── Anime.jpg
+│   ├── Biopic.jpg
+│   ├── Christmas.jpg
+│   ├── Cooking.jpg
+│   ├── Crime.jpg
+│   ├── Disaster.jpg
+│   ├── Drama.png
+│   ├── Dramedy.jpg
+│   ├── Easter.jpg
+│   ├── Film Noir.jpg
+│   ├── Foreign.jpg
+│   ├── Halloween.jpg
+│   ├── Holocaust.jpg
+│   ├── LGBTQ+.jpg
+│   ├── Music Biopic.jpg
+│   ├── Musicals.jpg
+│   ├── Mystery.jpg
+│   ├── New Year.jpg
+│   ├── Post-Apocalypse.jpg
+│   ├── Rom-Com.jpg
+│   ├── Romance.png
+│   ├── Samurai.jpg
+│   ├── Science Fiction.png
+│   ├── Sports.jpg
+│   ├── St. Patrick's Day.jpg
+│   ├── Thanksgiving.jpg
+│   ├── Time Travel.jpg
+│   ├── Valentine's.jpg
+│   ├── Vempires.jpg
+│   ├── Video Game.jpg
+│   ├── WW1.jpg
+│   ├── WW2.jpg
+│   ├── War.jpg
+│   ├── Werewolvs.jpg
+│   └── Zombies.jpg
+├── Movies_Shows
+│   ├── 101 Dalmatians (Animated) Collection set by DIIIVOY - 2026-01-15
+│   │   ├── 101 Dalmatians (Animated) Collection.png
+│   │   └── 101 Dalmatians II Patchs London Adventure (2003).png
+│   ├── A Goofy Movie Collection set by DIIIVOY - 2026-01-15
+│   │   ├── A Goofy Movie (1995).png
+│   │   ├── A Goofy Movie Collection.png
+│   │   └── An Extremely Goofy Movie (2000).png
+│   ├── A Very Potter Musical Collection set by IdontgetIt - 2026-03-11
+│   │   ├── A Very Potter Musical (2009).png
+│   │   ├── A Very Potter Musical Collection.png
+│   │   ├── A Very Potter Senior Year (2013).png
+│   │   └── A Very Potter Sequel (2010).png
+│   ├── Aardman set by DIIIVOY - 2026-03-11
+│   │   ├── A Close Shave (1996).png
+│   │   ├── A Grand Day Out (1990).png
+│   │   ├── A Matter of Loaf and Death (2008).png
+│   │   ├── A Shaun the Sheep Movie Farmageddon (2019).png
+│   │   ├── Aardman.png
+│   │   ├── Arthur Christmas (2011).png
+│   │   ├── Chicken Run (2000).png
+│   │   ├── Chicken Run Collection.png
+│   │   ├── Chicken Run Dawn of the Nugget (2023).png
+│   │   ├── Early Man (2018).png
+│   │   ├── Flushed Away (2006).png
+│   │   ├── Robin Robin (2021).png
+│   │   ├── Shaun the Sheep (2007).png
+│   │   ├── Shaun the Sheep Collection.png
+│   │   ├── Shaun the Sheep Movie (2015).png
+│   │   ├── Shaun the Sheep The Farmers Llamas (2015).png
+│   │   ├── The Pirates In an Adventure with Scientists (2012).png
+│   │   ├── The Wrong Trousers (1993).png
+│   │   ├── Timmy Time (2009).png
+│   │   ├── Wallace  Gromit Collection.png
+│   │   ├── Wallace  Gromit The Curse of the Were-Rabbit (2005).png
+│   │   ├── Wallace  Gromit Vengeance Most Fowl (2024).png
+│   │   ├── Wallace  Gromits Cracking Contraptions (2002).png
+│   │   └── Wallace  Gromits World of Invention (2010).png
+│   ├── Aladdin Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Aladdin Collection.png
+│   │   ├── Aladdin and the King of Thieves (1996).png
+│   │   └── The Return of Jafar (1994).png
+│   ├── All Dogs Go to Heaven Collection set by DIIIVOY - 2026-03-11
+│   │   ├── All Dogs Go to Heaven (1989).png
+│   │   ├── All Dogs Go to Heaven 2 (1996).png
+│   │   ├── All Dogs Go to Heaven Collection.png
+│   │   └── An All Dogs Christmas Carol (1998).png
+│   ├── Ant-Man Collection.jpeg
+│   ├── Atlantis Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Atlantis Collection.png
+│   │   └── Atlantis Milos Return (2003).png
+│   ├── Back to the Future Collection set by dm247 - 2026-03-11
+│   │   ├── Back to the Future (1985).jpeg
+│   │   ├── Back to the Future Collection.jpeg
+│   │   ├── Back to the Future Part II (1989).jpeg
+│   │   └── Back to the Future Part III (1990).jpeg
+│   ├── Bambi Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Bambi Collection.png
+│   │   └── Bambi II (2006).png
+│   ├── Beauty and the Beast Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Beauty and the Beast Collection.png
+│   │   ├── Beauty and the Beast The Enchanted Christmas (1997).png
+│   │   └── Belles Magical World (1998).png
+│   ├── Before... Collection set by dm247 - 2026-03-11
+│   │   ├── Before Midnight (2013).jpeg
+│   │   ├── Before Sunrise (1995).jpeg
+│   │   ├── Before Sunset (2004).jpeg
+│   │   └── Before... Collection.jpeg
+│   ├── Bill  Ted Collection set by musikmann2000 - 2026-03-24
+│   │   ├── Bill  Ted Collection.jpg
+│   │   ├── Bill  Ted Face the Music (2020).jpg
+│   │   ├── Bill  Teds Bogus Journey (1991).jpg
+│   │   └── Bill  Teds Excellent Adventure (1989).jpg
+│   ├── Blue Sky Studios set by DIIIVOY - 2026-03-11
+│   │   ├── Blue Sky Studios.png
+│   │   ├── Epic (2013).png
+│   │   ├── Ferdinand (2017).png
+│   │   ├── Horton Hears a Who (2008).png
+│   │   ├── Ice Age (2002).png
+│   │   ├── Ice Age Collection.png
+│   │   ├── Ice Age Collision Course (2016).png
+│   │   ├── Ice Age Continental Drift (2012).png
+│   │   ├── Ice Age Dawn of the Dinosaurs (2009).png
+│   │   ├── Ice Age The Meltdown (2006).png
+│   │   ├── Nimona (2023).png
+│   │   ├── Rio (2011).png
+│   │   ├── Rio 2 (2014).png
+│   │   ├── Rio Collection.png
+│   │   ├── Robots (2005).png
+│   │   ├── Spies in Disguise (2019).png
+│   │   └── The Peanuts Movie (2015).png
+│   ├── Brave Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Brave Collection.png
+│   │   └── The Legend of Mordu (2012).png
+│   ├── Brother Bear Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Brother Bear 2 (2006).png
+│   │   └── Brother Bear Collection.png
+│   ├── Buzz Lightyear of Star Command (2000).png
+│   ├── Caballeros Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Caballeros Collection.png
+│   │   └── Legend of the Three Caballeros (2018).png
+│   ├── Captain America Collection.jpeg
+│   ├── Captain America Collection.png
+│   ├── Cars Toons and Short Films set by DIIIVOY - 2026-03-11
+│   │   ├── Air Mater (2011).png
+│   │   ├── Bugged (2013).png
+│   │   ├── Cars Toons and Short Films.png
+│   │   ├── El Materdor (2008).png
+│   │   ├── Heavy Metal Mater (2010).png
+│   │   ├── Hiccups (2013).png
+│   │   ├── Mater Private Eye (2010).png
+│   │   ├── Mater and the Ghostlight (2006).png
+│   │   ├── Mater the Greater (2008).png
+│   │   ├── Miss Fritters Racing Skoool (2017).png
+│   │   ├── Monster Truck Mater (2010).png
+│   │   ├── Moon Mater (2010).png
+│   │   ├── Rescue Squad Mater (2008).png
+│   │   ├── Spinning (2013).png
+│   │   ├── The Radiator Springs 500 (2014).png
+│   │   ├── Time Travel Mater (2012).png
+│   │   ├── Tokyo Mater (2008).png
+│   │   └── Unidentified Flying Mater (2009).png
+│   ├── Cinderella Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Cinderella Collection.png
+│   │   ├── Cinderella II Dreams Come True (2002).png
+│   │   └── Cinderella III A Twist in Time (2007).png
+│   ├── Coco Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Coco Collection.png
+│   │   └── Dantes Lunch (2017).png
+│   ├── Die Hard Collection set by dm247 - 2026-03-11
+│   │   ├── A Good Day to Die Hard (2013).jpg
+│   │   ├── Die Hard (1988).jpg
+│   │   ├── Die Hard 2 (1990).jpg
+│   │   ├── Die Hard Collection.jpg
+│   │   ├── Die Hard With a Vengeance (1995).jpg
+│   │   └── Live Free or Die Hard (2007).jpg
+│   ├── Disney Live-Action Remakes set by DIIIVOY - 2026-03-11
+│   │   ├── 101 Dalmatians (1996).png
+│   │   ├── 101 Dalmatians (Live-Action) Collection.png
+│   │   ├── 102 Dalmatians (2000).png
+│   │   ├── Aladdin (2019).png
+│   │   ├── Alice Through the Looking Glass (2016).png
+│   │   ├── Alice in Wonderland (2010).png
+│   │   ├── Alice in Wonderland Collection.png
+│   │   ├── Beauty and the Beast (2017).png
+│   │   ├── Christopher Robin (2018).png
+│   │   ├── Cinderella (2015).png
+│   │   ├── Cruella (2021).png
+│   │   ├── Disney Live-Action Remakes.png
+│   │   ├── Dumbo (2019).png
+│   │   ├── Lady and the Tramp (2019).png
+│   │   ├── Lilo  Stitch (2025).png
+│   │   ├── Maleficent (2014).png
+│   │   ├── Maleficent Collection.png
+│   │   ├── Maleficent Mistress of Evil (2019).png
+│   │   ├── Mufasa The Lion King (2024).png
+│   │   ├── Mulan (2020).png
+│   │   ├── Peter Pan  Wendy (2023).png
+│   │   ├── Petes Dragon (2016).png
+│   │   ├── Pinocchio (2022).png
+│   │   ├── Snow White (2025).png
+│   │   ├── The Jungle Book (1994).png
+│   │   ├── The Jungle Book (2016).png
+│   │   ├── The Lion King (2019).png
+│   │   ├── The Lion King (Reboot) Collection.png
+│   │   └── The Little Mermaid (2023).png
+│   ├── DreamWorks Animation set by DIIIVOY - 2026-03-11
+│   │   ├── Abominable (2019).png
+│   │   ├── Antz (1998).png
+│   │   ├── Bee Movie (2007).png
+│   │   ├── Captain Underpants The First Epic Movie (2017).png
+│   │   ├── Chicken Run (2000).png
+│   │   ├── Dawn of the Croods (2015).png
+│   │   ├── Dog Man (2025).png
+│   │   ├── DreamWorks Animation.png
+│   │   ├── Flushed Away (2006).png
+│   │   ├── Home (2015).png
+│   │   ├── How to Train Your Dragon (2010).png
+│   │   ├── How to Train Your Dragon 2 (2014).png
+│   │   ├── How to Train Your Dragon Collection.png
+│   │   ├── How to Train Your Dragon Homecoming (2019).png
+│   │   ├── How to Train Your Dragon Snoggletog Log (2019).png
+│   │   ├── How to Train Your Dragon The Hidden World (2019).png
+│   │   ├── Joseph King of Dreams (2000).jpeg
+│   │   ├── Kung Fu Panda (2008).png
+│   │   ├── Kung Fu Panda 2 (2011).png
+│   │   ├── Kung Fu Panda 3 (2016).png
+│   │   ├── Kung Fu Panda 4 (2024).png
+│   │   ├── Kung Fu Panda Collection.png
+│   │   ├── Kung Fu Panda Holiday (2010).png
+│   │   ├── Kung Fu Panda Legends of Awesomeness (2011).png
+│   │   ├── Kung Fu Panda Secrets of the Furious Five (2008).png
+│   │   ├── Kung Fu Panda Secrets of the Masters (2011).png
+│   │   ├── Kung Fu Panda Secrets of the Scroll (2016).png
+│   │   ├── Kung Fu Panda The Dragon Knight (2022).png
+│   │   ├── Kung Fu Panda The Paws of Destiny (2018).png
+│   │   ├── Madagascar (2005).png
+│   │   ├── Madagascar 3 Europes Most Wanted (2012).png
+│   │   ├── Madagascar Collection.png
+│   │   ├── Madagascar Escape 2 Africa (2008).png
+│   │   ├── Maraschino Ruby (2022).png
+│   │   ├── Megamind (2010).png
+│   │   ├── Megamind Collection.png
+│   │   ├── Megamind Rules (2024) - Season 1.png
+│   │   ├── Megamind Rules (2024).png
+│   │   ├── Megamind The Button of Doom (2011).png
+│   │   ├── Megamind vs. the Doom Syndicate (2024).png
+│   │   ├── Merry Madagascar (2009).png
+│   │   ├── Monsters vs Aliens (2009).png
+│   │   ├── Mr. Peabody  Sherman (2014).png
+│   │   ├── Orion and the Dark (2024).png
+│   │   ├── Over the Hedge (2006).png
+│   │   ├── Panda Paws (2016).png
+│   │   ├── Penguins of Madagascar (2014).png
+│   │   ├── Puss in Book Trapped in an Epic Tale (2017).png
+│   │   ├── Puss in Boots (2011).png
+│   │   ├── Puss in Boots Collection.png
+│   │   ├── Puss in Boots The Last Wish (2022).png
+│   │   ├── Puss in Boots The Three Diablos (2012).png
+│   │   ├── Rise of the Guardians (2012).png
+│   │   ├── Ruby Gillman, Teenage Kraken (2023).png
+│   │   ├── Shark Tale (2004).png
+│   │   ├── Shrek (2001).png
+│   │   ├── Shrek 2 (2004).png
+│   │   ├── Shrek Collection.png
+│   │   ├── Shrek Forever After (2010).png
+│   │   ├── Shrek the Third (2007).png
+│   │   ├── Sinbad Legend of the Seven Seas (2003).png
+│   │   ├── Spirit Collection.png
+│   │   ├── Spirit Riding Free (2017).png
+│   │   ├── Spirit Stallion of the Cimarron (2002).png
+│   │   ├── Spirit Untamed (2021).png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 1.png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 2.png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 3.png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 4.png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 5.png
+│   │   ├── The Adventures of Puss in Boots (2015) - Season 6.png
+│   │   ├── The Adventures of Puss in Boots (2015).png
+│   │   ├── The Bad Guys (2022).png
+│   │   ├── The Bad Guys 2 (2025).png
+│   │   ├── The Bad Guys A Very Bad Holiday (2023).png
+│   │   ├── The Bad Guys Collection.png
+│   │   ├── The Bad Guys Haunted Heist (2024).png
+│   │   ├── The Bad Guys Little Lies and Alibis (2025).png
+│   │   ├── The Boss Baby (2017).png
+│   │   ├── The Boss Baby Back in Business (2018) - Season 1.png
+│   │   ├── The Boss Baby Back in Business (2018) - Season 2.png
+│   │   ├── The Boss Baby Back in Business (2018) - Season 3.png
+│   │   ├── The Boss Baby Back in Business (2018) - Season 4.png
+│   │   ├── The Boss Baby Back in Business (2018) - Specials.png
+│   │   ├── The Boss Baby Back in Business (2018).png
+│   │   ├── The Boss Baby Collection.png
+│   │   ├── The Boss Baby Family Business (2021).png
+│   │   ├── The Croods (2013).png
+│   │   ├── The Croods A New Age (2020).png
+│   │   ├── The Croods Collection.png
+│   │   ├── The Prince of Egypt (1998).png
+│   │   ├── The Road to El Dorado (2000).png
+│   │   ├── The Trolls Collection.png
+│   │   ├── The Wild Robot (2024).png
+│   │   ├── Trolla-Palooza Tour (2017).png
+│   │   ├── Trolls (2016).png
+│   │   ├── Trolls Band Together (2023).png
+│   │   ├── Trolls Holiday (2017).png
+│   │   ├── Trolls Holiday in Harmony (2021).png
+│   │   ├── Trolls It Takes Three (2023).png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 1.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 2.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 3.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 4.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 5.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 6.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 7.png
+│   │   ├── Trolls The Beat Goes On (2018) - Season 8.png
+│   │   ├── Trolls The Beat Goes On (2018).png
+│   │   ├── Trolls TrollsTopia (2020).png
+│   │   ├── Trolls World Tour (2020).png
+│   │   ├── Turbo (2013).png
+│   │   └── Wallace  Gromit The Curse of the Were-Rabbit (2005).png
+│   ├── DuckTales- The Movie - Treasure of the Lost Lamp (1990).png
+│   ├── Encanto (2021).png
+│   ├── Fantasia Collection.png
+│   ├── Fantastic Beasts Collection set by Aloha_Alona - 2026-01-15
+│   │   ├── Fantastic Beasts Collection.png
+│   │   ├── Fantastic Beasts The Crimes of Grindelwald (2018).png
+│   │   ├── Fantastic Beasts The Secrets of Dumbledore (2022).png
+│   │   └── Fantastic Beasts and Where to Find Them (2016).png
+│   ├── Frankenweenie (2012).png
+│   ├── Friends set by DarkMatte - 2026-03-11
+│   │   ├── Friends (1994) - Season 1.jpg
+│   │   ├── Friends (1994) - Season 10.jpg
+│   │   ├── Friends (1994) - Season 2.jpg
+│   │   ├── Friends (1994) - Season 3.jpg
+│   │   ├── Friends (1994) - Season 4.jpg
+│   │   ├── Friends (1994) - Season 5.jpg
+│   │   ├── Friends (1994) - Season 6.jpg
+│   │   ├── Friends (1994) - Season 7.jpg
+│   │   ├── Friends (1994) - Season 8.jpg
+│   │   ├── Friends (1994) - Season 9.jpg
+│   │   ├── Friends (1994) - Specials.jpg
+│   │   └── Friends (1994).jpg
+│   ├── Frozen Complete Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Frozen Complete Collection.png
+│   │   ├── Frozen Fever (2015).png
+│   │   ├── Frozen II (2019).png
+│   │   ├── LEGO Frozen Northern Lights (2017).png
+│   │   ├── Olaf Presents (2021) - Season 1.png
+│   │   ├── Olaf Presents (2021).png
+│   │   ├── Olafs Frozen Adventure (2017).png
+│   │   └── Once Upon a Snowman (2020).png
+│   ├── Guardians of the Galaxy Collection.jpeg
+│   ├── Happy Feet Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Happy Feet (2006).png
+│   │   ├── Happy Feet Collection.png
+│   │   └── Happy Feet Two (2011).png
+│   ├── Harry Potter Collection set by Aloha_Alona - 2026-01-15
+│   │   ├── Harry Potter Collection.png
+│   │   ├── Harry Potter and the Chamber of Secrets (2002).png
+│   │   ├── Harry Potter and the Deathly Hallows Part 1 (2010).png
+│   │   ├── Harry Potter and the Deathly Hallows Part 2 (2011).png
+│   │   ├── Harry Potter and the Goblet of Fire (2005).png
+│   │   ├── Harry Potter and the Half-Blood Prince (2009).png
+│   │   ├── Harry Potter and the Order of the Phoenix (2007).png
+│   │   ├── Harry Potter and the Philosophers Stone (2001).png
+│   │   └── Harry Potter and the Prisoner of Azkaban (2004).png
+│   ├── Hawaiian Vacation (2011).png
+│   ├── Illumination Entertainment Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Animal Attraction (2022).png
+│   │   ├── Come Home (2021).png
+│   │   ├── Despicable Me (2010).png
+│   │   ├── Despicable Me 2 (2013).png
+│   │   ├── Despicable Me 3 (2017).png
+│   │   ├── Despicable Me 4 (2024).png
+│   │   ├── Despicable Me Collection.png
+│   │   ├── Eddies Life Coach (2017).png
+│   │   ├── For Gunters Eyes Only (2022).png
+│   │   ├── Gunter Babysits (2017).png
+│   │   ├── Hop (2011).png
+│   │   ├── Illumination Entertainment Collection.png
+│   │   ├── Love at First Sight (2017).png
+│   │   ├── Migration (2023).png
+│   │   ├── Minions (2015).png
+│   │   ├── Minions Collection.png
+│   │   ├── Minions The Rise of Gru (2022).png
+│   │   ├── Sing (2016).png
+│   │   ├── Sing 2 (2021).png
+│   │   ├── Sing Collection.png
+│   │   ├── Sing Thriller (2024).png
+│   │   ├── The Grinch (2018).png
+│   │   ├── The Lorax (2012).png
+│   │   ├── The Secret Life of Pets (2016).png
+│   │   ├── The Secret Life of Pets 2 (2019).png
+│   │   ├── The Secret Life of Pets Collection.png
+│   │   └── The Super Mario Bros. Movie (2023).png
+│   ├── Indiana Jones Collection set by IdontgetIt - 2026-03-11
+│   │   ├── Indiana Jones Collection.png
+│   │   ├── Indiana Jones and the Kingdom of the Crystal Skull (2008).png
+│   │   ├── Indiana Jones and the Last Crusade (1989).png
+│   │   ├── Indiana Jones and the Temple of Doom (1984).png
+│   │   └── Raiders of the Lost Ark (1981).png
+│   ├── Indiana Jones and the Dial of Destiny (2023).jpg
+│   ├── Inside Out Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Dream Productions (2024) - Season 1.png
+│   │   ├── Dream Productions (2024).png
+│   │   ├── Inside Out Collection.png
+│   │   └── Rileys First Date (2015).png
+│   ├── Iron Man Collection.jpeg
+│   ├── James Bond Collection set by dm247 - 2026-03-11
+│   │   ├── A View to a Kill (1985).jpg
+│   │   ├── Casino Royale (1967).jpg
+│   │   ├── Casino Royale (2006).jpg
+│   │   ├── Diamonds Are Forever (1971).jpg
+│   │   ├── Die Another Day (2002).jpg
+│   │   ├── Dr. No (1962).jpg
+│   │   ├── For Your Eyes Only (1981).jpg
+│   │   ├── From Russia with Love (1963).jpg
+│   │   ├── GoldenEye (1995).jpg
+│   │   ├── Goldfinger (1964).jpg
+│   │   ├── James Bond Collection.jpg
+│   │   ├── Licence to Kill (1989).jpg
+│   │   ├── Live and Let Die (1973).jpg
+│   │   ├── Moonraker (1979).jpg
+│   │   ├── Never Say Never Again (1983).jpg
+│   │   ├── No Time to Die (2021).jpg
+│   │   ├── Octopussy (1983).jpg
+│   │   ├── On Her Majestys Secret Service (1969).jpg
+│   │   ├── Quantum of Solace (2008).jpg
+│   │   ├── Skyfall (2012).jpg
+│   │   ├── Spectre (2015).jpg
+│   │   ├── The Living Daylights (1987).jpg
+│   │   ├── The Man with the Golden Gun (1974).jpg
+│   │   ├── The Spy Who Loved Me (1977).jpg
+│   │   ├── The World Is Not Enough (1999).jpg
+│   │   ├── Thunderball (1965).jpg
+│   │   ├── Tomorrow Never Dies (1997).jpg
+│   │   └── You Only Live Twice (1967).jpg
+│   ├── Lady and the Tramp Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Lady and the Tramp Collection.png
+│   │   └── Lady and the Tramp II Scamps Adventure (2001).png
+│   ├── Laika Studios set by DIIIVOY - 2026-03-11
+│   │   ├── Coraline (2009).png
+│   │   ├── Kubo and the Two Strings (2016).png
+│   │   ├── Laika Studios.png
+│   │   ├── Missing Link (2019).png
+│   │   ├── ParaNorman (2012).png
+│   │   └── The Boxtrolls (2014).png
+│   ├── Lamp Life (2020).png
+│   ├── Lilo  Stitch (Animated) Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Leroy  Stitch (2006).png
+│   │   ├── Lilo  Stitch (Animated) Collection.png
+│   │   ├── Lilo  Stitch 2 Stitch Has a Glitch (2005).png
+│   │   └── Stitch The Movie (2003).png
+│   ├── Luca Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Ciao Alberto (2021).png
+│   │   └── Luca Collection.png
+│   ├── Marvel Cinematic Universe set by RedHeadJedi - 2026-03-24
+│   │   ├── Ant-Man (2015).jpeg
+│   │   ├── Ant-Man and the Wasp (2018).jpeg
+│   │   ├── Ant-Man and the Wasp Quantumania (2023).jpg
+│   │   ├── Avengers Age of Ultron (2015).jpeg
+│   │   ├── Avengers Endgame (2019).png
+│   │   ├── Avengers Infinity War (2018).jpeg
+│   │   ├── Black Panther (2018).png
+│   │   ├── Black Panther Wakanda Forever (2022).jpg
+│   │   ├── Black Widow (2021).jpeg
+│   │   ├── Captain America Civil War (2016).jpeg
+│   │   ├── Captain America The First Avenger (2011).png
+│   │   ├── Captain America The Winter Soldier (2014).png
+│   │   ├── Captain Marvel (2019).png
+│   │   ├── Doctor Strange (2016).jpeg
+│   │   ├── Doctor Strange in the Multiverse of Madness (2022).png
+│   │   ├── Eternals (2021).jpg
+│   │   ├── Guardians of the Galaxy (2014).png
+│   │   ├── Guardians of the Galaxy Vol. 2 (2017).jpeg
+│   │   ├── Hawkeye (2021).jpg
+│   │   ├── Iron Man (2008).jpeg
+│   │   ├── Iron Man 2 (2010).jpeg
+│   │   ├── Iron Man 3 (2013).jpeg
+│   │   ├── Loki (2021).jpg
+│   │   ├── Marvel Cinematic Universe.jpeg
+│   │   ├── Moon Knight (2022).png
+│   │   ├── Ms. Marvel (2022).png
+│   │   ├── Shang-Chi and the Legend of the Ten Rings (2021).jpg
+│   │   ├── She-Hulk Attorney at Law (2022).png
+│   │   ├── Spider-Man Far From Home (2019).png
+│   │   ├── Spider-Man Homecoming (2017).jpeg
+│   │   ├── Spider-Man No Way Home (2021).jpg
+│   │   ├── The Avengers (2012).jpeg
+│   │   ├── The Falcon and the Winter Soldier (2021).jpg
+│   │   ├── The Incredible Hulk (2008).jpeg
+│   │   ├── Thor (2011).jpeg
+│   │   ├── Thor Love and Thunder (2022).jpg
+│   │   ├── Thor Ragnarok (2017).jpeg
+│   │   ├── Thor The Dark World (2013).jpeg
+│   │   ├── WandaVision (2021).jpg
+│   │   ├── Werewolf by Night (2022).png
+│   │   └── What If... (2021).jpg
+│   ├── Middle-Earth Collection.png
+│   ├── Mission- Impossible Collection.jpeg
+│   ├── Moana Collection.png
+│   ├── Mulan Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Mulan (2020).png
+│   │   ├── Mulan Collection.png
+│   │   └── Mulan II (2004).png
+│   ├── Partysaurus Rex (2012).png
+│   ├── Peter Pan Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Peter Pan Collection.png
+│   │   └── Return to Never Land (2002).png
+│   ├── Pirates of the Caribbean Collection set by Baralan - 2026-01-15
+│   │   ├── Pirates of the Caribbean At Worlds End (2007).jpeg
+│   │   ├── Pirates of the Caribbean Collection.jpeg
+│   │   ├── Pirates of the Caribbean Dead Mans Chest (2006).jpeg
+│   │   ├── Pirates of the Caribbean Dead Men Tell No Tales (2017).jpeg
+│   │   ├── Pirates of the Caribbean On Stranger Tides (2011).jpeg
+│   │   └── Pirates of the Caribbean The Curse of the Black Pearl (2003).jpeg
+│   ├── Pixar Animation Studios set by DIIIVOY - 2026-03-11
+│   │   ├── A Bugs Life (1998).png
+│   │   ├── Auntie Edna (2018).png
+│   │   ├── Brave (2012).png
+│   │   ├── Cars (2006).png
+│   │   ├── Cars 2 (2011).png
+│   │   ├── Cars 3 (2017).png
+│   │   ├── Cars Collection.png
+│   │   ├── Coco (2017).png
+│   │   ├── Elemental (2023).png
+│   │   ├── Elio (2025).png
+│   │   ├── Finding Dory (2016).png
+│   │   ├── Finding Nemo (2003).png
+│   │   ├── Finding Nemo Collection.png
+│   │   ├── Incredibles 2 (2018).png
+│   │   ├── Inside Out (2015).png
+│   │   ├── Inside Out 2 (2024).png
+│   │   ├── Jack-Jack Attack (2005).png
+│   │   ├── Lightyear (2022).png
+│   │   ├── Luca (2021).png
+│   │   ├── Marine Life Interviews (2016).png
+│   │   ├── Mikes New Car (2002).png
+│   │   ├── Monsters University (2013).png
+│   │   ├── Monsters at Work (2021) - Season 1.png
+│   │   ├── Monsters at Work (2021) - Season 2.png
+│   │   ├── Monsters at Work (2021).png
+│   │   ├── Monsters, Inc. (2001).png
+│   │   ├── Monsters, Inc. Collection.png
+│   │   ├── Mr. Incredible and Pals (2005).png
+│   │   ├── Onward (2020).png
+│   │   ├── Party Central (2014).png
+│   │   ├── Pixar Animation Studios.png
+│   │   ├── Ratatouille (2007).png
+│   │   ├── Soul (2020).png
+│   │   ├── The Good Dinosaur (2015).png
+│   │   ├── The Incredibles (2004).png
+│   │   ├── The Incredibles Collection.png
+│   │   ├── Toy Story (1995).png
+│   │   ├── Toy Story 2 (1999).png
+│   │   ├── Toy Story 3 (2010).png
+│   │   ├── Toy Story 4 (2019).png
+│   │   ├── Toy Story Collection.png
+│   │   ├── Turning Red (2022).png
+│   │   ├── Up (2009).png
+│   │   ├── WALLE (2008).png
+│   │   ├── Win or Lose (2025) - Season 1.png
+│   │   └── Win or Lose (2025).png
+│   ├── Pixar Shorts set by DIIIVOY - 2026-03-11
+│   │   ├── Bao (2018).png
+│   │   ├── Boundin (2003).png
+│   │   ├── Day  Night (2010).png
+│   │   ├── For the Birds (2000).png
+│   │   ├── Geris Game (1997).png
+│   │   ├── Knick Knack (1989).png
+│   │   ├── La luna (2012).png
+│   │   ├── Lava (2014).png
+│   │   ├── Lifted (2006).png
+│   │   ├── Lou (2017).png
+│   │   ├── Luxo Jr. (1986).png
+│   │   ├── One Man Band (2005).png
+│   │   ├── Partly Cloudy (2009).png
+│   │   ├── Piper (2016).png
+│   │   ├── Pixar Shorts.png
+│   │   ├── Presto (2008).png
+│   │   ├── Reds Dream (1987).png
+│   │   ├── Sanjays Super Team (2015).png
+│   │   ├── The Adventures of Andr and Wally B. (1984).png
+│   │   ├── The Blue Umbrella (2013).png
+│   │   └── Tin Toy (1988).png
+│   ├── Pixar Shorts.png
+│   ├── Pocahontas Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Pocahontas Collection.png
+│   │   └── Pocahontas II Journey to a New World (1998).png
+│   ├── Ratatouille Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Ratatouille Collection.png
+│   │   └── Your Friend the Rat (2007).png
+│   ├── Rogue One- A Star Wars Story (2016).png
+│   ├── Small Fry (2011).png
+│   ├── Solo- A Star Wars Story (2018).png
+│   ├── Sony Pictures Animation Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Arthur Christmas (2011).png
+│   │   ├── Cloudy with a Chance of Meatballs (2009).png
+│   │   ├── Cloudy with a Chance of Meatballs (2017).png
+│   │   ├── Cloudy with a Chance of Meatballs 2 (2013).png
+│   │   ├── Cloudy with a Chance of Meatballs Collection.png
+│   │   ├── Goosebumps (2015).png
+│   │   ├── Goosebumps 2 Haunted Halloween (2018).png
+│   │   ├── Goosebumps Collection.png
+│   │   ├── Hotel Transylvania (2012).jpeg
+│   │   ├── Hotel Transylvania 2 (2015).jpeg
+│   │   ├── Hotel Transylvania 3 Summer Vacation (2018).png
+│   │   ├── Hotel Transylvania Collection.jpeg
+│   │   ├── Hotel Transylvania The Series (2017).png
+│   │   ├── Hotel Transylvania Transformania (2022).png
+│   │   ├── KPop Demon Hunters (2025).png
+│   │   ├── Monster Pets A Hotel Transylvania Short (2021).png
+│   │   ├── Open Season (2006).png
+│   │   ├── Open Season 2 (2008).png
+│   │   ├── Open Season 3 (2010).png
+│   │   ├── Open Season Collection.png
+│   │   ├── Open Season Scared Silly (2015).png
+│   │   ├── Peter Rabbit (2018).png
+│   │   ├── Peter Rabbit 2 The Runaway (2021).png
+│   │   ├── Peter Rabbit Collection.png
+│   │   ├── Puppy A Hotel Transylvania Short (2017).png
+│   │   ├── Smurfs The Lost Village (2017).png
+│   │   ├── Sony Pictures Animation Collection.png
+│   │   ├── Spider-Man Across the Spider-Verse (2023).png
+│   │   ├── Spider-Man Into the Spider-Verse (2018).png
+│   │   ├── Spider-Man Spider-Verse Collection.png
+│   │   ├── Surfs Up (2007).png
+│   │   ├── Surfs Up 2 WaveMania (2017).png
+│   │   ├── Surfs Up Collection.png
+│   │   ├── The Angry Birds Collection.png
+│   │   ├── The Angry Birds Movie (2016).png
+│   │   ├── The Angry Birds Movie 2 (2019).png
+│   │   ├── The Emoji Movie (2017).png
+│   │   ├── The Mitchells vs. the Machines (2021).png
+│   │   ├── The Pirates In an Adventure with Scientists (2012).png
+│   │   ├── The Smurfs (2011).png
+│   │   ├── The Smurfs (Theatrical) Collection.png
+│   │   ├── The Smurfs 2 (2013).png
+│   │   ├── The Star (2017).png
+│   │   ├── Vivo (2021).png
+│   │   └── Wish Dragon (2021).png
+│   ├── Soul Collection set by DIIIVOY - 2026-03-11
+│   │   ├── 22 vs. Earth (2021).png
+│   │   └── Soul Collection.png
+│   ├── Spider-Man (MCU) Collection.jpeg
+│   ├── Star Trek Alternate Reality Collection.jpg
+│   ├── Star Trek Complete Collection set by dm247 - 2026-03-11
+│   │   ├── Star Trek (2009).jpg
+│   │   ├── Star Trek Beyond (2016).jpg
+│   │   ├── Star Trek Complete Collection.jpg
+│   │   ├── Star Trek First Contact (1996).jpg
+│   │   ├── Star Trek Generations (1994).jpg
+│   │   ├── Star Trek II The Wrath of Khan (1982).jpg
+│   │   ├── Star Trek III The Search for Spock (1984).jpg
+│   │   ├── Star Trek IV The Voyage Home (1986).jpg
+│   │   ├── Star Trek Insurrection (1998).jpg
+│   │   ├── Star Trek Into Darkness (2013).jpg
+│   │   ├── Star Trek Nemesis (2002).jpg
+│   │   ├── Star Trek The Motion Picture (1979).jpg
+│   │   ├── Star Trek V The Final Frontier (1989).jpg
+│   │   └── Star Trek VI The Undiscovered Country (1991).jpg
+│   ├── Star Trek TV Collection set by dm247 - 2026-03-11
+│   │   ├── Star Trek (1966) - Season 1.jpg
+│   │   ├── Star Trek (1966) - Season 2.jpg
+│   │   ├── Star Trek (1966) - Season 3.jpg
+│   │   ├── Star Trek (1966) - Specials.jpg
+│   │   ├── Star Trek (1966).jpg
+│   │   ├── Star Trek (1973) - Season 1.jpg
+│   │   ├── Star Trek (1973) - Season 2.jpg
+│   │   ├── Star Trek (1973) - Specials.jpg
+│   │   ├── Star Trek (1973).jpg
+│   │   ├── Star Trek Continues (2013) - Season 1.jpg
+│   │   ├── Star Trek Continues (2013) - Specials.jpg
+│   │   ├── Star Trek Continues (2013).jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 1.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 2.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 3.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 4.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 5.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 6.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Season 7.jpg
+│   │   ├── Star Trek Deep Space Nine (1993) - Specials.jpg
+│   │   ├── Star Trek Deep Space Nine (1993).jpg
+│   │   ├── Star Trek Discovery (2017) - Season 1.jpg
+│   │   ├── Star Trek Discovery (2017) - Season 2.jpg
+│   │   ├── Star Trek Discovery (2017) - Season 3.jpg
+│   │   ├── Star Trek Discovery (2017) - Season 4.jpg
+│   │   ├── Star Trek Discovery (2017) - Season 5.jpg
+│   │   ├── Star Trek Discovery (2017) - Specials.jpg
+│   │   ├── Star Trek Discovery (2017).jpg
+│   │   ├── Star Trek Enterprise (2001) - Season 1.jpg
+│   │   ├── Star Trek Enterprise (2001) - Season 2.jpg
+│   │   ├── Star Trek Enterprise (2001) - Season 3.jpg
+│   │   ├── Star Trek Enterprise (2001) - Season 4.jpg
+│   │   ├── Star Trek Enterprise (2001) - Specials.jpg
+│   │   ├── Star Trek Enterprise (2001).jpg
+│   │   ├── Star Trek Lower Decks (2020) - Season 1.jpg
+│   │   ├── Star Trek Lower Decks (2020) - Season 2.jpg
+│   │   ├── Star Trek Lower Decks (2020) - Season 3.jpg
+│   │   ├── Star Trek Lower Decks (2020) - Season 4.jpg
+│   │   ├── Star Trek Lower Decks (2020) - Season 5.jpg
+│   │   ├── Star Trek Lower Decks (2020) - Specials.jpg
+│   │   ├── Star Trek Lower Decks (2020).jpg
+│   │   ├── Star Trek Picard (2020) - Season 1.jpg
+│   │   ├── Star Trek Picard (2020) - Season 2.jpg
+│   │   ├── Star Trek Picard (2020) - Season 3.jpg
+│   │   ├── Star Trek Picard (2020) - Specials.jpg
+│   │   ├── Star Trek Picard (2020).jpg
+│   │   ├── Star Trek Prodigy (2021) - Season 1.jpg
+│   │   ├── Star Trek Prodigy (2021) - Season 2.jpg
+│   │   ├── Star Trek Prodigy (2021) - Specials.jpg
+│   │   ├── Star Trek Prodigy (2021).jpg
+│   │   ├── Star Trek Short Treks (2018) - Season 1.jpg
+│   │   ├── Star Trek Short Treks (2018) - Season 2.jpg
+│   │   ├── Star Trek Short Treks (2018).jpg
+│   │   ├── Star Trek Strange New Worlds (2022) - Season 1.jpg
+│   │   ├── Star Trek Strange New Worlds (2022) - Season 2.jpg
+│   │   ├── Star Trek Strange New Worlds (2022) - Season 3.jpg
+│   │   ├── Star Trek Strange New Worlds (2022) - Specials.jpg
+│   │   ├── Star Trek Strange New Worlds (2022).jpg
+│   │   ├── Star Trek TV Collection.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 1.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 2.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 3.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 4.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 5.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 6.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Season 7.jpg
+│   │   ├── Star Trek The Next Generation (1987) - Specials.jpg
+│   │   ├── Star Trek The Next Generation (1987).jpg
+│   │   ├── Star Trek Voyager (1995) - Season 1.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 2.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 3.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 4.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 5.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 6.jpg
+│   │   ├── Star Trek Voyager (1995) - Season 7.jpg
+│   │   ├── Star Trek Voyager (1995) - Specials.jpg
+│   │   └── Star Trek Voyager (1995).jpg
+│   ├── Star Wars Collection set by Jendo7 - 2026-01-15
+│   │   ├── Return of the Jedi (1983).png
+│   │   ├── Star Wars (1977).png
+│   │   ├── Star Wars Collection.png
+│   │   ├── Star Wars Episode I - The Phantom Menace (1999).png
+│   │   ├── Star Wars Episode II - Attack of the Clones (2002).png
+│   │   ├── Star Wars Episode III - Revenge of the Sith (2005).png
+│   │   ├── Star Wars The Force Awakens (2015).png
+│   │   ├── Star Wars The Last Jedi (2017).png
+│   │   ├── Star Wars The Rise of Skywalker (2019).png
+│   │   └── The Empire Strikes Back (1980).png
+│   ├── Studio Ghibli set by DIIIVOY - 2026-03-11
+│   │   ├── Castle in the Sky (1986).png
+│   │   ├── Earwig and the Witch (2021).png
+│   │   ├── From Up on Poppy Hill (2011).png
+│   │   ├── Grave of the Fireflies (1988).png
+│   │   ├── Howls Moving Castle (2004).png
+│   │   ├── Kikis Delivery Service (1989).png
+│   │   ├── My Neighbor Totoro (1988).png
+│   │   ├── My Neighbors the Yamadas (1999).png
+│   │   ├── Ocean Waves (1993).png
+│   │   ├── Only Yesterday (1991).png
+│   │   ├── Pom Poko (1994).png
+│   │   ├── Ponyo (2008).png
+│   │   ├── Porco Rosso (1992).png
+│   │   ├── Princess Mononoke (1997).png
+│   │   ├── Spirited Away (2001).png
+│   │   ├── Studio Ghibli.png
+│   │   ├── Tales from Earthsea (2006).png
+│   │   ├── The Boy and the Heron (2023).png
+│   │   ├── The Cat Returns (2002).png
+│   │   ├── The Secret World of Arrietty (2010).png
+│   │   ├── The Tale of The Princess Kaguya (2013).png
+│   │   ├── The Wind Rises (2013).png
+│   │   ├── When Marnie Was There (2014).png
+│   │   └── Whisper of the Heart (1995).png
+│   ├── Studio Ponoc Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Mary and The Witchs Flower (2017).png
+│   │   └── Studio Ponoc Collection.png
+│   ├── TRON Collection set by DIIIVOY - 2026-01-15
+│   │   ├── TRON Ares (2025).png
+│   │   ├── TRON Collection.png
+│   │   ├── TRON Legacy (2010).png
+│   │   ├── TRON Uprising (2012).png
+│   │   └── Tron (1982).png
+│   ├── Tangled Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Rapunzels Tangled Adventure (2017) - Season 1.png
+│   │   ├── Rapunzels Tangled Adventure (2017) - Season 2.png
+│   │   ├── Rapunzels Tangled Adventure (2017) - Season 3.png
+│   │   ├── Rapunzels Tangled Adventure (2017) - Specials.png
+│   │   ├── Rapunzels Tangled Adventure (2017).png
+│   │   ├── Tangled Before Ever After (2017).png
+│   │   ├── Tangled Collection.png
+│   │   └── Tangled Ever After (2012).png
+│   ├── Tarzan (Animation) Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Tarzan  Jane (2002).png
+│   │   ├── Tarzan (Animation) Collection.png
+│   │   ├── Tarzan II (2005).png
+│   │   ├── The Legend of Tarzan (2001) - Season 1.png
+│   │   ├── The Legend of Tarzan (2001) - Season 2.png
+│   │   └── The Legend of Tarzan (2001).png
+│   ├── Terminator- The Sarah Connor Chronicles (2008).jpg
+│   ├── The Avengers Collection.jpeg
+│   ├── The Book of Boba Fett (2021).png
+│   ├── The Chronicles of Narnia Collection set by DIIIVOY - 2026-01-15
+│   │   ├── The Chronicles of Narnia Collection.png
+│   │   ├── The Chronicles of Narnia Prince Caspian (2008).png
+│   │   ├── The Chronicles of Narnia The Lion, the Witch and the Wardrobe (2005).png
+│   │   └── The Chronicles of Narnia The Voyage of the Dawn Treader (2010).png
+│   ├── The Dark Knight Collection.png
+│   ├── The Emperors New Groove Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Kronks New Groove (2005).png
+│   │   └── The Emperors New Groove Collection.png
+│   ├── The Fast and the Furious Collection set by ishalioh - 2026-03-13
+│   │   ├── 2 Fast 2 Furious (2003).jpeg
+│   │   ├── F9 (2021).jpg
+│   │   ├── Fast  Furious (2009).jpeg
+│   │   ├── Fast  Furious 6 (2013).jpeg
+│   │   ├── Fast  Furious Presents Hobbs  Shaw (2019).png
+│   │   ├── Fast Five (2011).jpeg
+│   │   ├── Fast X (2023).jpg
+│   │   ├── Furious 7 (2015).jpeg
+│   │   ├── The Fast and the Furious (2001).jpeg
+│   │   ├── The Fast and the Furious Collection.jpeg
+│   │   ├── The Fast and the Furious Tokyo Drift (2006).jpeg
+│   │   └── The Fate of the Furious (2017).jpeg
+│   ├── The Hobbit Collection set by Baralan - 2026-01-15
+│   │   ├── The Hobbit An Unexpected Journey (2012).png
+│   │   ├── The Hobbit Collection.png
+│   │   ├── The Hobbit The Battle of the Five Armies (2014).png
+│   │   └── The Hobbit The Desolation of Smaug (2013).png
+│   ├── The Jungle Book Collection set by DIIIVOY - 2026-01-15
+│   │   ├── The Jungle Book 2 (2003).png
+│   │   └── The Jungle Book Collection.png
+│   ├── The Lion King Collection set by DIIIVOY - 2026-01-15
+│   │   ├── The Lion King 1 (2004).png
+│   │   ├── The Lion King Collection.png
+│   │   └── The Lion King II Simbas Pride (1998).png
+│   ├── The Little Mermaid Collection set by DIIIVOY - 2026-01-15
+│   │   ├── The Little Mermaid Ariels Beginning (2008).png
+│   │   ├── The Little Mermaid Collection.png
+│   │   └── The Little Mermaid II Return to the Sea (2000).png
+│   ├── The Lord of the Rings Collection set by Baralan - 2026-01-15
+│   │   ├── The Lord of the Rings Collection.png
+│   │   ├── The Lord of the Rings The Fellowship of the Ring (2001).png
+│   │   ├── The Lord of the Rings The Return of the King (2003).png
+│   │   └── The Lord of the Rings The Two Towers (2002).png
+│   ├── The Mandalorian (2019).png
+│   ├── The Nightmare Before Christmas (1993).png
+│   ├── The Rescuers Collection.png
+│   ├── The Terminator Collection set by RedHeadJedi - 2026-03-11
+│   │   ├── Terminator 2 Judgment Day (1991).jpg
+│   │   ├── Terminator 3 Rise of the Machines (2003).jpg
+│   │   ├── Terminator Dark Fate (2019).jpg
+│   │   ├── Terminator Genisys (2015).jpg
+│   │   ├── Terminator Salvation (2009).jpg
+│   │   ├── The Terminator (1984).jpg
+│   │   └── The Terminator Collection.jpg
+│   ├── Thor Collection.jpeg
+│   ├── Toy Story That Time Forgot (2014).png
+│   ├── Toy Story of Terror! (2013).png
+│   ├── Up Collection set by DIIIVOY - 2026-03-11
+│   │   ├── Carls Date (2023).png
+│   │   ├── Dug Days (2021) - Season 1.png
+│   │   ├── Dug Days (2021).png
+│   │   ├── Dugs Special Mission (2009).png
+│   │   ├── George and A.J. (2009).png
+│   │   └── Up Collection.png
+│   ├── WALLE Collection set by DIIIVOY - 2026-03-11
+│   │   ├── BURNE (2008).png
+│   │   └── WALLE Collection.png
+│   ├── Walt Disney Animation Studios set by DIIIVOY - 2026-01-15
+│   │   ├── Aladdin (1992).png
+│   │   ├── Alice in Wonderland (1951).png
+│   │   ├── Atlantis The Lost Empire (2001).png
+│   │   ├── Bambi (1942).png
+│   │   ├── Beauty and the Beast (1991).png
+│   │   ├── Big Hero 6 (2014).png
+│   │   ├── Bolt (2008).png
+│   │   ├── Brother Bear (2003).png
+│   │   ├── Chicken Little (2005).png
+│   │   ├── Cinderella (1950).png
+│   │   ├── Dinosaur (2000).png
+│   │   ├── Dumbo (1941).png
+│   │   ├── Encanto (2021).png
+│   │   ├── Fantasia (1940).png
+│   │   ├── Fantasia 2000 (2000).png
+│   │   ├── Frozen (2013).png
+│   │   ├── Frozen II (2019).png
+│   │   ├── Fun and Fancy Free (1947).png
+│   │   ├── Hercules (1997).png
+│   │   ├── Home on the Range (2004).png
+│   │   ├── Lady and the Tramp (1955).png
+│   │   ├── Lilo  Stitch (2002).png
+│   │   ├── Make Mine Music (1946).png
+│   │   ├── Meet the Robinsons (2007).png
+│   │   ├── Melody Time (1948).png
+│   │   ├── Moana (2016).png
+│   │   ├── Moana 2 (2024).png
+│   │   ├── Mulan (1998).png
+│   │   ├── Oliver  Company (1988).png
+│   │   ├── One Hundred and One Dalmatians (1961).png
+│   │   ├── Peter Pan (1953).png
+│   │   ├── Pinocchio (1940).png
+│   │   ├── Pocahontas (1995).png
+│   │   ├── Ralph Breaks the Internet (2018).png
+│   │   ├── Raya and the Last Dragon (2021).png
+│   │   ├── Robin Hood (1973).png
+│   │   ├── Saludos Amigos (1942).png
+│   │   ├── Sleeping Beauty (1959).png
+│   │   ├── Snow White and the Seven Dwarfs (1938).png
+│   │   ├── Strange World (2022).png
+│   │   ├── Tangled (2010).png
+│   │   ├── Tarzan (1999).png
+│   │   ├── The Adventures of Ichabod and Mr. Toad (1949).png
+│   │   ├── The Aristocats (1970).png
+│   │   ├── The Black Cauldron (1985).png
+│   │   ├── The Emperors New Groove (2000).png
+│   │   ├── The Great Mouse Detective (1986).png
+│   │   ├── The Jungle Book (1967).png
+│   │   ├── The Lion King (1994).png
+│   │   ├── The Little Mermaid (1989).png
+│   │   ├── The Many Adventures of Winnie the Pooh (1977).png
+│   │   ├── The Princess and the Frog (2009).png
+│   │   ├── The Rescuers (1977).png
+│   │   ├── The Rescuers Down Under (1990).png
+│   │   ├── The Sword in the Stone (1963).png
+│   │   ├── The Three Caballeros (1944).png
+│   │   ├── Treasure Planet (2002).png
+│   │   ├── Walt Disney Animation Studios.png
+│   │   ├── Winnie the Pooh (2011).png
+│   │   ├── Wish (2023).png
+│   │   ├── Wreck-It Ralph (2012).png
+│   │   ├── Zootopia (2016).png
+│   │   └── Zootopia 2 (2025).png
+│   ├── Walt Disney Pictures.png
+│   ├── Wicked Collection set by dm247 - 2026-03-11
+│   │   ├── Wicked (2024).jpg
+│   │   ├── Wicked Collection.jpg
+│   │   └── Wicked For Good (2025).jpg
+│   ├── Winnie the Pooh Collection set by DIIIVOY - 2026-01-15
+│   │   ├── Piglets Big Movie (2003).png
+│   │   ├── Poohs Heffalump Movie (2005).png
+│   │   ├── The Tigger Movie (2000).png
+│   │   └── Winnie the Pooh Collection.png
+│   ├── Wizarding World (of Harry Potter) Collection.png
+│   ├── Wreck-It Ralph Collection.png
+│   ├── X-Men Collection set by RedHeadJedi - 2026-03-24
+│   │   ├── Dark Phoenix (2019).jpeg
+│   │   ├── The New Mutants (2020).jpeg
+│   │   ├── X-Men (2000).jpeg
+│   │   ├── X-Men Apocalypse (2016).jpeg
+│   │   ├── X-Men Collection.png
+│   │   ├── X-Men Days of Future Past (2014).jpeg
+│   │   ├── X-Men First Class (2011).jpeg
+│   │   ├── X-Men The Last Stand (2006).jpeg
+│   │   └── X2 (2003).jpeg
+│   └── Zootopia set by DIIIVOY - 2026-01-15
+│       ├── Zootopia (2022) - Season 1.png
+│       ├── Zootopia (2022).png
+│       └── Zootopia.png
+└── People
+    ├── Abbott and Costello (Acting).png
+    ├── Adam Brody (Acting).png
+    ├── Adam Sandler (Acting).png
+    ├── Alan Rickman (Acting).png
+    ├── Alfonso Cuarón (Directing).png
+    ├── Andrew Garfield (Acting).png
+    ├── Antonio Banderas (Acting).png
+    ├── Arnold Schwarzenegger (Acting).png
+    ├── Audrey Hepburn (Acting).png
+    ├── Barbara Stanwyck (Acting).png
+    ├── Ben Affleck (Acting).png
+    ├── Brad Pitt (Acting).png
+    ├── Bradley Cooper (Acting).png
+    ├── Brendan Fraser (Acting).png
+    ├── Bruce Willis (Acting).png
+    ├── Buster Keaton (Directing).png
+    ├── Cary Grant (Acting).png
+    ├── Charlie Chaplin (Acting).png
+    ├── Chris Evans (Acting).png
+    ├── Christian Bale (Acting).png
+    ├── Christoph Waltz (Acting).png
+    ├── Christopher Nolan (Directing).png
+    ├── Clark Gregg (Acting).png
+    ├── Colin Farrell (Acting).png
+    ├── Colin Firth (Acting).png
+    ├── Daniel Craig (Acting).png
+    ├── David Bowie (Acting).png
+    ├── David Tennant (Acting).png
+    ├── Denis Villeneuve (Directing).png
+    ├── Denzel Washington (Acting).png
+    ├── Dick Van Dyke (Acting).png
+    ├── Drew Barrymore (Acting).png
+    ├── Edgar Wright (Directing).png
+    ├── Emma Thompson (Acting).png
+    ├── Ethan Hawke (Acting).png
+    ├── Fred Astaire (Acting).png
+    ├── Gary Oldman (Acting).png
+    ├── Gene Kelly (Acting).png
+    ├── George Clooney (Acting).png
+    ├── Glen Powell (Acting).png
+    ├── Guillermo del Toro (Directing).png
+    ├── Harrison Ford (Acting).png
+    ├── Hayley Atwell (Acting).png
+    ├── Hugh Jackman (Acting).png
+    ├── Humphrey Bogart (Acting).png
+    ├── Ian McKellen (Acting).png
+    ├── Jackie Chan (Acting).png
+    ├── James Stewart (Acting).png
+    ├── Jason Isaacs (Acting).png
+    ├── Jason Statham (Acting).png
+    ├── Jason Sudeikis (Acting).png
+    ├── Jeffrey Dean Morgan (Acting).png
+    ├── Jennifer Aniston (Acting).png
+    ├── Jennifer Lopez (Acting).png
+    ├── John Hughes (Writing).png
+    ├── John Waters (Directing).png
+    ├── Johnny Depp (Acting).png
+    ├── Jon Favreau (Acting).png
+    ├── Jon Hamm (Acting).png
+    ├── Julia Roberts (Acting).png
+    ├── Julie Andrews (Acting).png
+    ├── Kate Winslet (Acting).png
+    ├── Katharine Hepburn (Acting).png
+    ├── Kathryn Hahn (Acting).png
+    ├── Keanu Reeves (Acting).png
+    ├── Keira Knightley (Acting).png
+    ├── Kenneth Branagh (Acting).png
+    ├── Kevin Bacon (Acting).png
+    ├── Kevin Smith (Acting).png
+    ├── Leonardo DiCaprio (Acting).png
+    ├── Linda Cardellini (Acting).png
+    ├── Lindsay Lohan (Acting).png
+    ├── Lucy Liu (Acting).png
+    ├── Luke Wilson (Acting).png
+    ├── Maggie Smith (Acting).png
+    ├── Mark Hamill (Acting).png
+    ├── Matt Berry (Acting).png
+    ├── Matt Damon (Acting).png
+    ├── Matthew McConaughey (Acting).png
+    ├── Matthew Perry (Acting).png
+    ├── Meg Ryan (Acting).png
+    ├── Meryl Streep (Acting).png
+    ├── Michael Douglas (Acting).png
+    ├── Michael Fassbender (Acting).png
+    ├── Michael J. Fox (Acting).png
+    ├── Nicolas Cage (Acting).png
+    ├── Orlando Bloom (Acting).png
+    ├── Orson Welles (Directing).png
+    ├── Oscar Isaac (Acting).png
+    ├── Pedro Pascal (Acting).png
+    ├── Ralph Fiennes (Acting).png
+    ├── Rhys Darby (Acting).png
+    ├── Rob Reiner (Directing).png
+    ├── Robert Downey Jr. (Acting).png
+    ├── Robin Williams (Acting).png
+    ├── Sam Rockwell (Acting).png
+    ├── Samuel L. Jackson (Acting).png
+    ├── Sandra Bullock (Acting).png
+    ├── Steven Spielberg (Directing).png
+    ├── Taika Waititi (Directing).png
+    ├── Tim Burton (Directing).png
+    ├── Tom Cruise (Acting).png
+    ├── Tom Hanks (Acting).png
+    ├── Viggo Mortensen (Acting).png
+    ├── Wes Anderson (Directing).png
+    └── Zoe Saldaña (Acting).png
+
+74 directories, 1025 files

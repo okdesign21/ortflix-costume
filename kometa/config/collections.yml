@@ -1,89 +1,35 @@
-# Custom Plex collections that Kometa defaults do not create (curated bundles, shorts,
-# mega-franchise folders).
-#
-# Live-action remakes: each film uses nested all: title + year so you do not pull the
-# animated originals (same title, different year). Match title strings to Plex exactly
-# (open a movie → … → View XML / title as shown).
-#
-# Spider-Man (MCU): title contains "Spider-Man" + actor Tom Holland (TMDb person). New
-# Holland-led films match automatically. genre.not: Animation drops Spider-Verse / Across.
+# Custom Plex collections that Kometa defaults do not create
 
 collections:
   Disney Live-Action Remakes:
     plex_search:
-      any:
-        - all:
-            title: "101 Dalmatians"
-            year: 1996
-        - all:
-            title: "102 Dalmatians"
-            year: 2000
-        - all:
-            title: "Aladdin"
-            year: 2019
-        - all:
-            title: "Alice Through the Looking Glass"
-            year: 2016
-        - all:
-            title: "Alice in Wonderland"
-            year: 2010
-        - all:
-            title: "Beauty and the Beast"
-            year: 2017
-        - all:
-            title: "Christopher Robin"
-            year: 2018
-        - all:
-            title: "Cinderella"
-            year: 2015
-        - all:
-            title: "Cruella"
-            year: 2021
-        - all:
-            title: "Dumbo"
-            year: 2019
-        - all:
-            title: "Lady and the Tramp"
-            year: 2019
-        - all:
-            title: "Lilo & Stitch"
-            year: 2025
-        - all:
-            title: "Maleficent"
-            year: 2014
-        - all:
-            title: "Maleficent: Mistress of Evil"
-            year: 2019
-        - all:
-            title: "Mufasa: The Lion King"
-            year: 2024
-        - all:
-            title: "Mulan"
-            year: 2020
-        - all:
-            title: "Peter Pan & Wendy"
-            year: 2023
-        - all:
-            title: "Pete's Dragon"
-            year: 2016
-        - all:
-            title: "Pinocchio"
-            year: 2022
-        - all:
-            title: "Snow White"
-            year: 2025
-        - all:
-            title: "The Jungle Book"
-            year: 1994
-        - all:
-            title: "The Jungle Book"
-            year: 2016
-        - all:
-            title: "The Lion King"
-            year: 2019
-        - all:
-            title: "The Little Mermaid"
-            year: 2023
+      all:
+        title.is:
+          - "101 Dalmatians"
+          - "102 Dalmatians"
+          - "Aladdin"
+          - "Alice in Wonderland"
+          - "Alice Through the Looking Glass"
+          - "Beauty and the Beast"
+          - "Christopher Robin"
+          - "Cinderella"
+          - "Cruella"
+          - "Dumbo"
+          - "Lady and the Tramp"
+          - "Lilo & Stitch"
+          - "Maleficent"
+          - "Maleficent: Mistress of Evil"
+          - "Mufasa: The Lion King"
+          - "Mulan"
+          - "Peter Pan & Wendy"
+          - "Pete's Dragon"
+          - "Pinocchio"
+          - "Snow White"
+          - "The Jungle Book"
+          - "The Lion King"
+          - "The Little Mermaid"
+        year.gte: 1994
+        genre.not: Animation
     sync_mode: sync
     item_assets: true
     collection_order: release
@@ -93,14 +39,34 @@ collections:
     plex_search:
       all:
         title: "Spider-Man"
-        actor: tmdb
+        actor: "Tom Holland"
         genre.not: Animation
-    tmdb_person: 1136406
     sync_mode: sync
     item_assets: true
     collection_order: release
-    name_mapping: Spider-Man (MCU) Collection
-    summary: Tom Holland MCU Spider-Man trilogy only (no Raimi, Amazing, or Spider-Verse).
+    summary: Tom Holland MCU Spider-Man Movies.
+
+  Spider-Man (Tobey):
+    plex_search:
+      all:
+        title: "Spider-Man"
+        actor: "Tobey Maguire"
+        genre.not: Animation
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Tobey Maguire Spider-Man Movies.
+
+  Spider-Man (Andrew):
+    plex_search:
+      all:
+        title: "Spider-Man"
+        actor: "Andrew Garfield"
+        genre.not: Animation
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Andrew Garfield, aka the best Spider-Man, Spider-Man movies.
 
   Pixar Shorts:
     plex_all: true
@@ -111,6 +77,49 @@ collections:
     item_assets: true
     collection_order: release
     summary: Pixar shorts (≤15 min) from Pixar Animation Studios.
+
+  A Star Is Born:
+    plex_search:
+      any:
+        title: "A Star Is Born"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+
+  Robin Williams Live:
+    plex_search:
+      any:
+        title:
+          - "Robin Williams -"
+          - "An Evening with Robin Williams"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+
+  "Before...":
+    plex_search:
+      any:
+        title:
+          - "Before Sunrise"
+          - "Before Sunset"
+          - "Before Midnight"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Richard Linklater's Jesse and Céline trilogy.
+
+  The Lion King (Reboot):
+    plex_search:
+      any:
+        title:
+          - "The Lion King"
+          - "Mufasa"
+    filters:
+      year.gte: 2019
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: The 2019 CGI Lion King and its 2024 prequel Mufasa.
 
   Cars Toons and Short Films:
     plex_search:
@@ -139,18 +148,15 @@ collections:
     collection_order: release
     summary: Cars Toons / Mater’s Tall Tales–style shorts.
 
-  Frozen Complete Collection:
-    plex_search:
-      any:
-        title:
-          - "Frozen"
-          - "Frozen II"
-          - "Frozen Fever"
-          - "Olaf's Frozen Adventure"
-          - "Once Upon a Snowman"
-          - "Olaf Presents"
+  # ── Studio collections not covered by default: studio ─────────────────────
+
+  Studio Ponoc:
+    plex_all: true
+    filters:
+      studio: "Studio Ponoc"
     sync_mode: sync
     item_assets: true
     collection_order: release
-    summary: Frozen features and tie-in specials
-    # (overlaps default Frozen franchise; use one or the other if dupes bother you).
+    summary: Films from Studio Ponoc, founded by former Ghibli producer Yoshiaki Nishimura.
+    sort_title: "!070_Studio Ponoc"
+

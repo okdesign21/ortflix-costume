@@ -38,6 +38,10 @@ ASSET_FORCE_PNG = os.getenv("ASSET_FORCE_PNG", "true").strip().lower() in {
 ASSET_EXCEPTION_MAPPINGS = os.getenv(
     "ASSET_EXCEPTION_MAPPINGS", "exception_mappings.json"
 )
+# Match Kometa/Plex poster upload limit (bytes)
+ASSET_MAX_POSTER_BYTES = int(
+    os.getenv("ASSET_MAX_POSTER_BYTES", str(10_480_000))
+)
 # Match Kometa movie franchise remove_suffix: "Collection" when naming output folders
 KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
     "KOMETA_STRIP_COLLECTION_SUFFIX", "true"
@@ -123,9 +127,26 @@ def main() -> int:
         default=KOMETA_STRIP_COLLECTION_SUFFIX,
         help="Strip trailing ' Collection' from folder names (Kometa franchise default)",
     )
+    parser.add_argument(
+        "--shrink-large-posters",
+        action="store_true",
+        help=(
+            "Only walk --target for poster.png files over the Plex size limit, re-encode "
+            "and scale down if needed; then exit (no --source organize). "
+            "A normal organize run also performs this pass at the end when --force-png."
+        ),
+    )
+    parser.add_argument(
+        "--max-poster-bytes",
+        type=int,
+        default=ASSET_MAX_POSTER_BYTES,
+        help=f"Max poster file size in bytes (default: {ASSET_MAX_POSTER_BYTES}, Plex/Kometa limit)",
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    os.environ["ASSET_MAX_POSTER_BYTES"] = str(args.max_poster_bytes)
 
     source = resolve_path(args.source)
     target = resolve_path(args.target)
@@ -134,8 +155,23 @@ def main() -> int:
     if args.init_exception_mappings:
         ensure_exception_mapping_file(exception_mappings, args.dry_run)
 
-    from handlers import Organizer
+    from handlers import Organizer, shrink_all_posters_under_limit
     from poster_handler import PosterOrganizer
+
+    max_poster = args.max_poster_bytes
+
+    if args.shrink_large_posters:
+        n = shrink_all_posters_under_limit(
+            target, max_bytes=max_poster, dry_run=args.dry_run
+        )
+        logger.info(
+            "%sProcessed %d poster(s) over %d bytes under %s",
+            "[DRY-RUN] " if args.dry_run else "",
+            n,
+            max_poster,
+            target,
+        )
+        return 0
 
     for handler in HANDLERS:
         logger.info("Using handler: %s", handler)
@@ -156,6 +192,18 @@ def main() -> int:
             if not organizer.organize(category):
                 logger.error("Failed to organize assets for category: %s", category)
                 continue
+
+    # After ingest, cap any poster.png still over Plex limit (e.g. pre-existing huge files).
+    if not args.dry_run and not args.shrink_large_posters and args.force_png:
+        n = shrink_all_posters_under_limit(
+            target, max_bytes=max_poster, dry_run=False
+        )
+        if n:
+            logger.info(
+                "Post-organize: shrunk %d existing poster(s) over %d bytes",
+                n,
+                max_poster,
+            )
 
     return 0
 

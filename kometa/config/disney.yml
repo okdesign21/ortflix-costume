@@ -20,30 +20,8 @@ collections:
         studio: "Walt Disney Animation Studios"
     name_mapping: Walt Disney Animation Studios
   
-  Disney Live-Action Remakes:
-    plex_search:
-      all:
-        title:
-          - "Aladdin"
-          - "Beauty and the Beast"
-          - "Cinderella"
-          - "Dumbo"
-          - "The Jungle Book"
-          - "The Lion King"
-          - "Maleficent"
-          - "Mulan"
-          - "101 Dalmatians"
-          - "Alice in Wonderland"
-          - "The Little Mermaid"
-          - "Pinocchio"
-          - "Peter Pan"
-          - "Lady and the Tramp"
-          - "Christopher Robin"
-          - "Pete's Dragon"
-          - "Cruella"
-          - "Snow White"
-        year.gte: 2010
-    name_mapping: Disney Live-Action Remakes
+  # Disney Live-Action Remakes is defined in collections.yml with the full title list
+  # and genre.not: Animation filter — do not duplicate here.
 
   Pixar Animation:
     plex_all: true
@@ -52,12 +30,7 @@ collections:
       duration.gt: 40
     name_mapping: Pixar Animation Studios
 
-  Pixar Shorts:
-    plex_all: true
-    filters:
-      duration.lte: 15
-      studio: "Pixar Animation Studios"
-    name_mapping: Pixar Shorts
+  # Pixar Shorts is defined in collections.yml (with item_assets: true) — do not duplicate here.
 
   Disney's Fantasia:
     template:

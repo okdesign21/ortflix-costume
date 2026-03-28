@@ -3,7 +3,7 @@ plex:
   url: <<PLEXURL>>
   token: <<PLEXTOKEN>>
   timeout: 60
-  db_cache: 40
+  db_cache: 256
   clean_bundles: false
   empty_trash: false
   optimize: false
@@ -16,30 +16,18 @@ tautulli:
   url: <<TAUTULLIURL>>
   apikey: <<TAUTULLIAPIKEY>>
 
-# At least one library has to be configured for the script to do
-# anything meaningful
 libraries:
-  # test_movie_lib:
-  #   type: movie
-  #   agent: plex
-  #   template_variables:
-  #     sep_style: oecan
-  #   collection_files:
-  #     # NOTE: It is important to disable Plex's in-built Automatic Collections
-  #     # stil need to check
-  #     - file: config/disney.yml
-  #     - file: config/IMDBGenres.yml
-  #     - file: config/franchises.yml
-  #   operations:
-  #     assets_for_all: false  # true when not testing
-  #     assets_for_all_collections: true
-  #   defualts code: https://github.com/Kometa-Team/Kometa/tree/master/defaults
-
   Films:
     type: movie
     agent: plex
     overlay_files:
       - default: resolution
+        template_variables:
+          # Resolution badges use PNGs (mostly neutral). 
+          # Tint the backdrop + border so they read more like audio codec pops.
+          back_color: "#0D47A1CC"
+          back_line_color: "#FFD740"
+          back_line_width: 4
       - default: audio_codec
       - default: language_count 
       - default: mediastinger
@@ -63,6 +51,7 @@ libraries:
         template_variables:
           use_popular: false
           use_lowest: false
+          use_top: false
       - default: separator_award
       - default: oscars
         template_variables:
@@ -109,6 +98,9 @@ libraries:
             "20th Century Studios":
               - 20th Century Fox Television
               - Fox Television Studios
+            Pixar:
+              - Disney Pixar
+              - "Disney·Pixar"
           remove_include:
             - 20th Century Animation
             - 20th Century Fox Television
@@ -128,29 +120,55 @@ libraries:
             - Walt Disney Productions
             - Warner Animation Group
             - Warner Premiere
-      - default: franchise # might build my own
+      - default: franchise
       - default: universe
       - default: based
       - default: seasonal
+      - default: resolution
       - file: config/israeli_holidays.yml
-      # Curated bundles not built by default franchise / universe / studio (see file header).
+      # Curated bundles not built by default.
       - file: config/collections.yml
       - file: config/People.yml
-      # - file: config/IMDBGenres.yml
+      - file: config/IMDBGenres.yml
+        schedule: weekly(sunday)
 
     operations:
-        assets_for_all: true
-        assets_for_all_collections: true
+      assets_for_all: true
+      assets_for_all_collections: true
 
   TV Programmes:
     type: show
     agent: plex
     overlay_files:
       - default: resolution
+        template_variables:
+          back_color: "#0D47A1CC"
+          back_line_color: "#FFD740"
+          back_line_width: 4
       - default: audio_codec
       - default: language_count 
       - default: mediastinger
       - default: status
+        template_variables:
+          horizontal_align: right
+          vertical_align: bottom
+          horizontal_offset: 12
+          vertical_offset: 12
+          back_width: 320
+          back_height: 100
+          back_radius: 6
+          back_align: center
+          font_size: 50
+          stroke_width: 3
+          stroke_color: "#00000099"
+          font_color_airing: "#B9F6CA"
+          font_color_returning: "#90CAF9"
+          font_color_canceled: "#FF8A80"
+          font_color_ended: "#ECEFF1"
+          back_color_airing: "#1B5E20DD"
+          back_color_returning: "#0D47A1DD"
+          back_color_canceled: "#B71C1CEE"
+          back_color_ended: "#000000EE"
     collection_files:
       - default: tautulli
         template_variables:
@@ -168,57 +186,21 @@ libraries:
         template_variables:
           use_popular: false
           use_lowest: false
-      # Same studio rules as Films
-      - default: studio
+          use_top: false
+      - default: network
         template_variables:
           append_addons:
-            ABC Studios:
-              - ABC Signature
-            CBS Studios:
-              - CBS Productions
-              - CBS Television Studios
-            DreamWorks Studios:
-              - DreamWorks Pictures
-            Marvel Studios:
-              - Marvel Animation
-            Paramount Pictures:
-              - Paramount Animation
-              - Paramount Television Studios
-            Touchstone Pictures:
-              - Touchstone Television
-            Universal Pictures:
-              - Universal Television
-            Walt Disney Animation Studios:
-              - Disney Television Animation
-              - DisneyToon Studios
-            Walt Disney Pictures:
-              - Walt Disney Productions
-            Warner Bros. Pictures:
-              - Warner Premiere
-            "20th Century Studios":
-              - 20th Century Fox Television
-              - Fox Television Studios
+            HBO:
+              - HBO Max
+              - HBO Go
+              - Max
           remove_include:
-            - 20th Century Animation
-            - 20th Century Fox Television
-            - ABC Signature
-            - CBS Productions
-            - CBS Television Studios
-            - Disney Television Animation
-            - DisneyToon Studios
-            - DreamWorks Pictures
-            - Fox Television Studios
-            - Marvel Animation
-            - Paramount Animation
-            - Paramount Television Studios
-            - Touchstone Television
-            - Universal Animation Studios
-            - Universal Television
-            - Walt Disney Productions
-            - Warner Animation Group
-            - Warner Premiere
-      - default: network
+            - HBO Max
       - default: franchise
+        template_variables:
+          append_addons: 
+            253: [223530]
+          remove_data: [951, 1399, 4629, 6357, 10222, 31917, 54650, 73586, 79744, 80748, 46296, 108978, 60585, 3476, 61511, 41956]
       - default: based
 
     operations:
@@ -228,34 +210,23 @@ libraries:
   Musicals:
     type: movie
     agent: plex
-    overlay_files:
-      - default: resolution
-      - default: audio_codec
-      - default: language_count 
-      - default: mediastinger
     collection_files:
       - file: config/musicals.yml
-    operations:
-      assets_for_all: true
-      assets_for_all_collections: true
 
 settings:
   # Or's settings
   run_order:
+    - operations
     - metadata
     - collections
-    - operations
     - overlays
   cache: true
   cache_expiration: 60
   asset_directory:
-    - config/assets/Movies_Shows
-    - config/assets/People
-    - config/assets/Genres
-    - config/assets/Companies
+    - config/assets
   collection_mode: default
   sync_mode: sync
-  minimum_items: 1
+  minimum_items: 2
   default_collection_order: release
   show_missing: false
   tvdb_language: eng
@@ -263,7 +234,7 @@ settings:
 
   # assests
   asset_folders: true
-  asset_depth: 1
+  asset_depth: 2
   create_asset_folders: false
   prioritize_assets: true
   dimensional_asset_rename: false
@@ -286,7 +257,6 @@ settings:
   show_options: true
   save_report: true
   ignore_ids: 1567451
-  ignore_imdb_ids:
   item_refresh_delay: 0
   playlist_sync_to_users:
   playlist_exclude_users:

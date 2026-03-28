@@ -4,6 +4,8 @@ collections:
       all:
         title: "Ghosts"
         genre: Comedy
+    sync_mode: sync
+
   Pirates:
     plex_search:
       any:
@@ -11,10 +13,14 @@ collections:
           - "Black Sails"
           - "Our Flag Means Death"
           - "One Piece"
-  Musicals:
+    sync_mode: sync
+
+  Musical Shows:
     plex_search:
       all:
         genre: Musical
+    sync_mode: sync
+
   This is what i'll talk about:
     plex_search:
       any:
@@ -22,4 +28,5 @@ collections:
           - "Our Flag Means Death"
           - "Interview with the Vampire"
           - "Heated Rivalry"
-    name_mapping: " 00_This is what i'll talk about Collection"
+    sort_title: "+0_This is what i'll talk about"
+    sync_mode: sync

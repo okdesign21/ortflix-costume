@@ -1,4 +1,33 @@
 collections:
+  # # Matches any movie that has at least one audio stream Plex labels Unknown (untagged in metadata).
+  # # smart_filter routes through Plex's own search API which recognises the "Unknown" display value;
+  # # Kometa's native `filters: audio_language` rejects it as an invalid language code.
+  # Movies – unknown audio language:
+  #   smart_filter:
+  #     all:
+  #       audio_language: Unknown
+  #   sync_mode: sync
+  #   collection_order: alpha
+  #   item_refresh: true
+  #   summary: >-
+  #     Library-wide audit: titles where Plex reports an Unknown audio language on a stream—usually
+  #     missing language tags in the file.
+
+  # # Plex height/width come from media analysis; zeros usually mean not analyzed or broken metadata.
+  # # minimum_items: 0 keeps the collection visible even when empty (empty = all files are healthy).
+  # Movies – resolution metadata audit:
+  #   plex_all: true
+  #   sync_mode: sync
+  #   collection_order: alpha
+  #   minimum_items: 0
+  #   summary: >-
+  #     Titles where Plex reports video height or width as 0 (missing/incorrect stream dimensions).
+  #     Run "Analyze" on the file or refresh metadata. This is separate from filename-based Kometa
+  #     overlays (4K badges); those use filepath regex and can still fail even when these values look fine.
+  #   filters:
+  #     - height: 0
+  #     - width: 0
+
   Israeli Movies:
     plex_all: true
     filters:
@@ -19,21 +48,26 @@ collections:
       url: https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
     summary: Top 10 movies of the year according to fisheye community, for each year.
     collection_order: custom
+    cache_builders: 1
   Fisheye Best Performances:
     letterboxd_list: >-
       https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
     summary: Best performances according to fisheye community
     collection_order: custom
+    cache_builders: 1
   List of Lists:
     letterboxd_list:
       - https://letterboxd.com/okdesign/list/most-popular-not-horror-movies-from-each/
       - https://letterboxd.com/okdesign/list/ors-birth-year-challange-1991/
       - https://letterboxd.com/okdesign/list/100-degrees-of-kevin-bacon/
       - https://letterboxd.com/okdesign/list/scavenger-hunt-49-april-2019-association/
-    summary: Challanged i wanted to do at some point.
-    smart_filter:
-      all:
-        unplayed: true
+    summary: >-
+      Challenges I wanted to do at some point.
+    sync_mode: sync
+    collection_order: release
+    cache_builders: 1
+    filters:
+      plays: 0
   ###################################
   LSC:
     letterboxd_list:
@@ -45,7 +79,10 @@ collections:
       - https://letterboxd.com/okdesign/list/lsc-9-letterboxd-season-challenge-2023-24/
       - https://letterboxd.com/okdesign/list/the-10th-annual-letterboxd-season-challenge/
       - https://letterboxd.com/okdesign/list/the-11th-annual-letterboxd-season-challenge/
-    summary: Letterboxd Season Challenge lists, for each year.
-    smart_filter:
-      all:
-        unplayed: true
+    summary: >-
+      Movies I still need to watch from Letterboxd Season Challenge lists.
+    sync_mode: sync
+    collection_order: release
+    cache_builders: 1
+    filters:
+      plays: 0

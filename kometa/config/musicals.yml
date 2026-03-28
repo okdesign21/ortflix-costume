@@ -2,34 +2,43 @@ collections:
   Lost Treasures:
     plex_search:
       any:
-        title:
-          - "Lost Treasures"
-          - "Tony Awards"
-  
+        title: "Lost Treasures"
+
   Starkid:
     plex_search:
       any:
-        studio: 
+        studio:
           - Starkid Productions
           - StarKid
           - Team StarKid
           - Tin Can Brothers
-  
-  Pro-Shots:
-    plex_search:
-      any:
-        actor.count_gt: 0
-        director.count_gt: 0
-        studio.regex: ".+"
-  
-  Hebrew Musicals:
-    plex_search:
-      any:
-        country: Israel
-        original_language: Hebrew
-        title: [י, ה, ו, א]
+    item_assets: true
+    name_mapping: Starkid Productions
+
+  Pro-shots:
+    plex_all: true
+    filters:
+      - actor.count_gte: 1
+      - director.count_gte: 1
+    summary: Professionally filmed stage recordings and live concert films.
 
   A Very Potter Musical:
     plex_search:
       all:
         title: "A Very Potter Musical"
+    item_assets: true
+
+  Israeli Musicals:
+    plex_all: true
+    filters:
+      - title.regex: '[א-ת]'
+      - filepath.regex: '[א-ת]'
+
+  Live:
+    plex_search:
+      any:
+        title:
+          - "Sara Bareilles - What's Inside"
+          - "Friends of Sondheim Concert"
+          - "Gavin Creel"
+          - "Adam Pascal, So Far..."

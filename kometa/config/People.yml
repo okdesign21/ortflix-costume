@@ -13,406 +13,408 @@ templates:
       validate: false
     tmdb_person: <<person>>
     sort_title: +4_<<collection_name>>
-    list_minimum: 3
-    # Hide from library Collections browse; items still list this collection on movie pages.
-    collection_mode: hide
 collections:
-  # Abbott and Costello:
-  #     template: {name: Person, person: "30111, 29642"}
-
-  Adam Brody:
-      template: {name: Person, person: 11702}
-
-  # Adam Sandler:
-  #     template: {name: Person, person: 19292}
-
-  Alan Rickman:
-      template: {name: Person, person: 4566}
-
-  Alfonso Cuarón:
-      template: {name: Person, person: 11218}
-
-  Andrew Garfield:
-      template: {name: Person, person: 37625}
-
-  Antonio Banderas:
-
-      template: {name: Person, person: 3131}
-
-  Arnold Schwarzenegger:
-
-      template: {name: Person, person: 1100}
-
-  Audrey Hepburn:
-
-      template: {name: Person, person: 1932}
-
-  Barbara Stanwyck:
-
-      template: {name: Person, person: 14974}
-
-  Ben Affleck:
-
-      template: {name: Person, person: 880}
-
-  Brad Pitt:
-
-      template: {name: Person, person: 287}
-
-  Bradley Cooper:
-
-      template: {name: Person, person: 51329}
-
-  Brendan Fraser:
-
-      template: {name: Person, person: 18269}
-
-  Bruce Willis:
-
-      template: {name: Person, person: 62}
-
-  Buster Keaton:
-
-      template: {name: Person, person: 8635}
-
-  Cary Grant:
-
-      template: {name: Person, person: 2638}
-
-  Charlie Chaplin:
-
-      template: {name: Person, person: 13848}
-
-  Carrie Fisher:
-
-      template: {name: Person, person: 4}
-
-  Chris Evans:
-
-      template: {name: Person, person: 16828}
-
-  Christian Bale:
-
-      template: {name: Person, person: 3894}
-
-  Christoph Waltz:
-
-      template: {name: Person, person: 27319}
-
-  Christopher Nolan:
-
-      template: {name: Person, person: 525}
-
-  Clark Gregg:
-
-      template: {name: Person, person: 9048}
-
-  Colin Farrell:
-
-      template: {name: Person, person: 72466}
-
-  Colin Firth:
-
-      template: {name: Person, person: 5472}
-
-  Daniel Craig:
-
-      template: {name: Person, person: 8784}
-
-  # David Bowie:
-  #
-  #     template: {name: Person, person: 7487}
-
-  David Tennant:
-
-      template: {name: Person, person: 20049}
-
-  Denis Villeneuve:
-
-      template: {name: Person, person: 137427}
-
-  # Denzel Washington:
-  #
-  #     template: {name: Person, person: 5292}
-
-  Dick Van Dyke:
-
-      template: {name: Person, person: 61303}
-
-  Drew Barrymore:
-
-      template: {name: Person, person: 69597}
-
-  Edgar Wright:
-
-      template: {name: Person, person: 11090}
-
-  Emma Thompson:
-
-      template: {name: Person, person: 7056}
-
-  Ethan Hawke:
-
-      template: {name: Person, person: 569}
-
-  Elijah Wood:
-
-      template: {name: Person, person: 109}
-
-  Fred Astaire:
-
-      template: {name: Person, person: 30181}
-
-  Gary Oldman:
-
-      template: {name: Person, person: 64}
-
-  Gene Kelly:
-
-      template: {name: Person, person: 13294}
-
-  # George Clooney:
-  #
-  #     template: {name: Person, person: 1461}
-
-  # Glen Powell:
-  #
-  #     template: {name: Person, person: 83271}
-
-  Guillermo del Toro:
-
-      template: {name: Person, person: 10828}
-
-  Harrison Ford:
-
-      template: {name: Person, person: 3}
-
-  Hayley Atwell:
-
-      template: {name: Person, person: 39459}
-
-  Hugh Jackman:
-
-      template: {name: Person, person: 6968}
-
-  Humphrey Bogart:
-
-      template: {name: Person, person: 4110}
-
-  Ian McKellen:
-
-      template: {name: Person, person: 1327}
-
-  Jackie Chan:
-
-      template: {name: Person, person: 18897}
+# Separators
+  People Separator:
+    sort_title: +4__People Separator
+    blank_collection: true
+    collection_mode: default
+    visible_library: true
+    visible_home: false
+    visible_shared: false
 
   James Stewart:
-
       template: {name: Person, person: 854}
 
-  Jason Isaacs:
-
-      template: {name: Person, person: 11355}
-
-  Jason Statham:
-
-      template: {name: Person, person: 976}
-
-  Jason Sudeikis:
-
-      template: {name: Person, person: 58224}
-
-  Jeffrey Dean Morgan:
-
-      template: {name: Person, person: 47296}
-
-  Jennifer Aniston:
-
-      template: {name: Person, person: 4491}
-
-  Jennifer Lopez:
-
-      template: {name: Person, person: 16866}
-
-  John Hughes:
-
-      template: {name: Person, person: 11505}
-
-  John Waters:
-
-      template: {name: Person, person: 10367}
-
-  Jon Favreau:
-
-      template: {name: Person, person: 15277}
-
-  Jon Hamm:
-
-      template: {name: Person, person: 65717}
-
-  Johnny Depp:
-
-      template: {name: Person, person: 85}
-
-  Julia Roberts:
-
-      template: {name: Person, person: 1204}
-
-  Julie Andrews:
-
-      template: {name: Person, person: 5823}
-
   Kate Winslet:
-
       template: {name: Person, person: 204}
 
   Katharine Hepburn:
-
       template: {name: Person, person: 6598}
-
-  Kathryn Hahn:
-
-      template: {name: Person, person: 17696}
-
-  Keanu Reeves:
-
-      template: {name: Person, person: 6384}
-
-  Keira Knightley:
-
-      template: {name: Person, person: 116}
-
-  Kenneth Branagh:
-
-      template: {name: Person, person: 11181}
-
-  Kevin Bacon:
-
-      template: {name: Person, person: 4724}
-
-  Kevin Smith:
-
-      template: {name: Person, person: 19303}
-
-  Leonardo DiCaprio:
-
-      template: {name: Person, person: 6193}
-
-  Linda Cardellini:
-
-      template: {name: Person, person: 1817}
-
-  Lindsay Lohan:
-
-      template: {name: Person, person: 49265}
-
-  Lucy Liu:
-
-      template: {name: Person, person: 140}
-
-  Luke Wilson:
-
-      template: {name: Person, person: 36422}
-
-  Maggie Smith:
-
-      template: {name: Person, person: 10978}
-
-  Mark Hamill:
-
-      template: {name: Person, person: 2}
-
-  Matt Berry:
-
-      template: {name: Person, person: 1488236}
-
-  Matt Damon:
-      template: {name: Person, person: 1892}
-
-  Matthew McConaughey:
-      template: {name: Person, person: 10297}
-
-  Matthew Perry:
-      template: {name: Person, person: 14408}
-
-  Meg Ryan:
-      template: {name: Person, person: 5344}
-
-  Meryl Streep:
-      template: {name: Person, person: 5064}
-
-  Michael Douglas:
-      template: {name: Person, person: 3392}
-
-  Michael Fassbender:
-      template: {name: Person, person: 17288}
-
-  Michael J. Fox:
-      template: {name: Person, person: 521}
-
-  Nicolas Cage:
-      template: {name: Person, person: 2963}
-
-  Orlando Bloom:
-      template: {name: Person, person: 114}
-
-  # Orson Welles:
-  #     template: {name: Person, person: 40}
-
-  Oscar Isaac:
-      template: {name: Person, person: 25072}
-
-  Pedro Pascal:
-      template: {name: Person, person: 1253360}
-
-  Peter Jackson:
-      template: {name: Person, person: 108}
-
-  Ralph Fiennes:
-      template: {name: Person, person: 5469}
-
-  Rhys Darby:
-      template: {name: Person, person: 82666}
-
-  Rob Reiner:
-      template: {name: Person, person: 3026}
 
   Robert Downey Jr:
       template: {name: Person, person: 3223}
 
-  Robin Williams:
-      template: {name: Person, person: 2157}
-
-  Sam Rockwell:
-      template: {name: Person, person: 6807}
-
-  Samuel L. Jackson:
-      template: {name: Person, person: 2231}
-
-  Sandra Bullock:
-      template: {name: Person, person: 18277}
-
-  Steven Spielberg:
-      template: {name: Person, person: 488}
-
   Taika Waititi:
       template: {name: Person, person: 55934}
 
-  Tim Burton:
-      template: {name: Person, person: 510}
 
-  Tom Cruise:
-      template: {name: Person, person: 500}
+#   Kathryn Hahn:
+#       template: {name: Person, person: 17696}
+#   Abbott and Costello:
+#       template: {name: Person, person: "30111, 29642"}
 
-  Tom Hanks:
-      template: {name: Person, person: 31}
+#   Adam Brody:
+#       template: {name: Person, person: 11702}
 
-  Viggo Mortensen:
-      template: {name: Person, person: 110}
+#   Adam Sandler:
+#       template: {name: Person, person: 19292}
 
-  Wes Anderson:
-      template: {name: Person, person: 5655}
+#   Alan Rickman:
+#       template: {name: Person, person: 4566}
 
-  Zoe Saldaña:
-      template: {name: Person, person: 8691}
+#   Alfonso Cuarón:
+#       template: {name: Person, person: 11218}
+
+#   Andrew Garfield:
+#       template: {name: Person, person: 37625}
+
+#   Antonio Banderas:
+
+#       template: {name: Person, person: 3131}
+
+#   Arnold Schwarzenegger:
+
+#       template: {name: Person, person: 1100}
+
+#   Audrey Hepburn:
+
+#       template: {name: Person, person: 1932}
+
+#   Barbara Stanwyck:
+
+#       template: {name: Person, person: 14974}
+
+#   Ben Affleck:
+
+#       template: {name: Person, person: 880}
+
+#   Brad Pitt:
+
+#       template: {name: Person, person: 287}
+
+#   Bradley Cooper:
+
+#       template: {name: Person, person: 51329}
+
+#   Brendan Fraser:
+
+#       template: {name: Person, person: 18269}
+
+#   Bruce Willis:
+
+#       template: {name: Person, person: 62}
+
+#   Buster Keaton:
+
+#       template: {name: Person, person: 8635}
+
+#   Cary Grant:
+
+#       template: {name: Person, person: 2638}
+
+#   Charlie Chaplin:
+
+#       template: {name: Person, person: 13848}
+
+#   Carrie Fisher:
+
+#       template: {name: Person, person: 4}
+
+#   Chris Evans:
+
+#       template: {name: Person, person: 16828}
+
+#   Christian Bale:
+
+#       template: {name: Person, person: 3894}
+
+#   Christoph Waltz:
+
+#       template: {name: Person, person: 27319}
+
+#   Christopher Nolan:
+
+#       template: {name: Person, person: 525}
+
+#   Clark Gregg:
+
+#       template: {name: Person, person: 9048}
+
+#   Colin Farrell:
+
+#       template: {name: Person, person: 72466}
+
+#   Colin Firth:
+
+#       template: {name: Person, person: 5472}
+
+#   Daniel Craig:
+
+#       template: {name: Person, person: 8784}
+
+#   David Bowie:
+  
+#       template: {name: Person, person: 7487}
+
+#   David Tennant:
+
+#       template: {name: Person, person: 20049}
+
+#   Denis Villeneuve:
+
+#       template: {name: Person, person: 137427}
+
+#   Denzel Washington:
+  
+#       template: {name: Person, person: 5292}
+
+#   Dick Van Dyke:
+
+#       template: {name: Person, person: 61303}
+
+#   Drew Barrymore:
+
+#       template: {name: Person, person: 69597}
+
+#   Edgar Wright:
+
+#       template: {name: Person, person: 11090}
+
+#   Emma Thompson:
+
+#       template: {name: Person, person: 7056}
+
+#   Ethan Hawke:
+
+#       template: {name: Person, person: 569}
+
+#   Elijah Wood:
+
+#       template: {name: Person, person: 109}
+
+#   Fred Astaire:
+
+#       template: {name: Person, person: 30181}
+
+#   Gary Oldman:
+
+#       template: {name: Person, person: 64}
+
+#   Gene Kelly:
+
+#       template: {name: Person, person: 13294}
+
+#   George Clooney:
+  
+#       template: {name: Person, person: 1461}
+
+#   Glen Powell:
+  
+#       template: {name: Person, person: 83271}
+
+#   Guillermo del Toro:
+
+#       template: {name: Person, person: 10828}
+
+#   Harrison Ford:
+
+#       template: {name: Person, person: 3}
+
+#   Hayley Atwell:
+
+#       template: {name: Person, person: 39459}
+
+#   Hugh Jackman:
+
+#       template: {name: Person, person: 6968}
+
+#   Humphrey Bogart:
+
+#       template: {name: Person, person: 4110}
+
+#   Ian McKellen:
+
+#       template: {name: Person, person: 1327}
+
+#   Jackie Chan:
+
+#       template: {name: Person, person: 18897}
+
+#   Jason Isaacs:
+
+#       template: {name: Person, person: 11355}
+
+#   Jason Statham:
+
+#       template: {name: Person, person: 976}
+
+#   Jason Sudeikis:
+
+#       template: {name: Person, person: 58224}
+
+#   Jeffrey Dean Morgan:
+
+#       template: {name: Person, person: 47296}
+
+#   Jennifer Aniston:
+
+#       template: {name: Person, person: 4491}
+
+#   Jennifer Lopez:
+
+#       template: {name: Person, person: 16866}
+
+#   John Hughes:
+
+#       template: {name: Person, person: 11505}
+
+#   John Waters:
+
+#       template: {name: Person, person: 10367}
+
+#   Jon Favreau:
+
+#       template: {name: Person, person: 15277}
+
+#   Jon Hamm:
+
+#       template: {name: Person, person: 65717}
+
+#   Johnny Depp:
+
+#       template: {name: Person, person: 85}
+
+#   Julia Roberts:
+
+#       template: {name: Person, person: 1204}
+
+#   Julie Andrews:
+
+#       template: {name: Person, person: 5823}
+
+#   Keanu Reeves:
+
+#       template: {name: Person, person: 6384}
+
+#   Keira Knightley:
+
+#       template: {name: Person, person: 116}
+
+#   Kenneth Branagh:
+
+#       template: {name: Person, person: 11181}
+
+#   Kevin Bacon:
+
+#       template: {name: Person, person: 4724}
+
+#   Kevin Smith:
+
+#       template: {name: Person, person: 19303}
+
+#   Leonardo DiCaprio:
+
+#       template: {name: Person, person: 6193}
+
+#   Linda Cardellini:
+
+#       template: {name: Person, person: 1817}
+
+#   Lindsay Lohan:
+
+#       template: {name: Person, person: 49265}
+
+#   Lucy Liu:
+
+#       template: {name: Person, person: 140}
+
+#   Luke Wilson:
+
+#       template: {name: Person, person: 36422}
+
+#   Maggie Smith:
+
+#       template: {name: Person, person: 10978}
+
+#   Mark Hamill:
+
+#       template: {name: Person, person: 2}
+
+#   Matt Berry:
+
+#       template: {name: Person, person: 1488236}
+
+#   Matt Damon:
+#       template: {name: Person, person: 1892}
+
+#   Matthew McConaughey:
+#       template: {name: Person, person: 10297}
+
+#   Matthew Perry:
+#       template: {name: Person, person: 14408}
+
+#   Meg Ryan:
+#       template: {name: Person, person: 5344}
+
+#   Meryl Streep:
+#       template: {name: Person, person: 5064}
+
+#   Michael Douglas:
+#       template: {name: Person, person: 3392}
+
+#   Michael Fassbender:
+#       template: {name: Person, person: 17288}
+
+#   Michael J. Fox:
+#       template: {name: Person, person: 521}
+
+#   Nicolas Cage:
+#       template: {name: Person, person: 2963}
+
+#   Orlando Bloom:
+#       template: {name: Person, person: 114}
+
+#   Orson Welles:
+#       template: {name: Person, person: 40}
+
+#   Oscar Isaac:
+#       template: {name: Person, person: 25072}
+
+#   Pedro Pascal:
+#       template: {name: Person, person: 1253360}
+
+#   Peter Jackson:
+#       template: {name: Person, person: 108}
+
+#   Ralph Fiennes:
+#       template: {name: Person, person: 5469}
+
+#   Rhys Darby:
+#       template: {name: Person, person: 82666}
+
+#   Rob Reiner:
+#       template: {name: Person, person: 3026}
+
+#   Robin Williams:
+#       template: {name: Person, person: 2157}
+
+#   Sam Rockwell:
+#       template: {name: Person, person: 6807}
+
+#   Samuel L. Jackson:
+#       template: {name: Person, person: 2231}
+
+#   Sandra Bullock:
+#       template: {name: Person, person: 18277}
+
+#   Steven Spielberg:
+#       template: {name: Person, person: 488}
+
+#   Tim Burton:
+#       template: {name: Person, person: 510}
+
+#   Tom Cruise:
+#       template: {name: Person, person: 500}
+
+#   Tom Hanks:
+#       template: {name: Person, person: 31}
+
+#   Viggo Mortensen:
+#       template: {name: Person, person: 110}
+
+#   Wes Anderson:
+#       template: {name: Person, person: 5655}
+
+#   Zoe Saldaña:
+#       template: {name: Person, person: 8691}
