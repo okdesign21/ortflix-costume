@@ -1,0 +1,67 @@
+# TV Show status ribbons — diagonal corner badge, top-right of poster.
+#
+# Requires 4 PNG ribbon files in config/overlays/Status/:
+#   returning.png  — blue  (#0D47A1) — "RETURNING"
+#   airing.png     — green (#1B5E20) — "AIRING"
+#   canceled.png   — red   (#B71C1C) — "CANCELED"
+#   ended.png      — grey  (#424242) — "ENDED"  (optional, see below)
+#
+# Ribbon PNG specs: 220x220px, transparent background, diagonal band
+# across the top-right corner.  Text at ~28px bold white, rotated 45°.
+# Use the colours above to match the existing status overlay theme.
+#
+# Search: "Kometa ribbon overlay PNG template" or make in Canva / Photoshop.
+# The Kometa award ribbon PNGs (config/defaults/overlays/) are good size reference.
+
+overlays:
+
+  "Status - Returning":
+    overlay:
+      name: "Status - Returning"
+      file: config/overlays/Status/returning.png
+      horizontal_align: right
+      vertical_align: top
+      horizontal_offset: 0
+      vertical_offset: 0
+    plex_all: true
+    filters:
+      status: returning
+
+  "Status - Airing":
+    overlay:
+      name: "Status - Airing"
+      file: config/overlays/Status/airing.png
+      horizontal_align: right
+      vertical_align: top
+      horizontal_offset: 0
+      vertical_offset: 0
+    plex_all: true
+    filters:
+      status: airing
+
+  "Status - Canceled":
+    overlay:
+      name: "Status - Canceled"
+      file: config/overlays/Status/canceled.png
+      horizontal_align: right
+      vertical_align: top
+      horizontal_offset: 0
+      vertical_offset: 0
+    plex_all: true
+    filters:
+      status: canceled
+
+  # "Ended" ribbon is optional — uncomment if you want it.
+  # Many people prefer not to badge every completed show.
+  #
+  # "Status - Ended":
+  #   overlay:
+  #     name: "Status - Ended"
+  #     file: config/overlays/Status/ended.png
+  #     horizontal_align: right
+  #     vertical_align: top
+  #     horizontal_offset: 0
+  #     vertical_offset: 0
+  #   plex_all: true
+  #   filters:
+  #     status: ended

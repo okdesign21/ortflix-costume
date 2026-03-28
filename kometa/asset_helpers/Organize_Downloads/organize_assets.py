@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """CLI wrapper for assets organization.
 
-Configures logging and calls PosterOrganizer from `poster_handler.py`.
-Future: Can be extended with ThumbnailOrganizer, BackgroundOrganizer, etc.
+Configures logging and calls PosterOrganizer from `poster_handler.py` and
+OverlayOrganizer from `overlay_handler.py`.
+Future: Can be extended with BackgroundOrganizer, ThumbnailOrganizer, etc.
 """
 
 import argparse
@@ -27,8 +28,11 @@ if ASSET_ENV.exists():
 
 # Environment-driven defaults
 DEFAULT_ASSET_TARGET = SCRIPT_DIR.parent.parent / "config" / "assets"
+DEFAULT_OVERLAY_TARGET = SCRIPT_DIR.parent.parent / "config" / "overlays"
 POSTERS_SOURCE_DIR = os.getenv("POSTERS_SOURCE_DIR", "Posters")
+OVERLAYS_SOURCE_DIR = os.getenv("OVERLAYS_SOURCE_DIR", "Overlays")
 ASSET_TARGET_DIR = os.getenv("ASSET_TARGET_DIR", str(DEFAULT_ASSET_TARGET))
+OVERLAY_TARGET_DIR = os.getenv("OVERLAY_TARGET_DIR", str(DEFAULT_OVERLAY_TARGET))
 ASSET_FORCE_PNG = os.getenv("ASSET_FORCE_PNG", "true").strip().lower() in {
     "1",
     "true",
@@ -46,8 +50,15 @@ ASSET_MAX_POSTER_BYTES = int(
 KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
     "KOMETA_STRIP_COLLECTION_SUFFIX", "true"
 ).strip().lower() in {"1", "true", "yes", "on"}
+# Skip posters that already have a poster.* in the target; only process new/missing ones
+ASSET_INCREMENTAL = os.getenv("ASSET_INCREMENTAL", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
-HANDLERS = {"poster_handler"}  # Future: add overlay_handler, etc.
+HANDLERS = {"poster_handler", "overlay_handler"}
 
 
 def resolve_path(path_value: str) -> Path:
@@ -96,13 +107,25 @@ def main() -> int:
         "--source",
         type=str,
         default=POSTERS_SOURCE_DIR,
-        help="Source directory containing downloaded assets",
+        help="Source directory containing downloaded poster assets",
     )
     parser.add_argument(
         "--target",
         type=str,
         default=ASSET_TARGET_DIR,
-        help="Target directory for organized assets",
+        help="Target directory for organized poster assets",
+    )
+    parser.add_argument(
+        "--overlays-source",
+        type=str,
+        default=OVERLAYS_SOURCE_DIR,
+        help="Source directory containing downloaded overlay images (default: Overlays/)",
+    )
+    parser.add_argument(
+        "--overlays-target",
+        type=str,
+        default=OVERLAY_TARGET_DIR,
+        help="Target directory for organized overlays (default: config/overlays/)",
     )
     parser.add_argument(
         "--force-png",
@@ -128,6 +151,15 @@ def main() -> int:
         help="Strip trailing ' Collection' from folder names (Kometa franchise default)",
     )
     parser.add_argument(
+        "--incremental",
+        action=argparse.BooleanOptionalAction,
+        default=ASSET_INCREMENTAL,
+        help=(
+            "Skip posters that already exist in the target directory; "
+            "only process new or missing ones. Use --no-incremental for a full run."
+        ),
+    )
+    parser.add_argument(
         "--shrink-large-posters",
         action="store_true",
         help=(
@@ -150,12 +182,15 @@ def main() -> int:
 
     source = resolve_path(args.source)
     target = resolve_path(args.target)
+    overlays_source = resolve_path(args.overlays_source)
+    overlays_target = resolve_path(args.overlays_target)
     exception_mappings = resolve_path(args.exception_mappings)
 
     if args.init_exception_mappings:
         ensure_exception_mapping_file(exception_mappings, args.dry_run)
 
     from handlers import Organizer, shrink_all_posters_under_limit
+    from overlay_handler import OverlayOrganizer
     from poster_handler import PosterOrganizer
 
     max_poster = args.max_poster_bytes
@@ -173,7 +208,7 @@ def main() -> int:
         )
         return 0
 
-    for handler in HANDLERS:
+    for handler in sorted(HANDLERS):
         logger.info("Using handler: %s", handler)
         if handler == "poster_handler":
             organizer = PosterOrganizer(
@@ -183,15 +218,27 @@ def main() -> int:
                 args.force_png,
                 dry_run=args.dry_run,
                 strip_collection_suffix=args.strip_collection_suffix,
+                incremental=args.incremental,
             )
+            for category in Organizer.ASSET_CATEGORIES:
+                if not organizer.organize(category):
+                    logger.error("Failed to organize assets for category: %s", category)
+
+        elif handler == "overlay_handler":
+            overlay_organizer = OverlayOrganizer(
+                overlays_source,
+                overlays_target,
+                exception_mappings,
+                args.force_png,
+                dry_run=args.dry_run,
+                incremental=args.incremental,
+            )
+            if not overlay_organizer.organize():
+                logger.error("Failed to organize overlays")
+
         else:
             logger.warning("Unknown handler: %s", handler)
             continue
-
-        for category in Organizer.ASSET_CATEGORIES:
-            if not organizer.organize(category):
-                logger.error("Failed to organize assets for category: %s", category)
-                continue
 
     # After ingest, cap any poster.png still over Plex limit (e.g. pre-existing huge files).
     if not args.dry_run and not args.shrink_large_posters and args.force_png:

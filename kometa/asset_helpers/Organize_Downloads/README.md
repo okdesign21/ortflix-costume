@@ -5,8 +5,10 @@ Automated asset organization for Kometa. Downloads and organizes posters, overla
 ## Features
 
 - **Automatic Poster Organization**: Organize downloaded posters into proper directory structure
+- **Overlay Organization**: Mirror custom overlay images into `config/overlays/`, preserving subdirectory structure
 - **Exception Handling**: Custom mappings for non-standard title formats
 - **Exception Mapping Bootstrap**: Optional auto-create for missing `exception_mappings.json`
+- **Incremental Mode**: Skip unchanged assets using SHA-256 source hash sidecars; re-process only new or updated files
 - **Extensible Architecture**: Support for multiple asset types (posters, overlays, backgrounds)
 - **Dry-run Mode**: Preview changes before applying them
 - **Environment-driven Configuration**: Flexible setup via environment variables or .env files
@@ -21,17 +23,20 @@ Automated asset organization for Kometa. Downloads and organizes posters, overla
 
 ## Environment Variables
 
-| Variable                   | Required | Default                   | Description                                                                |
-| -------------------------- | -------- | ------------------------- | -------------------------------------------------------------------------- |
-| `POSTERS_SOURCE_DIR`       | ❌       | `Posters`                 | Source directory containing downloaded assets                              |
-| `ASSET_TARGET_DIR`         | ❌       | `../../config/assets`     | Target directory for organized assets (resolves to `kometa/config/assets`) |
-| `ASSET_FORCE_PNG`          | ❌       | `True`                    | Convert all images to PNG format                                           |
-| `ASSET_EXCEPTION_MAPPINGS` | ❌       | `exception_mappings.json` | Path to exception mappings configuration file                              |
-| `KOMETA_STRIP_COLLECTION_SUFFIX` | ❌ | `true` | Strip trailing ` Collection` from `Movies_Shows` folder names so output matches Kometa’s movie [franchise default](https://kometa.wiki/en/latest/defaults/movie/franchise/) (`remove_suffix: Collection`). Set to `false` if your Plex collections keep the full TMDb-style title. |
+| Variable                         | Required | Default                   | Description                                                                                                                                                                                                                                                                      |
+| -------------------------------- | -------- | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POSTERS_SOURCE_DIR`             | ❌       | `Posters`                 | Source directory for downloaded poster assets                                                                                                                                                                                                                                    |
+| `OVERLAYS_SOURCE_DIR`            | ❌       | `Overlays`                | Source directory for custom overlay images                                                                                                                                                                                                                                       |
+| `ASSET_TARGET_DIR`               | ❌       | `../../config/assets`     | Target directory for organized poster assets (resolves to `kometa/config/assets`)                                                                                                                                                                                               |
+| `OVERLAY_TARGET_DIR`             | ❌       | `../../config/overlays`   | Target directory for organized overlays (resolves to `kometa/config/overlays`)                                                                                                                                                                                                  |
+| `ASSET_FORCE_PNG`                | ❌       | `True`                    | Convert all images to PNG format                                                                                                                                                                                                                                                 |
+| `ASSET_EXCEPTION_MAPPINGS`       | ❌       | `exception_mappings.json` | Path to exception mappings configuration file                                                                                                                                                                                                                                    |
+| `ASSET_INCREMENTAL`              | ❌       | `false`                   | Skip assets whose source hash matches the last run; only process new or changed files                                                                                                                                                                                            |
+| `KOMETA_STRIP_COLLECTION_SUFFIX` | ❌       | `true`                    | Strip trailing ` Collection` from `Movies_Shows` folder names so output matches Kometa's movie [franchise default](https://kometa.wiki/en/latest/defaults/movie/franchise/) (`remove_suffix: Collection`). Set to `false` if your Plex collections keep the full TMDb-style title. |
 
 Notes:
 
-- Relative `--source`, `--target`, and `--exception-mappings` paths are resolved from the script directory first, then project root.
+- Relative `--source`, `--target`, `--overlays-source`, `--overlays-target`, and `--exception-mappings` paths are resolved from the script directory first, then project root.
 - `ASSET_FORCE_PNG` accepts common truthy values like `1`, `true`, `yes`, `on`.
 
 ## Setup
@@ -240,14 +245,34 @@ Shared utilities used by all handlers:
 - `pytest.ini` includes `pythonpath = .` so local module imports (like `handlers`) work reliably.
 - Use `make test` for the standard local test run.
 
+### Overlay Handler (`overlay_handler.py`)
+
+Organizes custom overlay images into `config/overlays/`, preserving the
+subdirectory structure from the source. Files stems are normalized via
+`normalize_name`. Supports the same `--incremental`, `--dry-run`, and
+`--force-png` flags as the poster handler.
+
+Source layout example:
+
+```text
+Overlays/
+├── SomeOverlay.png          →  config/overlays/SomeOverlay.png
+├── Awards/
+│   └── Oscars.png           →  config/overlays/Awards/Oscars.png
+└── Ratings/
+    └── IMDb Top 250.png     →  config/overlays/Ratings/IMDb Top 250.png
+```
+
+Reference overlays in Kometa YAML by their relative path under `config/overlays/`.
+
 ### Current Status
 
-- Posters supported today
-- Overlays/Backgrounds/Thumbnails can be added by subclassing `Organizer`
+- Posters: supported
+- Overlays: supported
+- Backgrounds / Thumbnails: can be added by subclassing `Organizer`
 
 **Future handlers** can be added following the same pattern:
 
-- Overlay Handler
 - Background Handler
 - Thumbnail Handler
 

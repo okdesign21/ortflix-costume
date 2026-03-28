@@ -9,13 +9,14 @@
 # What syncs (sync / sync-dry):
 #   -k  Kometa YAML only: kometa/config/**/*.yml,*.yaml → /opt/kometa/config
 #   -a  Kometa assets: kometa/config/assets/ → /opt/kometa/config/assets (full tree)
+#   -o  Kometa overlays: kometa/config/overlays/ → /opt/kometa/config/overlays (full tree)
 #   -t  Tautulli: tautulli/scripts *.py + requirements.txt → /opt/tautulli/scripts
-#   If none of -k -a -t are given, all three run.
+#   If none of -k -a -o -t are given, all four run.
 #
 # Optional:
-#   ORTFLIX_RSYNC_DELETE=1 — rsync --delete (Kometa YAML + assets; use with care)
-#   KOMETA_CONFIG_SRC, KOMETA_ASSETS_SRC, TAUTULLI_SCRIPTS_SRC
-#   KOMETA_CONFIG_DEST, KOMETA_ASSETS_DEST, TAUTULLI_SCRIPTS_DEST
+#   ORTFLIX_RSYNC_DELETE=1 — rsync --delete (Kometa YAML + assets + overlays; use with care)
+#   KOMETA_CONFIG_SRC, KOMETA_ASSETS_SRC, KOMETA_OVERLAYS_SRC, TAUTULLI_SCRIPTS_SRC
+#   KOMETA_CONFIG_DEST, KOMETA_ASSETS_DEST, KOMETA_OVERLAYS_DEST, TAUTULLI_SCRIPTS_DEST
 #
 # Defaults file (optional): scripts/.env.sync — KEY=value lines, # comments.
 #   Path override: SYNC_ENV_FILE=/path/to/file
@@ -62,10 +63,12 @@ load_env_sync_defaults
 
 KOMETA_CONFIG_SRC="${KOMETA_CONFIG_SRC:-$COSTUME_ROOT/kometa/config}"
 KOMETA_ASSETS_SRC="${KOMETA_ASSETS_SRC:-$KOMETA_CONFIG_SRC/assets}"
+KOMETA_OVERLAYS_SRC="${KOMETA_OVERLAYS_SRC:-$KOMETA_CONFIG_SRC/overlays}"
 TAUTULLI_SCRIPTS_SRC="${TAUTULLI_SCRIPTS_SRC:-$COSTUME_ROOT/tautulli/scripts}"
 
 KOMETA_CONFIG_DEST="${KOMETA_CONFIG_DEST:-/opt/kometa/config}"
 KOMETA_ASSETS_DEST="${KOMETA_ASSETS_DEST:-/opt/kometa/config/assets}"
+KOMETA_OVERLAYS_DEST="${KOMETA_OVERLAYS_DEST:-/opt/kometa/config/overlays}"
 TAUTULLI_SCRIPTS_DEST="${TAUTULLI_SCRIPTS_DEST:-/opt/tautulli/scripts}"
 
 die() {
@@ -89,6 +92,7 @@ Commands:
 sync / sync-dry flags (default if none: all):
   -k          Kometa config (*.yml, *.yaml only)
   -a          Kometa assets (kometa/config/assets → server .../config/assets)
+  -o          Kometa overlays (kometa/config/overlays → server .../config/overlays)
   -t          Tautulli scripts (*.py + requirements.txt)
 
 Examples:
@@ -142,19 +146,22 @@ remote_target() {
 parse_sync_selectors() {
   SYNC_K=0
   SYNC_A=0
+  SYNC_O=0
   SYNC_T=0
   local arg
   for arg in "$@"; do
     case "$arg" in
       -k) SYNC_K=1 ;;
       -a) SYNC_A=1 ;;
+      -o) SYNC_O=1 ;;
       -t) SYNC_T=1 ;;
-      *) die "Unknown flag: $arg (use -k, -a, -t)" ;;
+      *) die "Unknown flag: $arg (use -k, -a, -o, -t)" ;;
     esac
   done
-  if [[ $((SYNC_K + SYNC_A + SYNC_T)) -eq 0 ]]; then
+  if [[ $((SYNC_K + SYNC_A + SYNC_O + SYNC_T)) -eq 0 ]]; then
     SYNC_K=1
     SYNC_A=1
+    SYNC_O=1
     SYNC_T=1
   fi
 }
@@ -191,6 +198,20 @@ rsync_kometa_assets() {
   rsync "${args[@]}"
 }
 
+rsync_kometa_overlays() {
+  local dry="${1:-0}"
+  [[ -d "$KOMETA_OVERLAYS_SRC" ]] || {
+    echo "(skip) Kometa overlays: no local folder $KOMETA_OVERLAYS_SRC"
+    return 0
+  }
+  local -a args=(-avz)
+  [[ "$dry" == "1" ]] && args+=(--dry-run)
+  [[ "${ORTFLIX_RSYNC_DELETE:-0}" == "1" ]] && args+=(--delete)
+  args+=(-e "$(rsync_rsh)" "$KOMETA_OVERLAYS_SRC/" "$(remote_target "$KOMETA_OVERLAYS_DEST")/")
+  echo "→ Kometa overlays: ${KOMETA_OVERLAYS_SRC}/ → ${ORTFLIX_SYNC_HOST}:${KOMETA_OVERLAYS_DEST}/"
+  rsync "${args[@]}"
+}
+
 rsync_tautulli_scripts() {
   local dry="${1:-0}"
   [[ -d "$TAUTULLI_SCRIPTS_SRC" ]] || die "Missing directory: $TAUTULLI_SCRIPTS_SRC"
@@ -211,6 +232,7 @@ ensure_remote_dirs() {
   local -a paths=()
   [[ "$SYNC_K" == "1" ]] && paths+=("$KOMETA_CONFIG_DEST")
   [[ "$SYNC_A" == "1" ]] && paths+=("$KOMETA_ASSETS_DEST")
+  [[ "$SYNC_O" == "1" ]] && paths+=("$KOMETA_OVERLAYS_DEST")
   [[ "$SYNC_T" == "1" ]] && paths+=("$TAUTULLI_SCRIPTS_DEST")
   [[ ${#paths[@]} -eq 0 ]] && return 0
   local joined
@@ -226,6 +248,7 @@ cmd_sync() {
   ensure_remote_dirs
   [[ "$SYNC_K" == "1" ]] && rsync_kometa_yaml "$dry"
   [[ "$SYNC_A" == "1" ]] && rsync_kometa_assets "$dry"
+  [[ "$SYNC_O" == "1" ]] && rsync_kometa_overlays "$dry"
   [[ "$SYNC_T" == "1" ]] && rsync_tautulli_scripts "$dry"
   echo "Done."
 }
@@ -234,6 +257,7 @@ cmd_paths() {
   echo "COSTUME_ROOT=$COSTUME_ROOT"
   echo "KOMETA_CONFIG_SRC=$KOMETA_CONFIG_SRC  → remote $KOMETA_CONFIG_DEST (YAML only in sync -k)"
   echo "KOMETA_ASSETS_SRC=$KOMETA_ASSETS_SRC  → remote $KOMETA_ASSETS_DEST (sync -a; skipped if missing)"
+  echo "KOMETA_OVERLAYS_SRC=$KOMETA_OVERLAYS_SRC  → remote $KOMETA_OVERLAYS_DEST (sync -o; skipped if missing)"
   echo "TAUTULLI_SCRIPTS_SRC=$TAUTULLI_SCRIPTS_SRC  → remote $TAUTULLI_SCRIPTS_DEST (sync -t)"
 }
 

@@ -1,5 +1,6 @@
 """Asset organizer base protocol and utilities."""
 
+import hashlib
 import json
 import logging
 import os
@@ -10,6 +11,62 @@ from io import BytesIO
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
+HASH_SIDECAR = ".poster_source_hash"
+
+
+def compute_file_hash(path: Path) -> str:
+    """Return a SHA-256 hex digest of the file at ``path``."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(65536), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def read_hash_sidecar(dest_dir: Path) -> str | None:
+    """Return the stored source hash for ``dest_dir``, or None if absent/unreadable."""
+    sidecar = dest_dir / HASH_SIDECAR
+    try:
+        return sidecar.read_text(encoding="utf-8").strip() or None
+    except OSError:
+        return None
+
+
+def write_hash_sidecar(dest_dir: Path, hash_str: str) -> None:
+    """Persist ``hash_str`` as the source hash for ``dest_dir``."""
+    sidecar = dest_dir / HASH_SIDECAR
+    try:
+        sidecar.write_text(hash_str + "\n", encoding="utf-8")
+    except OSError as e:
+        logger.warning("Could not write hash sidecar %s: %s", sidecar, e)
+
+
+def _file_hash_sidecar_path(dest_file: Path) -> Path:
+    """Return the per-file hash sidecar path for ``dest_file``.
+
+    E.g. ``overlays/Awards/Oscars.png`` → ``overlays/Awards/.Oscars.png.source_hash``
+    """
+    return dest_file.parent / f".{dest_file.name}.source_hash"
+
+
+def read_file_hash_sidecar(dest_file: Path) -> str | None:
+    """Return the stored source hash for ``dest_file``, or None if absent/unreadable."""
+    sidecar = _file_hash_sidecar_path(dest_file)
+    try:
+        return sidecar.read_text(encoding="utf-8").strip() or None
+    except OSError:
+        return None
+
+
+def write_file_hash_sidecar(dest_file: Path, hash_str: str) -> None:
+    """Persist ``hash_str`` as the source hash for ``dest_file``."""
+    sidecar = _file_hash_sidecar_path(dest_file)
+    try:
+        sidecar.write_text(hash_str + "\n", encoding="utf-8")
+    except OSError as e:
+        logger.warning("Could not write file hash sidecar %s: %s", sidecar, e)
+
 
 # Plex / Kometa reject custom posters larger than this (see plex.py "Image too large" in Kometa).
 PLEX_POSTER_MAX_BYTES = 10_480_000
@@ -38,11 +95,13 @@ class Organizer(ABC):
         exception_file: Path,
         force_png: bool,
         dry_run: bool,
+        incremental: bool = False,
     ) -> None:
         self.source_dir = source_dir
         self.target_dir = target_dir
         self.force_png = force_png
         self.dry_run = dry_run
+        self.incremental = incremental
 
         if exception_file.exists():
             try:

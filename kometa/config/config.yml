@@ -29,7 +29,12 @@ libraries:
           back_line_color: "#FFD740"
           back_line_width: 4
       - default: audio_codec
-      - default: language_count 
+      - default: languages
+        template_variables:
+          languages_horizontal_align: left
+          languages_vertical_align: bottom
+          languages_horizontal_offset: 15
+          languages_vertical_offset: 15
       - default: mediastinger
     collection_files:
       - file: config/stats.yml
@@ -146,29 +151,14 @@ libraries:
           back_line_color: "#FFD740"
           back_line_width: 4
       - default: audio_codec
-      - default: language_count 
-      - default: mediastinger
-      - default: status
+      - default: languages
         template_variables:
-          horizontal_align: right
-          vertical_align: bottom
-          horizontal_offset: 12
-          vertical_offset: 12
-          back_width: 320
-          back_height: 100
-          back_radius: 6
-          back_align: center
-          font_size: 50
-          stroke_width: 3
-          stroke_color: "#00000099"
-          font_color_airing: "#B9F6CA"
-          font_color_returning: "#90CAF9"
-          font_color_canceled: "#FF8A80"
-          font_color_ended: "#ECEFF1"
-          back_color_airing: "#1B5E20DD"
-          back_color_returning: "#0D47A1DD"
-          back_color_canceled: "#B71C1CEE"
-          back_color_ended: "#000000EE"
+          languages_horizontal_align: left
+          languages_vertical_align: bottom
+          languages_horizontal_offset: 15
+          languages_vertical_offset: 15
+      - default: mediastinger
+      - file: config/tv_status_ribbons.yml
     collection_files:
       - default: tautulli
         template_variables:

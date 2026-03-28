@@ -10,7 +10,7 @@ import logging
 import re
 from pathlib import Path
 
-from handlers import Organizer
+from handlers import Organizer, compute_file_hash, read_hash_sidecar, write_hash_sidecar
 
 # Detect if Pillow is available without importing it (avoid unused import warnings)
 HAS_PIL = importlib.util.find_spec("PIL") is not None
@@ -44,9 +44,12 @@ class PosterOrganizer(Organizer):
         force_png: bool,
         dry_run: bool,
         strip_collection_suffix: bool = True,
+        incremental: bool = False,
     ) -> None:
         """Initialize PosterOrganizer."""
-        super().__init__(source_dir, target_dir, exception_file, force_png, dry_run)
+        super().__init__(
+            source_dir, target_dir, exception_file, force_png, dry_run, incremental
+        )
         self.strip_collection_suffix = strip_collection_suffix
 
     # --- Naming helpers (poster-specific) ------------------------------------------
@@ -131,6 +134,20 @@ class PosterOrganizer(Organizer):
     ) -> bool:
         """Process a single poster file."""
         self._ensure_target_dir(dest_dir)
+
+        if self.incremental and any(dest_dir.glob("poster.*")):
+            src_hash = compute_file_hash(src)
+            stored_hash = read_hash_sidecar(dest_dir)
+            if src_hash == stored_hash:
+                logger.debug(
+                    "Incremental: unchanged poster, skipping %s", dest_dir.name
+                )
+                return True
+            logger.debug(
+                "Incremental: poster changed (hash mismatch), re-processing %s",
+                dest_dir.name,
+            )
+
         self.clear_existing(dest_dir)
 
         target_path = self.get_target_poster_path(dest_dir, src)
@@ -146,6 +163,7 @@ class PosterOrganizer(Organizer):
 
         ok = self.save_as_png(src, target_path)
         if ok:
+            write_hash_sidecar(dest_dir, compute_file_hash(src))
             self.update_category_tracking(category, processed=1)
             logger.info("Processed poster: %s -> %s", src.name, target_path)
             return True
