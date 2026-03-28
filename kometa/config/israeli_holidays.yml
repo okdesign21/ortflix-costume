@@ -1,22 +1,17 @@
 # Israeli / Jewish seasonal movie collections (Films library).
 #
-# Hebrew-calendar holidays move on the Gregorian calendar. Kometa only supports
-# schedule: range(MM/DD-MM/DD) — one window per collection. The ranges below are
-# broad "almost" bands (Purim ≈ Feb–Mar, Passover ≈ Mar–Apr, Hanukkah ≈ late Nov–Dec,
-# Yom Ha'atzmaut ≈ Apr–May). Tighten or split yearly if you want shorter windows.
+# Schedule windows are maintained by scripts/update_jewish_dates.py, which
+# fetches each holiday's Gregorian anchor date via the HebCal API and rewrites
+# the start_date / end_date fields below.  Run it once before Rosh Hashana to
+# keep the windows correct for the coming year.
 #
-# For year-exact dates, either edit this file once a year or use an external script
-# with config/israeli_holiday_dates.json (Kometa does not load that JSON).
-#
-# Replace keyword imdb_search with imdb_list: https://www.imdb.com/list/ls...
-# when you have curated lists.
+#   python ortflix-costume/scripts/update_jewish_dates.py
+#   python ortflix-costume/scripts/update_jewish_dates.py --dry-run
+#   python ortflix-costume/scripts/update_jewish_dates.py --year 2027
 
 templates:
   IsraeliHoliday:
     smart_label: title.asc
-    summary: |-
-      Themed picks for this period (broad Gregorian window; Hebrew dates vary yearly).
-    # Same library ordering as default seasonal (!00_<<title>>).
     sort_title: "!00_<<collection_name>>"
     schedule: range(<<start_date>>-<<end_date>>)
     delete_not_scheduled: true
@@ -26,42 +21,116 @@ templates:
     visible_shared: true
 
 collections:
+
+  # ── Purim (14 Adar) ──────────────────────────────────────────────────────
   Purim Movies:
     template:
       name: IsraeliHoliday
-      start_date: 02/15
-      end_date: 03/31
+      start_date: 03/13
+      end_date: 03/26
+    summary: >-
+      The Feast of Esther — films about Queen Esther, Mordecai, and the
+      triumph over Haman. Costumes, carnivals, and the oldest Jewish
+      survival story.
     imdb_search:
-      keyword.any: purim, esther, book of esther
-      limit: 400
+      keyword.any: purim, esther, queen esther, book of esther, mordecai,
+                   feast of purim, jewish holiday, hamantaschen
+      type: movie
+      limit: 200
+    plex_search:
+      any:
+        title:
+          - "One Night with the King"
+          - "Esther and the King"
+          - "The Book of Esther"
+          - "Esther"
     item_assets: true
 
+  # ── Passover / Pesach (15 Nisan) ─────────────────────────────────────────
   Passover Movies:
     template:
       name: IsraeliHoliday
-      start_date: 03/15
-      end_date: 04/30
+      start_date: 03/26
+      end_date: 04/10
+    summary: >-
+      From slavery to freedom — the Exodus story, Moses, and the Ten
+      Plagues. Biblical epics that retell the greatest liberation narrative
+      in history.
     imdb_search:
-      keyword.any: passover, pesach, seder, exodus
-      limit: 400
+      keyword.any: passover, pesach, moses, exodus, pharaoh, ten commandments,
+                   plagues of egypt, israelites, seder, burning bush,
+                   parting of the red sea
+      type: movie
+      limit: 200
+    plex_search:
+      any:
+        title:
+          - "The Ten Commandments"
+          - "The Prince of Egypt"
+          - "Exodus: Gods and Kings"
+          - "Moses the Lawgiver"
+          - "Joseph and the Amazing Technicolor Dreamcoat"
+          - "The Bible: In the Beginning"
     item_assets: true
 
+  # ── Yom Ha'atzmaut (5 Iyar) ──────────────────────────────────────────────
   Yom Ha'atzmaut Movies:
     template:
       name: IsraeliHoliday
-      start_date: 04/15
-      end_date: 05/15
+      start_date: 04/17
+      end_date: 04/25
+    summary: >-
+      Israeli Independence Day — quality Israeli cinema alongside
+      English-language films about the founding of the State of Israel,
+      the Mossad, and defining moments in Israeli history.
     imdb_search:
-      keyword.any: israel, israeli, tel aviv, jerusalem
-      limit: 400
+      keyword.any: israel independence, founding of israel, zionism, mossad,
+                   israeli, haganah, six day war, yom kippur war,
+                   arab-israeli conflict, entebbe, operation thunderbolt
+      type: movie
+      limit: 200
+    plex_search:
+      any:
+        title:
+          - "Exodus"
+          - "Munich"
+          - "Operation Finale"
+          - "Entebbe"
+          - "7 Days in Entebbe"
+          - "Cast a Giant Shadow"
+          - "Waltz with Bashir"
+          - "Beaufort"
+          - "Lebanon"
+          - "Footnote"
+          - "Omar"
+          - "Incitement"
+          - "Ajami"
+          - "Big Bad Wolves"
+          - "The Attack"
     item_assets: true
 
+  # ── Hanukkah (25 Kislev) ─────────────────────────────────────────────────
   Hanukkah Movies:
     template:
       name: IsraeliHoliday
-      start_date: 11/25
-      end_date: 12/31
+      start_date: 12/01
+      end_date: 12/15
+    summary: >-
+      The Festival of Lights — Hanukkah films celebrating the Maccabean
+      miracle, the menorah, and the spirit of the eight-night season.
     imdb_search:
-      keyword.any: hanukkah, chanukah, menorah, maccabee
-      limit: 400
+      keyword.any: hanukkah, chanukah, menorah, dreidel, maccabee,
+                   maccabean revolt, festival of lights, hanukkah miracle,
+                   latke, jewish holiday
+      type: movie
+      limit: 200
+    plex_search:
+      any:
+        title:
+          - "Eight Crazy Nights"
+          - "Full Court Miracle"
+          - "The Hebrew Hammer"
+          - "An American Tail"
+          - "Rugrats Chanukah"
+          - "Love, Lights, Hanukkah"
     item_assets: true
