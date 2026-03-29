@@ -5,14 +5,20 @@
 
 Automation repository for Ortflix media customization:
 
-- `kometa/` assets and collection tooling
-- `tautulli/` scripts and notification helpers
+- `kometa/` — assets, collection config, and tooling
+- `tautulli/` — notification and tagging scripts
+- `radarr/` — custom script hooks
+- `scripts/` — host sync and operational utilities
 
 ## Repository Structure
 
-- `kometa/asset_helpers/Organize_Downloads/` — Kometa assets organizer Python package
-- `kometa/config/` — Kometa collection and metadata config
-- `tautulli/scripts/` — Tautulli automation scripts
+- `kometa/config/` — Kometa collection and metadata config (YAML)
+- `kometa/tools/asset-organizer/` — Kometa assets organizer Python package
+- `kometa/tools/check_plex_titles.py` — compare Plex titles against asset folders
+- `kometa/tools/update_jewish_dates.py` — refresh Israeli holiday schedule windows via HebCal API
+- `radarr/` — Radarr custom script hooks (audio language fix, Overseerr requester tagging)
+- `tautulli/` — Tautulli automation scripts (recently-added and watched tagging)
+- `scripts/sync_to_host.sh` — rsync config, scripts, and assets to the host server
 
 ## Quick Start
 
@@ -24,7 +30,7 @@ cd ortflix-costume
 ### Kometa Assets Organizer (local)
 
 ```bash
-cd kometa/asset_helpers/Organize_Downloads
+cd kometa/tools/asset-organizer
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .[dev,test]

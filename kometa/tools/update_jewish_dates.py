@@ -6,7 +6,7 @@ Fetches the next occurrence of Purim, Passover, Yom Ha'atzmaut, and
 Hanukkah via the free HebCal public API, then rewrites the
 start_date / end_date schedule windows in:
 
-    ../kometa/config/israeli_holidays.yml
+    ../config/israeli_holidays.yml
 
 Requirements
 ------------
@@ -36,7 +36,7 @@ except ImportError:
 # ── paths ─────────────────────────────────────────────────────────────────────
 
 THIS_DIR    = Path(__file__).parent.resolve()
-CONFIG_FILE = THIS_DIR.parent / "kometa" / "config" / "israeli_holidays.yml"
+CONFIG_FILE = THIS_DIR.parent / "config" / "israeli_holidays.yml"
 
 # ── holiday window offsets (days relative to the anchor / first-day date) ─────
 #

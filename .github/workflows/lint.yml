@@ -31,15 +31,5 @@ jobs:
           pip install ruff
       - name: Run ruff checks
         run: |
-          ruff check kometa tautulli
-          ruff format --check kometa tautulli
-
-  hadolint-kometa:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Run hadolint on Kometa Assets Dockerfile
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          dockerfile: kometa/asset_helpers/Organize_Downloads/dockerfile
-          failure-threshold: warning
+          ruff check kometa tautulli radarr
+          ruff format --check kometa tautulli radarr

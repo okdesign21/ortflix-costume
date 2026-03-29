@@ -1,21 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "docker"
-    directory: "/kometa/asset_helpers/Organize_Downloads"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "okdesign21"
-    labels:
-      - "dependencies"
-      - "docker"
-    allow:
-      - dependency-type: "indirect"
-      - dependency-type: "direct"
-
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -33,7 +17,7 @@ updates:
       - dependency-type: "direct"
 
   - package-ecosystem: "pip"
-    directory: "/kometa/asset_helpers/Organize_Downloads"
+    directory: "/kometa/tools/asset-organizer"
     schedule:
       interval: "weekly"
       day: "monday"

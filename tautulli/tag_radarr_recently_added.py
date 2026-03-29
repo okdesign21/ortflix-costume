@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# DEPRECATED: Superseded by radarr/scripts/tag_overseerr_requester.py
+# That version runs as a Radarr Custom Script (fires at import, before Plex sees the file).
+# Keep this file only as a fallback if the Radarr script is unavailable.
+#
 # Tautulli Script: On Plex "Recently Added", tag the movie in Radarr with who requested it in Overseerr.
 
 # - Adds tags: "requested-by-{overseerr_user}" (slugified) and "overseerr-request".

@@ -10,13 +10,15 @@
 #   -k  Kometa YAML only: kometa/config/**/*.yml,*.yaml → /opt/kometa/config
 #   -a  Kometa assets: kometa/config/assets/ → /opt/kometa/config/assets (full tree)
 #   -o  Kometa overlays: kometa/config/overlays/ → /opt/kometa/config/overlays (full tree)
-#   -t  Tautulli: tautulli/scripts *.py + requirements.txt → /opt/tautulli/scripts
-#   If none of -k -a -o -t are given, all four run.
+#   -t  Tautulli: tautulli *.py + requirements.txt → /opt/tautulli/scripts
+#   -r  Radarr: radarr *.py + requirements.txt → /opt/radarr/scripts
+#   -kl Pull Kometa logs/reports from host → current directory (download only)
+#   If none of -k -a -o -t -r are given, all five run (excludes -kl).
 #
 # Optional:
 #   ORTFLIX_RSYNC_DELETE=1 — rsync --delete (Kometa YAML + assets + overlays; use with care)
-#   KOMETA_CONFIG_SRC, KOMETA_ASSETS_SRC, KOMETA_OVERLAYS_SRC, TAUTULLI_SCRIPTS_SRC
-#   KOMETA_CONFIG_DEST, KOMETA_ASSETS_DEST, KOMETA_OVERLAYS_DEST, TAUTULLI_SCRIPTS_DEST
+#   KOMETA_CONFIG_SRC, KOMETA_ASSETS_SRC, KOMETA_OVERLAYS_SRC, TAUTULLI_SCRIPTS_SRC, RADARR_SCRIPTS_SRC
+#   KOMETA_CONFIG_DEST, KOMETA_ASSETS_DEST, KOMETA_OVERLAYS_DEST, TAUTULLI_SCRIPTS_DEST, RADARR_SCRIPTS_DEST
 #
 # Defaults file (optional): scripts/.env.sync — KEY=value lines, # comments.
 #   Path override: SYNC_ENV_FILE=/path/to/file
@@ -64,12 +66,14 @@ load_env_sync_defaults
 KOMETA_CONFIG_SRC="${KOMETA_CONFIG_SRC:-$COSTUME_ROOT/kometa/config}"
 KOMETA_ASSETS_SRC="${KOMETA_ASSETS_SRC:-$KOMETA_CONFIG_SRC/assets}"
 KOMETA_OVERLAYS_SRC="${KOMETA_OVERLAYS_SRC:-$KOMETA_CONFIG_SRC/overlays}"
-TAUTULLI_SCRIPTS_SRC="${TAUTULLI_SCRIPTS_SRC:-$COSTUME_ROOT/tautulli/scripts}"
+TAUTULLI_SCRIPTS_SRC="${TAUTULLI_SCRIPTS_SRC:-$COSTUME_ROOT/tautulli}"
+RADARR_SCRIPTS_SRC="${RADARR_SCRIPTS_SRC:-$COSTUME_ROOT/radarr}"
 
 KOMETA_CONFIG_DEST="${KOMETA_CONFIG_DEST:-/opt/kometa/config}"
 KOMETA_ASSETS_DEST="${KOMETA_ASSETS_DEST:-/opt/kometa/config/assets}"
 KOMETA_OVERLAYS_DEST="${KOMETA_OVERLAYS_DEST:-/opt/kometa/config/overlays}"
 TAUTULLI_SCRIPTS_DEST="${TAUTULLI_SCRIPTS_DEST:-/opt/tautulli/scripts}"
+RADARR_SCRIPTS_DEST="${RADARR_SCRIPTS_DEST:-/opt/radarr/scripts}"
 
 die() {
   echo "Error: $*" >&2
@@ -89,16 +93,21 @@ Commands:
   dry-run     Alias for sync-dry
   ansible     ansible-playbook --tags kometa-sync,tautulli-sync (optional)
 
-sync / sync-dry flags (default if none: all):
+sync / sync-dry flags (default if none: -k -a -o -t -r):
   -k          Kometa config (*.yml, *.yaml only)
   -a          Kometa assets (kometa/config/assets → server .../config/assets)
   -o          Kometa overlays (kometa/config/overlays → server .../config/overlays)
   -t          Tautulli scripts (*.py + requirements.txt)
+  -r          Radarr scripts (*.py + requirements.txt)
+  -kl         Pull Kometa logs from server → current directory
+                  *report* files from /opt/kometa/config/
+                  logs/meta.log from /opt/kometa/config/logs/
 
 Examples:
   $(basename "$0") sync
   $(basename "$0") sync -k -a
   $(basename "$0") sync-dry -t
+  $(basename "$0") sync -r
 
 Environment:
   ORTFLIX_SYNC_HOST, ORTFLIX_SYNC_USER, ORTFLIX_SYNC_PORT — if HOST is unset, you will be prompted.
@@ -148,21 +157,26 @@ parse_sync_selectors() {
   SYNC_A=0
   SYNC_O=0
   SYNC_T=0
+  SYNC_R=0
+  SYNC_KL=0
   local arg
   for arg in "$@"; do
     case "$arg" in
-      -k) SYNC_K=1 ;;
-      -a) SYNC_A=1 ;;
-      -o) SYNC_O=1 ;;
-      -t) SYNC_T=1 ;;
-      *) die "Unknown flag: $arg (use -k, -a, -o, -t)" ;;
+      -k)  SYNC_K=1  ;;
+      -a)  SYNC_A=1  ;;
+      -o)  SYNC_O=1  ;;
+      -t)  SYNC_T=1  ;;
+      -r)  SYNC_R=1  ;;
+      -kl) SYNC_KL=1 ;;
+      *) die "Unknown flag: $arg (use -k, -a, -o, -t, -r, -kl)" ;;
     esac
   done
-  if [[ $((SYNC_K + SYNC_A + SYNC_O + SYNC_T)) -eq 0 ]]; then
+  if [[ $((SYNC_K + SYNC_A + SYNC_O + SYNC_T + SYNC_R + SYNC_KL)) -eq 0 ]]; then
     SYNC_K=1
     SYNC_A=1
     SYNC_O=1
     SYNC_T=1
+    SYNC_R=1
   fi
 }
 
@@ -228,12 +242,40 @@ rsync_tautulli_scripts() {
   rsync "${args[@]}"
 }
 
+rsync_radarr_scripts() {
+  local dry="${1:-0}"
+  [[ -d "$RADARR_SCRIPTS_SRC" ]] || die "Missing directory: $RADARR_SCRIPTS_SRC"
+  local -a args=(-avz)
+  [[ "$dry" == "1" ]] && args+=(--dry-run)
+  args+=(
+    --include='*/'
+    --include='*.py'
+    --include='requirements.txt'
+    --exclude='*'
+  )
+  args+=(-e "$(rsync_rsh)" "$RADARR_SCRIPTS_SRC/" "$(remote_target "$RADARR_SCRIPTS_DEST")/")
+  echo "→ Radarr scripts: ${RADARR_SCRIPTS_SRC}/ → ${ORTFLIX_SYNC_HOST}:${RADARR_SCRIPTS_DEST}/"
+  rsync "${args[@]}"
+}
+
+rsync_kometa_logs() {
+  local dry="${1:-0}"
+  local -a args=(-av)
+  [[ "$dry" == "1" ]] && args+=(--dry-run)
+  args+=(-e "$(rsync_rsh)")
+  echo "↓ Kometa reports: ${ORTFLIX_SYNC_HOST}:${KOMETA_CONFIG_DEST}/*report* → ."
+  rsync "${args[@]}" "${ORTFLIX_SYNC_USER}@${ORTFLIX_SYNC_HOST}:${KOMETA_CONFIG_DEST}/*report*" .
+  echo "↓ Kometa meta.log: ${ORTFLIX_SYNC_HOST}:${KOMETA_CONFIG_DEST}/logs/meta.log → ."
+  rsync "${args[@]}" "${ORTFLIX_SYNC_USER}@${ORTFLIX_SYNC_HOST}:${KOMETA_CONFIG_DEST}/logs/meta.log" .
+}
+
 ensure_remote_dirs() {
   local -a paths=()
   [[ "$SYNC_K" == "1" ]] && paths+=("$KOMETA_CONFIG_DEST")
   [[ "$SYNC_A" == "1" ]] && paths+=("$KOMETA_ASSETS_DEST")
   [[ "$SYNC_O" == "1" ]] && paths+=("$KOMETA_OVERLAYS_DEST")
   [[ "$SYNC_T" == "1" ]] && paths+=("$TAUTULLI_SCRIPTS_DEST")
+  [[ "$SYNC_R" == "1" ]] && paths+=("$RADARR_SCRIPTS_DEST")
   [[ ${#paths[@]} -eq 0 ]] && return 0
   local joined
   joined=$(printf ' %q' "${paths[@]}")
@@ -246,10 +288,12 @@ cmd_sync() {
   parse_sync_selectors "$@"
   resolve_connection
   ensure_remote_dirs
-  [[ "$SYNC_K" == "1" ]] && rsync_kometa_yaml "$dry"
-  [[ "$SYNC_A" == "1" ]] && rsync_kometa_assets "$dry"
-  [[ "$SYNC_O" == "1" ]] && rsync_kometa_overlays "$dry"
-  [[ "$SYNC_T" == "1" ]] && rsync_tautulli_scripts "$dry"
+  [[ "$SYNC_K"  == "1" ]] && rsync_kometa_yaml "$dry"
+  [[ "$SYNC_A"  == "1" ]] && rsync_kometa_assets "$dry"
+  [[ "$SYNC_O"  == "1" ]] && rsync_kometa_overlays "$dry"
+  [[ "$SYNC_T"  == "1" ]] && rsync_tautulli_scripts "$dry"
+  [[ "$SYNC_R"  == "1" ]] && rsync_radarr_scripts "$dry"
+  [[ "$SYNC_KL" == "1" ]] && rsync_kometa_logs "$dry"
   echo "Done."
 }
 
@@ -259,6 +303,7 @@ cmd_paths() {
   echo "KOMETA_ASSETS_SRC=$KOMETA_ASSETS_SRC  → remote $KOMETA_ASSETS_DEST (sync -a; skipped if missing)"
   echo "KOMETA_OVERLAYS_SRC=$KOMETA_OVERLAYS_SRC  → remote $KOMETA_OVERLAYS_DEST (sync -o; skipped if missing)"
   echo "TAUTULLI_SCRIPTS_SRC=$TAUTULLI_SCRIPTS_SRC  → remote $TAUTULLI_SCRIPTS_DEST (sync -t)"
+  echo "RADARR_SCRIPTS_SRC=$RADARR_SCRIPTS_SRC  → remote $RADARR_SCRIPTS_DEST (sync -r)"
 }
 
 cmd_check() {

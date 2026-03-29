@@ -43,25 +43,7 @@ jobs:
         continue-on-error: true
         with:
           scan-type: 'fs'
-          scan-ref: 'kometa/asset_helpers/Organize_Downloads'
+          scan-ref: 'kometa/tools/asset-organizer'
           format: 'table'
-          severity: 'CRITICAL,HIGH'
-          exit-code: '0'
-
-  trivy-kometa-image:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - name: Build Docker image for Kometa Assets
-        run: |
-          docker build -t kometa-assets-organizer:scan \
-            kometa/asset_helpers/Organize_Downloads/
-      - name: Run Trivy scan on built image
-        uses: aquasecurity/trivy-action@master
-        continue-on-error: true
-        with:
-          image-ref: 'kometa-assets-organizer:scan'
-          format: 'table'
-          ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
           exit-code: '0'

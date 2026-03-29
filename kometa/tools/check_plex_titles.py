@@ -3,7 +3,7 @@
 Extract all movie titles from Plex to compare with asset folder names.
 
 Usage:
-    python3 check_plex_titles.py                          # Uses default library 'test_movie_lib'
+    python3 check_plex_titles.py                          # Uses default library 'Films'
     python3 check_plex_titles.py MyLibrary                # Override library name
     python3 check_plex_titles.py --asset-dir ../assets    # Override asset directory (default: config/assets/Movies_Shows)
 """
@@ -31,7 +31,7 @@ def main():
     parser.add_argument(
         "library",
         nargs="?",
-        default="test_movie_lib",
+        default="Films",
         help="Plex library name (default: test_movie_lib)",
     )
     parser.add_argument(
@@ -111,7 +111,7 @@ def main():
         return f"{movie.title} ({y})" if y else movie.title
 
     # Load exception mappings from external JSON file
-    exception_file = SCRIPT_DIR.parent / "exception_mappings.json"
+    exception_file = SCRIPT_DIR.parent / "asset-organizer" / "exception_mappings.json"
     if exception_file.exists():
         with open(exception_file, "r") as f:
             exception_mappings = json.load(f)

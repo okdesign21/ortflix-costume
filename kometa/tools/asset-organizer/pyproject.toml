@@ -26,7 +26,7 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/okdesign21/ortflix-costume"
 Repository = "https://github.com/okdesign21/ortflix-costume"
-Documentation = "https://github.com/okdesign21/ortflix-costume/tree/master/kometa/asset_helpers/Organize_Downloads"
+Documentation = "https://github.com/okdesign21/ortflix-costume/tree/master/kometa/tools/asset-organizer"
 Issues = "https://github.com/okdesign21/ortflix-costume/issues"
 
 [project.optional-dependencies]
