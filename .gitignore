@@ -23,9 +23,8 @@ venv/
 .env.sync
 
 # Repository-specific generated files
-kometa/asset_helpers/Organize_Downloads/Posters/
 kometa/config/assets/
-kometa/kometa source code/
+kometa/config/overlays/
 
 # OS/editor
 .DS_Store

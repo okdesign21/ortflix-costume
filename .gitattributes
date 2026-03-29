@@ -1,0 +1,2 @@
+kometa/tools/asset-organizer/Posters/** filter=lfs diff=lfs merge=lfs -text
+kometa/tools/asset-organizer/Overlays/** filter=lfs diff=lfs merge=lfs -text
