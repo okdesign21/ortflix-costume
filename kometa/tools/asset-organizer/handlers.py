@@ -1,5 +1,7 @@
 """Asset organizer base protocol and utilities."""
 
+from __future__ import annotations
+
 import hashlib
 import json
 import logging
@@ -9,6 +11,10 @@ import unicodedata
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from tmdb_resolver import TmdbResolver
 
 logger = logging.getLogger(__name__)
 
@@ -96,12 +102,14 @@ class Organizer(ABC):
         force_png: bool,
         dry_run: bool,
         incremental: bool = False,
+        tmdb_resolver: TmdbResolver | None = None,
     ) -> None:
         self.source_dir = source_dir
         self.target_dir = target_dir
         self.force_png = force_png
         self.dry_run = dry_run
         self.incremental = incremental
+        self.tmdb_resolver = tmdb_resolver
 
         if exception_file.exists():
             try:
@@ -229,19 +237,21 @@ class Organizer(ABC):
     def normalize_name(self, name: str) -> str:
         """Normalize asset names to match expected naming conventions.
 
-        Checks exception mappings first for custom overrides,
-        then applies standard normalization rules:
-          - colons between digits (e.g. "4:30") → plain `-` (e.g. "4-30")
-          - colons elsewhere (`:`) → ` -`  (e.g. "Foo: Bar" → "Foo - Bar")
-          - trailing dash on word followed by space (e.g. "Foo- Bar") → "Foo - Bar"
-          - asterisks (`*`) → `-` (e.g. "Thunderbolts*" → "Thunderbolts-")
-          - double space (e.g. "Lilo  Stitch") → " & " (e.g. "Lilo & Stitch")
+        Lookup order:
+          1. ``exception_mappings.json`` — manual/auto-written overrides (fastest).
+          2. Standard rules — colon→dash, asterisk→dash, double-space→&, unicode.
+          3. TMDb API — last resort, only when a year is present in *name* and
+             ``TMDB_API_KEY`` is set.  Results are cached and written back to
+             ``exception_mappings.json`` so subsequent runs skip the network call.
         """
         import re
 
+        # 1. Exception mappings (exact key match)
         mapped = self.exception_mappings.get(name)
         if mapped:
             return mapped
+
+        # 2. Standard normalization rules
         result = unicodedata.normalize("NFKC", name).strip()
         result = (
             result.replace("\u2019", "'")
@@ -265,6 +275,15 @@ class Organizer(ABC):
         # Double space → " & " (e.g. "Lilo  Stitch" → "Lilo & Stitch")
         result = re.sub(r"  +", " & ", result)
         result = re.sub(r"\s+", " ", result).strip()
+
+        # 3. TMDb last-resort (only for "Title (YYYY)" items, only when resolver active)
+        if self.tmdb_resolver is not None and re.search(r"\(\d{4}\)", name):
+            tmdb_result = self.tmdb_resolver.resolve(name)
+            if tmdb_result:
+                # Reload mappings so this run benefits from the write-back too
+                self.exception_mappings[name] = tmdb_result
+                return tmdb_result
+
         return result
 
     def get_category_summary(self, category: str) -> tuple[int, list[str]]:

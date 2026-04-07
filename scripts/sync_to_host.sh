@@ -20,7 +20,7 @@
 #   KOMETA_CONFIG_SRC, KOMETA_ASSETS_SRC, KOMETA_OVERLAYS_SRC, TAUTULLI_SCRIPTS_SRC, RADARR_SCRIPTS_SRC
 #   KOMETA_CONFIG_DEST, KOMETA_ASSETS_DEST, KOMETA_OVERLAYS_DEST, TAUTULLI_SCRIPTS_DEST, RADARR_SCRIPTS_DEST
 #
-# Defaults file (optional): scripts/.env.sync — KEY=value lines, # comments.
+# Defaults file (optional): scripts/.env — KEY=value lines, # comments.
 #   Path override: SYNC_ENV_FILE=/path/to/file
 #   Only variables that are unset before running this script are applied (your shell
 #   exports and ORTFLIX_SYNC_HOST=ip ./sync_to_host.sh still win).
@@ -32,7 +32,7 @@ COSTUME_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # shellcheck disable=SC1091
 load_env_sync_defaults() {
-  local f="${SYNC_ENV_FILE:-$SCRIPT_DIR/.env.sync}"
+  local f="${SYNC_ENV_FILE:-$SCRIPT_DIR/.env}"
   [[ -f "$f" ]] || return 0
   while IFS= read -r line || [[ -n "$line" ]]; do
     [[ "$line" =~ ^[[:space:]]*# ]] && continue
@@ -111,7 +111,7 @@ Examples:
 
 Environment:
   ORTFLIX_SYNC_HOST, ORTFLIX_SYNC_USER, ORTFLIX_SYNC_PORT — if HOST is unset, you will be prompted.
-  SYNC_ENV_FILE — optional path to defaults file (default: scripts/.env.sync next to this script).
+  SYNC_ENV_FILE — optional path to defaults file (default: scripts/.env next to this script).
 EOF
 }
 
@@ -229,7 +229,7 @@ rsync_kometa_overlays() {
 rsync_tautulli_scripts() {
   local dry="${1:-0}"
   [[ -d "$TAUTULLI_SCRIPTS_SRC" ]] || die "Missing directory: $TAUTULLI_SCRIPTS_SRC"
-  local -a args=(-avz)
+  local -a args=(-avz --no-perms --no-times --chmod=Fa+x)
   [[ "$dry" == "1" ]] && args+=(--dry-run)
   args+=(
     --include='*/'
@@ -245,7 +245,7 @@ rsync_tautulli_scripts() {
 rsync_radarr_scripts() {
   local dry="${1:-0}"
   [[ -d "$RADARR_SCRIPTS_SRC" ]] || die "Missing directory: $RADARR_SCRIPTS_SRC"
-  local -a args=(-avz)
+  local -a args=(-avz --no-perms --no-times --chmod=Fa+x)
   [[ "$dry" == "1" ]] && args+=(--dry-run)
   args+=(
     --include='*/'

@@ -19,15 +19,21 @@ templates:
       votes.gte: <<votes_gte>>
       genre: <<genre>>
       limit: <<limit>>
-    sort_title: +3_<<collection_name>>
+    sort_title: "!092_<<collection_name>>"
     sync_mode: sync
     smart_label: random
   Other Genre:
-    sort_title: +3_<<collection_name>>
+    sort_title: "!092_<<collection_name>>"
     sync_mode: sync
     smart_label: random
 
 collections:
+  Genre Collections:
+    blank_collection: true
+    collection_mode: hide
+    sort_title: "!092_!Genre Collections"
+    url_poster: https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/defaults/separators/orig/separator.png
+
   # ── Standard IMDb genre searches ──────────────────────────────────────────
   Action:
     template: {name: IMDb Genre, genre: action}
@@ -105,11 +111,11 @@ collections:
       genre: Comedy
     summary: Romantic Comedy is a genre that attempts to catch the viewer's heart with the combination of love and humor. This sub-genre is light-hearted and usually places the two protagonists in humorous situations.
 
-  Romantic Drama:
-    template: {name: IMDb Genre, genre: "romance,drama", limit: 200}
-    filters:
-      genre: Drama
-    summary: Romantic Drama film is a genre that explores the complex side of love. The plot usually centers around an obstacle that is preventing love between two people.
+  # Romantic Drama:
+  #   template: {name: IMDb Genre, genre: "romance,drama", limit: 200}
+  #   filters:
+  #     genre: Drama
+  #   summary: Romantic Drama film is a genre that explores the complex side of love. The plot usually centers around an obstacle that is preventing love between two people.
 
   Sci-Fi:
     template: {name: IMDb Genre, genre: sci-fi}
@@ -138,12 +144,13 @@ collections:
 
   # ── Custom / keyword / list-based collections ─────────────────────────────
 
-  # Gangster: curated IMDb lists are more accurate than keywords for this niche.
   Gangster:
     template: {name: Other Genre}
-    imdb_list:
-      - https://www.imdb.com/list/ls026270180/
-      - https://www.imdb.com/list/ls000093502/
+    imdb_search:
+      keyword.any: gangster, mafia, mob, organized-crime, crime-boss, mobster, crime-family, hitman, gangland
+      limit: 400
+    filters:
+      genre: Crime
     summary: Gangster film is a sub-genre of crime films that center on organized crime or the mafia. Often the plot revolves around the rise and fall of an organized crime leader.
 
   Halloween:
@@ -155,42 +162,36 @@ collections:
 
   LGBTQ+:
     template: {name: Other Genre}
-    imdb_list: https://www.imdb.com/list/ls062688328/
+    imdb_search:
+      keyword.any: gay, lesbian, bisexual, transgender, lgbt, lgbtq, homosexuality, coming-out, same-sex-relationship, gay-relationship, lesbian-relationship, queer, gay-marriage
+      limit: 400
     summary: Films where the story centers on lesbian, gay, bisexual, transgender, queer, and intersex characters and experiences.
 
   Martial Arts:
     template: {name: Other Genre}
-    imdb_list:
-      - https://www.imdb.com/list/ls000099643/
-      - https://www.imdb.com/list/ls068611186/
-      - https://www.imdb.com/list/ls068378513/
-      - https://www.imdb.com/list/ls090404120/
+    imdb_search:
+      keyword.any: martial-arts, kung-fu, karate, judo, taekwondo, ninjutsu, wushu, hand-to-hand-combat, martial-artist, kickboxing, mixed-martial-arts, capoeira, shaolin
+      limit: 400
     summary: Martial Arts film is a sub-genre of action films featuring martial arts combat as the primary appeal and entertainment value.
 
-  Pandemic:
-    template: {name: Other Genre}
-    imdb_search:
-      keyword.any: deadly-virus, health-crisis, pandemic, public-health-epidemic, virus, coronavirus
-      limit: 1000
-    imdb_list:
-      - https://www.imdb.com/list/ls041901506/
-      - https://www.imdb.com/list/ls092321048/
-    summary: Films revolving around widespread viruses, plagues, and disease outbreaks.
+  # Pandemic:
+  #   template: {name: Other Genre}
+  #   imdb_search:
+  #     keyword.any: deadly-virus, health-crisis, pandemic, public-health-epidemic, virus, coronavirus
+  #     limit: 1000
+  #   imdb_list:
+  #     - https://www.imdb.com/list/ls041901506/
+  #     - https://www.imdb.com/list/ls092321048/
+  #   summary: Films revolving around widespread viruses, plagues, and disease outbreaks.
 
-  Stand Up Comedy:
-    template: {name: Other Genre}
-    name_mapping: Stand Up
-    imdb_list:
-      - https://www.imdb.com/list/ls070221411/
-      - https://www.imdb.com/list/ls086584751/
-      - https://www.imdb.com/list/ls086022668/
-      - https://www.imdb.com/list/ls049792208/
-    summary: Stand-up comedy specials and concert films where a comedian performs in front of a live audience.
-
-  Sword & Sorcery:
-    template: {name: Other Genre}
-    imdb_list: https://www.imdb.com/list/ls022909805/
-    summary: Sword and Sorcery film is a sub-genre of Fantasy relying on heavy action and battle scenes. Common themes include rescue missions, saving a princess, and battling fantastical monsters.
+  # Sword & Sorcery:
+  #   template: {name: Other Genre}
+  #   imdb_search:
+  #     keyword.any: sword-and-sorcery, barbarian, sorcerer, dark-fantasy, enchanted-sword, sword-fight, warrior, black-magic, wizard, dungeon
+  #     limit: 400
+  #   filters:
+  #     genre: Fantasy
+  #   summary: Sword and Sorcery film is a sub-genre of Fantasy relying on heavy action and battle scenes. Common themes include rescue missions, saving a princess, and battling fantastical monsters.
 
   # ── Extended / keyword-based genre collections ────────────────────────────
 
@@ -245,12 +246,12 @@ collections:
     template: {name: IMDb Genre, genre: "comedy,drama", limit: 200}
     summary: Films that blend comedic and dramatic tones in roughly equal measure.
 
-  Easter:
-    template: {name: Other Genre}
-    imdb_search:
-      keyword.any: easter, easter-bunny, easter-egg, good-friday, holy-week
-      limit: 400
-    summary: Films tied to Easter themes and spring religious or family stories.
+  # Easter:
+  #   template: {name: Other Genre}
+  #   imdb_search:
+  #     keyword.any: easter, easter-bunny, easter-egg, good-friday, holy-week
+  #     limit: 400
+  #   summary: Films tied to Easter themes and spring religious or family stories.
 
   # Film Noir: the defining era is 1940s–60s; remove the 1990 floor entirely and lower
   # the vote threshold so classics like Double Indemnity and Out of the Past are included.
@@ -324,12 +325,12 @@ collections:
       limit: 400
     summary: Stories involving travel through time or loops in time.
 
-  True Stories:
-    template: {name: Other Genre}
-    imdb_search:
-      keyword.any: based-on-true-story, true-story, based-on-real-events
-      limit: 400
-    summary: Dramas and thrillers explicitly based on real events.
+  # True Stories:
+  #   template: {name: Other Genre}
+  #   imdb_search:
+  #     keyword.any: based-on-true-story, true-story, based-on-real-events
+  #     limit: 400
+  #   summary: Dramas and thrillers explicitly based on real events.
 
   Valentine's:
     template: {name: Other Genre}
@@ -380,12 +381,12 @@ collections:
       limit: 400
     summary: Undead outbreak and survival horror.
 
-  Superhero:
-    template: {name: Other Genre}
-    imdb_search:
-      keyword.any: superhero, super-hero, superhuman, comic-book-adaptation
-      limit: 400
-    summary: Costumed heroes, comic-inspired action, and superpowered leads.
+  # Superhero:
+  #   template: {name: Other Genre}
+  #   imdb_search:
+  #     keyword.any: superhero, super-hero, superhuman, comic-book-adaptation
+  #     limit: 400
+  #   summary: Costumed heroes, comic-inspired action, and superpowered leads.
 
   "Heist & Espionage":
     template: {name: Other Genre}
@@ -401,7 +402,7 @@ collections:
       limit: 400
     summary: High-school years, teen comedy/drama, and adolescent coming-of-age stories.
 
-  Short film:
+  Short Films:
     template: {name: Other Genre}
     imdb_search:
       - type: short
@@ -418,3 +419,10 @@ collections:
       keyword.any: pirate, pirates, piracy, swashbuckler, buccaneer, pirate-ship
       limit: 400
     summary: High seas, buried treasure, and swashbuckling adventure.
+
+  Road Trip:
+    template: {name: Other Genre}
+    imdb_search:
+      keyword.any: road-trip, road-movie, cross-country-trip, cross-country-road-trip, hitchhiking, road-trip-comedy
+      limit: 400
+    summary: Films where the journey itself is the point — road movies, cross-country adventures, and life-changing drives.

@@ -37,6 +37,13 @@ PLEX_URL          = "http://localhost:32400"
 PLEX_TOKEN_FILE   = os.path.expanduser("~/docker_secrets/plex_token")
 PLEX_SECTION_ID   = "1"
 
+# Folder names (not full paths) to skip entirely during bulk mode
+SKIP_FOLDERS = {
+    "Klainethesecond",
+    "hans_zimmer caochella 2017",
+    "Munch Or - Rough Cut 25-6"
+}
+
 DRY_RUN = "--apply" not in sys.argv
 
 # ── ISO 639-1 (Radarr) → ISO 639-2/T (mkvpropedit / ffmpeg) ─────────────────
@@ -281,7 +288,8 @@ def run_bulk_mode():
     print()
 
     for movies_dir in dirs_to_scan:
-        for root, _, files in os.walk(movies_dir):
+        for root, dirs, files in os.walk(movies_dir):
+            dirs[:] = [d for d in dirs if d not in SKIP_FOLDERS]
             for fn in sorted(files):
                 if "." not in fn:
                     continue

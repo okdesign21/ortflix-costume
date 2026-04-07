@@ -5,12 +5,18 @@ from various folder structures and organizes them into Kometa's expected
 layout.
 """
 
+from __future__ import annotations
+
 import importlib.util
 import logging
 import re
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from handlers import Organizer, compute_file_hash, read_hash_sidecar, write_hash_sidecar
+
+if TYPE_CHECKING:
+    from tmdb_resolver import TmdbResolver
 
 # Detect if Pillow is available without importing it (avoid unused import warnings)
 HAS_PIL = importlib.util.find_spec("PIL") is not None
@@ -45,10 +51,12 @@ class PosterOrganizer(Organizer):
         dry_run: bool,
         strip_collection_suffix: bool = True,
         incremental: bool = False,
+        tmdb_resolver: TmdbResolver | None = None,
     ) -> None:
         """Initialize PosterOrganizer."""
         super().__init__(
-            source_dir, target_dir, exception_file, force_png, dry_run, incremental
+            source_dir, target_dir, exception_file, force_png, dry_run, incremental,
+            tmdb_resolver=tmdb_resolver,
         )
         self.strip_collection_suffix = strip_collection_suffix
 
@@ -209,7 +217,7 @@ class PosterOrganizer(Organizer):
                 if self._is_collection_poster(norm_stem, collection_name):
                     self.process_poster(item, collection_dir, category, collection=True)
                 else:
-                    item_name = self.normalize_name(fname)
+                    item_name = self.normalize_kometa_collection_folder_name(fname)
                     item_dir = target_base / item_name
                     self.process_poster(item, item_dir, category)
         except Exception as e:

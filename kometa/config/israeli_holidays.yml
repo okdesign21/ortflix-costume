@@ -57,7 +57,7 @@ collections:
       Plagues. Biblical epics that retell the greatest liberation narrative
       in history.
     imdb_search:
-      keyword.any: passover, pesach, moses, exodus, pharaoh, ten commandments,
+      keyword.any: passover, pesach, moses, pharaoh, ten commandments,
                    plagues of egypt, israelites, seder, burning bush,
                    parting of the red sea
       type: movie
@@ -71,6 +71,11 @@ collections:
           - "Moses the Lawgiver"
           - "Joseph and the Amazing Technicolor Dreamcoat"
           - "The Bible: In the Beginning"
+          - "A Rugrats Passover"
+          - "The Abominable Dr. Phibes"
+          - "Passover Fever"
+          - "Passover at the Wellmans"
+          - "Moses"
     item_assets: true
 
   # ── Yom Ha'atzmaut (5 Iyar) ──────────────────────────────────────────────

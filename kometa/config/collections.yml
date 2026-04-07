@@ -35,16 +35,16 @@ collections:
     collection_order: release
     summary: Disney live-action remakes and companion films.
 
-  Spider-Man (MCU):
-    plex_search:
-      all:
-        title: "Spider-Man"
-        actor: "Tom Holland"
-        genre.not: Animation
-    sync_mode: sync
-    item_assets: true
-    collection_order: release
-    summary: Tom Holland MCU Spider-Man Movies.
+  # Spider-Man (MCU):
+  #   plex_search:
+  #     all:
+  #       title: "Spider-Man"
+  #       actor: "Tom Holland"
+  #       genre.not: Animation
+  #   sync_mode: sync
+  #   item_assets: true
+  #   collection_order: release
+  #   summary: Tom Holland MCU Spider-Man Movies.
 
   Spider-Man (Tobey):
     plex_search:
@@ -96,18 +96,6 @@ collections:
     item_assets: true
     collection_order: release
 
-  "Before...":
-    plex_search:
-      any:
-        title:
-          - "Before Sunrise"
-          - "Before Sunset"
-          - "Before Midnight"
-    sync_mode: sync
-    item_assets: true
-    collection_order: release
-    summary: Richard Linklater's Jesse and Céline trilogy.
-
   The Lion King (Reboot):
     plex_search:
       any:
@@ -147,6 +135,15 @@ collections:
     item_assets: true
     collection_order: release
     summary: Cars Toons / Mater’s Tall Tales–style shorts.
+
+  Royal Shakespeare Company Live:
+    plex_search:
+      any:
+        studio: "Royal Shakespeare Company"
+    sync_mode: sync
+    item_assets: true
+    collection_order: release
+    summary: Live theatre recordings from the Royal Shakespeare Company, filmed at Stratford-upon-Avon.
 
   # ── Studio collections not covered by default: studio ─────────────────────
 

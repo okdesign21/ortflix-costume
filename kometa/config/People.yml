@@ -12,16 +12,14 @@ templates:
       sort_by: random
       validate: false
     tmdb_person: <<person>>
-    sort_title: +4_<<collection_name>>
+    sort_title: "!071_<<collection_name>>"
+    minimum_items: 2
+
 collections:
-# Separators
-  People Separator:
-    sort_title: +4__People Separator
+  People Collections:
     blank_collection: true
-    collection_mode: default
-    visible_library: true
-    visible_home: false
-    visible_shared: false
+    collection_mode: hide
+    sort_title: "!071_!People Collections"
 
   James Stewart:
       template: {name: Person, person: 854}
@@ -38,9 +36,9 @@ collections:
   Taika Waititi:
       template: {name: Person, person: 55934}
 
+  Kathryn Hahn:
+      template: {name: Person, person: 17696}
 
-#   Kathryn Hahn:
-#       template: {name: Person, person: 17696}
 #   Abbott and Costello:
 #       template: {name: Person, person: "30111, 29642"}
 
@@ -53,15 +51,14 @@ collections:
 #   Alan Rickman:
 #       template: {name: Person, person: 4566}
 
-#   Alfonso Cuarón:
-#       template: {name: Person, person: 11218}
+  Alfonso Cuarón:
+      template: {name: Person, person: 11218}
 
-#   Andrew Garfield:
-#       template: {name: Person, person: 37625}
+  Andrew Garfield:
+      template: {name: Person, person: 37625}
 
-#   Antonio Banderas:
-
-#       template: {name: Person, person: 3131}
+  Antonio Banderas:
+      template: {name: Person, person: 3131}
 
 #   Arnold Schwarzenegger:
 
@@ -75,9 +72,8 @@ collections:
 
 #       template: {name: Person, person: 14974}
 
-#   Ben Affleck:
-
-#       template: {name: Person, person: 880}
+  Ben Affleck:
+      template: {name: Person, person: 880}
 
 #   Brad Pitt:
 
@@ -95,29 +91,29 @@ collections:
 
 #       template: {name: Person, person: 62}
 
-#   Buster Keaton:
+  Buster Keaton:
 
-#       template: {name: Person, person: 8635}
+      template: {name: Person, person: 8635}
 
-#   Cary Grant:
+  Cary Grant:
 
-#       template: {name: Person, person: 2638}
+      template: {name: Person, person: 2638}
 
-#   Charlie Chaplin:
+  Charlie Chaplin:
 
-#       template: {name: Person, person: 13848}
+      template: {name: Person, person: 13848}
 
 #   Carrie Fisher:
 
 #       template: {name: Person, person: 4}
 
-#   Chris Evans:
+  Chris Evans:
 
-#       template: {name: Person, person: 16828}
+      template: {name: Person, person: 16828}
 
-#   Christian Bale:
+  Christian Bale:
 
-#       template: {name: Person, person: 3894}
+      template: {name: Person, person: 3894}
 
 #   Christoph Waltz:
 
@@ -131,13 +127,13 @@ collections:
 
 #       template: {name: Person, person: 9048}
 
-#   Colin Farrell:
+  Colin Farrell:
 
-#       template: {name: Person, person: 72466}
+      template: {name: Person, person: 72466}
 
-#   Colin Firth:
+  Colin Firth:
 
-#       template: {name: Person, person: 5472}
+      template: {name: Person, person: 5472}
 
 #   Daniel Craig:
 
@@ -239,9 +235,8 @@ collections:
 
 #       template: {name: Person, person: 976}
 
-#   Jason Sudeikis:
-
-#       template: {name: Person, person: 58224}
+  Jason Sudeikis:
+      template: {name: Person, person: 58224}
 
 #   Jeffrey Dean Morgan:
 
@@ -251,17 +246,17 @@ collections:
 
 #       template: {name: Person, person: 4491}
 
-#   Jennifer Lopez:
+  Jennifer Lopez:
 
-#       template: {name: Person, person: 16866}
+      template: {name: Person, person: 16866}
 
-#   John Hughes:
+  John Hughes:
 
-#       template: {name: Person, person: 11505}
+      template: {name: Person, person: 11505}
 
-#   John Waters:
+  John Waters:
 
-#       template: {name: Person, person: 10367}
+      template: {name: Person, person: 10367}
 
 #   Jon Favreau:
 
@@ -275,13 +270,13 @@ collections:
 
 #       template: {name: Person, person: 85}
 
-#   Julia Roberts:
+  Julia Roberts:
 
-#       template: {name: Person, person: 1204}
+      template: {name: Person, person: 1204}
 
-#   Julie Andrews:
+  Julie Andrews:
 
-#       template: {name: Person, person: 5823}
+      template: {name: Person, person: 5823}
 
 #   Keanu Reeves:
 
@@ -299,9 +294,9 @@ collections:
 
 #       template: {name: Person, person: 4724}
 
-#   Kevin Smith:
+  Kevin Smith:
 
-#       template: {name: Person, person: 19303}
+      template: {name: Person, person: 19303}
 
 #   Leonardo DiCaprio:
 
@@ -335,17 +330,17 @@ collections:
 
 #       template: {name: Person, person: 1488236}
 
-#   Matt Damon:
-#       template: {name: Person, person: 1892}
+  Matt Damon:
+      template: {name: Person, person: 1892}
 
 #   Matthew McConaughey:
 #       template: {name: Person, person: 10297}
 
-#   Matthew Perry:
-#       template: {name: Person, person: 14408}
+  Matthew Perry:
+      template: {name: Person, person: 14408}
 
-#   Meg Ryan:
-#       template: {name: Person, person: 5344}
+  Meg Ryan:
+      template: {name: Person, person: 5344}
 
 #   Meryl Streep:
 #       template: {name: Person, person: 5064}
@@ -353,8 +348,8 @@ collections:
 #   Michael Douglas:
 #       template: {name: Person, person: 3392}
 
-#   Michael Fassbender:
-#       template: {name: Person, person: 17288}
+  Michael Fassbender:
+      template: {name: Person, person: 17288}
 
 #   Michael J. Fox:
 #       template: {name: Person, person: 521}
@@ -362,8 +357,8 @@ collections:
 #   Nicolas Cage:
 #       template: {name: Person, person: 2963}
 
-#   Orlando Bloom:
-#       template: {name: Person, person: 114}
+  Orlando Bloom:
+      template: {name: Person, person: 114}
 
 #   Orson Welles:
 #       template: {name: Person, person: 40}
@@ -380,8 +375,8 @@ collections:
 #   Ralph Fiennes:
 #       template: {name: Person, person: 5469}
 
-#   Rhys Darby:
-#       template: {name: Person, person: 82666}
+  Rhys Darby:
+      template: {name: Person, person: 82666}
 
 #   Rob Reiner:
 #       template: {name: Person, person: 3026}

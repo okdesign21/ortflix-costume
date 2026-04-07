@@ -25,6 +25,8 @@ venv/
 # Repository-specific generated files
 kometa/config/assets/
 kometa/config/overlays/
+plex_titles_report.txt
+Organizer_Report.txt
 
 # OS/editor
 .DS_Store

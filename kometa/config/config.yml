@@ -15,6 +15,9 @@ tmdb:
 tautulli:
   url: <<TAUTULLIURL>>
   apikey: <<TAUTULLIAPIKEY>>
+mdblist:
+  apikey: <<MDBLISTAPIKEY>>
+  cache_expiration: 60
 
 libraries:
   Films:
@@ -23,19 +26,48 @@ libraries:
     overlay_files:
       - default: resolution
         template_variables:
-          # Resolution badges use PNGs (mostly neutral). 
-          # Tint the backdrop + border so they read more like audio codec pops.
           back_color: "#0D47A1CC"
           back_line_color: "#FFD740"
           back_line_width: 4
+          use_4K: false
       - default: audio_codec
       - default: languages
         template_variables:
+          languages:
+            - he
+            - en
+            - ja
+            - fr
+            - es
+            - de
+            - pt
+            - it
+            - nl
+            - ru
+            - ar
+            - hu
+            - pl
+          weight_he: 600
+          weight_en: 590
+          weight_ja: 580
+          weight_fr: 570
+          weight_es: 560
+          weight_de: 550
+          weight_pt: 540
+          weight_it: 530
+          weight_nl: 520
+          weight_ru: 510
+          weight_ar: 500
+          weight_hu: 490
+          weight_pl: 480
           languages_horizontal_align: left
           languages_vertical_align: bottom
           languages_horizontal_offset: 15
           languages_vertical_offset: 15
       - default: mediastinger
+        template_variables:
+          append_filters:
+            label.not: Local
     collection_files:
       - file: config/stats.yml
       - default: tautulli
@@ -50,8 +82,8 @@ libraries:
           use_1001_movies: false
           use_edgarwright: false
           use_rogerebert: false
-          use_women_directors: true
-          use_animation: true
+          use_imdb_top_250: true
+          cache_builders: 7
       - default: imdb
         template_variables:
           use_popular: false
@@ -126,10 +158,23 @@ libraries:
             - Warner Animation Group
             - Warner Premiere
       - default: franchise
+        template_variables:
+          name_mapping_Star Trek: "Star Trek Complete"
+          remove_data: [9485, 748, 10]
       - default: universe
+        template_variables:
+          name_mapping_fast: "Fast & Furious Universe"
       - default: based
       - default: seasonal
       - default: resolution
+        template_variables:
+          use_other: false
+      - default: country
+        template_variables:
+          include:
+            - Israel
+          use_other: false
+          collection_section: "061"
       - file: config/israeli_holidays.yml
       # Curated bundles not built by default.
       - file: config/collections.yml
@@ -150,15 +195,46 @@ libraries:
           back_color: "#0D47A1CC"
           back_line_color: "#FFD740"
           back_line_width: 4
+          use_4K: false
       - default: audio_codec
       - default: languages
         template_variables:
+          languages:
+            - he
+            - en
+            - ja
+            - fr
+            - es
+            - de
+            - pt
+            - it
+            - nl
+            - ru
+            - ar
+            - hu
+            - pl
+          weight_he: 600
+          weight_en: 590
+          weight_ja: 580
+          weight_fr: 570
+          weight_es: 560
+          weight_de: 550
+          weight_pt: 540
+          weight_it: 530
+          weight_nl: 520
+          weight_ru: 510
+          weight_ar: 500
+          weight_hu: 490
+          weight_pl: 480
           languages_horizontal_align: left
           languages_vertical_align: bottom
           languages_horizontal_offset: 15
           languages_vertical_offset: 15
       - default: mediastinger
-      - file: config/tv_status_ribbons.yml
+        template_variables:
+          append_filters:
+            label.not: Local
+      # - file: config/tv_status_ribbons.yml
     collection_files:
       - default: tautulli
         template_variables:
@@ -167,7 +243,7 @@ libraries:
           list_minimum: 0
           collection_section: "00"
       - file: config/shows.yml
-      - default: audio_language
+      - default: audio_language3
         template_variables:
           use_other: false
           use_separator: true
@@ -191,6 +267,7 @@ libraries:
           append_addons: 
             253: [223530]
           remove_data: [951, 1399, 4629, 6357, 10222, 31917, 54650, 73586, 79744, 80748, 46296, 108978, 60585, 3476, 61511, 41956]
+          name_mapping_Star Trek: "Star Trek TV"
       - default: based
 
     operations:
@@ -246,7 +323,7 @@ settings:
   show_unfiltered: false
   show_options: true
   save_report: true
-  ignore_ids: 1567451
+  ignore_ids: 1567451, 712168, 1016041, 753972, 1663155, 1641521
   item_refresh_delay: 0
   playlist_sync_to_users:
   playlist_exclude_users:

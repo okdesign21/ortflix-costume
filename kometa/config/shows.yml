@@ -21,6 +21,12 @@ collections:
         genre: Musical
     sync_mode: sync
 
+  # My Lists:
+  #   blank_collection: true
+  #   collection_mode: hide
+  #   sort_title: "!091_!My Lists"
+  #   url_poster: https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/defaults/separators/orig/separator.png
+
   This is what i'll talk about:
     plex_search:
       any:
@@ -28,5 +34,5 @@ collections:
           - "Our Flag Means Death"
           - "Interview with the Vampire"
           - "Heated Rivalry"
-    sort_title: "+0_This is what i'll talk about"
+    sort_title: "!091_This is what i'll talk about"
     sync_mode: sync
