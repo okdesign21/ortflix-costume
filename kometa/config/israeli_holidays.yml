@@ -1,4 +1,5 @@
 # Israeli / Jewish seasonal movie collections (Films library).
+# sort_title !001_* matches default: seasonal collection_section "001" so holidays and seasonal stay grouped at the top.
 #
 # Schedule windows are maintained by scripts/update_jewish_dates.py, which
 # fetches each holiday's Gregorian anchor date via the HebCal API and rewrites
@@ -12,7 +13,7 @@
 templates:
   IsraeliHoliday:
     smart_label: title.asc
-    sort_title: "!00_<<collection_name>>"
+    sort_title: "!001_<<collection_name>>"
     schedule: range(<<start_date>>-<<end_date>>)
     delete_not_scheduled: true
     sync_mode: sync

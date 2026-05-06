@@ -27,8 +27,6 @@ import os
 import sys
 from typing import Optional
 
-import requests
-
 from radarr_utils import (
     _env,
     fail,
@@ -42,6 +40,8 @@ from radarr_utils import (
     ensure_tag,
     add_tags_to_movie,
 )
+
+import requests
 
 
 # ── Overseerr helpers ─────────────────────────────────────────────────────────

@@ -1,0 +1,85 @@
+############################################################
+# Animation / Disney — Plex-only add-ons                     #
+#                                                            #
+# Not in config.yml by default. To enable:                   #
+#   - file: config/animation_disney.yml                     #
+#                                                            #
+# Only collections that Kometa movie default: franchise     #
+# does not emit (checked vs run log franchise keys; also     #
+# franchise.yml addon/template TMDb IDs). After a Kometa     #
+# upgrade, re-check for new overlaps.                         #
+#                                                            #
+# Omitted on purpose:                                        #
+# - default: studio (plain studio buckets)                   #
+# - TMDb franchise collections (see default: franchise)      #
+############################################################
+
+templates:
+  Mouse_House_Collection:
+    plex_search:
+      all:
+        title: <<txt>>
+      any:
+        studio:
+          - Disney
+          - Pixar
+      sort_by: release.asc
+      validate: false
+    name_mapping: <<coll>> Collection
+    collection_order: custom
+    sync_mode: sync
+
+  Animation_Title_Collection:
+    default:
+      studios:
+        - DreamWorks Animation
+        - Blue Sky Studios
+        - Illumination
+        - Illumination Entertainment
+        - Sony Pictures Animation
+        - Aardman Animations
+        - Aardman
+        - LAIKA
+        - Laika
+        - Studio Ghibli
+    plex_search:
+      all:
+        title: <<txt>>
+        any:
+          studio: <<studios>>
+      validate: false
+    name_mapping: <<txt>> Collection
+    sync_mode: sync
+
+collections:
+  # Sony / DreamWorks-style rows (title + animation studios)
+  Happy Feet:
+    template: {name: Animation_Title_Collection, txt: Happy Feet}
+
+  Hotel Transylvania:
+    template: {name: Animation_Title_Collection, txt: Hotel Transylvania}
+
+  Kung Fu Panda:
+    template: {name: Animation_Title_Collection, txt: Kung Fu Panda}
+
+  Open Season:
+    template: {name: Animation_Title_Collection, txt: Open Season}
+
+  # Disney / Pixar — title search with Mouse House studio filter
+  Goofy:
+    template: {name: Mouse_House_Collection, txt: Goofy, coll: Goofy}
+
+  Pete's Dragon:
+    template: {name: Mouse_House_Collection, txt: Pete's Dragon, coll: Pete's Dragon}
+
+  Snow White:
+    template: {name: Mouse_House_Collection, txt: Snow White, coll: Snow White}
+
+  The Princess and the Frog:
+    template: {name: Mouse_House_Collection, txt: The Princess and the Frog, coll: The Princess and the Frog}
+
+  Winnie the Pooh:
+    template: {name: Mouse_House_Collection, txt: Pooh, coll: Winnie the Pooh}
+
+# Previous “studio mirror” and full title-franchise list — see git history
+# (ortflix-costume) if you need DreamWorks/Disney rows that duplicate franchise.

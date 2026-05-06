@@ -29,6 +29,7 @@ libraries:
           back_color: "#0D47A1CC"
           back_line_color: "#FFD740"
           back_line_width: 4
+          # TRaSH-style 4K overlay variants need 2160|4k in paths/metadata; suppress empty matches.
           use_4K: false
       - default: audio_codec
       - default: languages
@@ -69,13 +70,17 @@ libraries:
           append_filters:
             label.not: Local
     collection_files:
-      - file: config/stats.yml
       - default: tautulli
         template_variables:
           list_size: 10
           list_days: 30
           list_minimum: 0
           collection_section: "00"
+      # Seasonal + Jewish holiday collections share !001_* so they stay grouped at the top (when scheduled).
+      - default: seasonal
+        template_variables:
+          collection_section: "001"
+      - file: config/israeli_holidays.yml
       - default: separator_chart
       - default: letterboxd
         template_variables:
@@ -84,30 +89,40 @@ libraries:
           use_rogerebert: false
           use_imdb_top_250: true
           cache_builders: 7
+          use_million: false
+          use_black_directors: false
+          use_horror: false
+          use_international: false
+          use_most_fans: false
       - default: imdb
         template_variables:
           use_popular: false
           use_lowest: false
           use_top: false
-      - default: separator_award
-      - default: oscars
+      - default: resolution
         template_variables:
-          use_year_collections: false
-      - default: golden
+          use_other: false
+          collection_section: "021"
+      - default: country
         template_variables:
-          use_year_collections: false
-      - default: razzie
-        template_variables:
-          use_year_collections: false
+          include:
+            - Israel
+            - Japan
+            - South Korea
+          use_other: false
+          collection_section: "022"
       - default: audio_language
         template_variables:
           use_other: false
           use_separator: true
           sort_by: title.asc
+          collection_section: "023"
+      - file: config/commentary.yml
       # Studio merges: fold duplicate *labels* into one collection.
-      # Do not merge animation houses.
       - default: studio
         template_variables:
+          minimum_items: 3
+          collection_section: "024"
           append_addons:
             ABC Studios:
               - ABC Signature
@@ -125,11 +140,13 @@ libraries:
               - Touchstone Television
             Universal Pictures:
               - Universal Television
-            Walt Disney Animation Studios:
-              - Disney Television Animation
-              - DisneyToon Studios
             Walt Disney Pictures:
               - Walt Disney Productions
+              - Walt Disney Animation Studios
+              - Disney Television Animation
+              - DisneyToon Studios
+              - Disney
+              - Disneynature
             Warner Bros. Pictures:
               - Warner Premiere
             "20th Century Studios":
@@ -155,32 +172,66 @@ libraries:
             - Universal Animation Studios
             - Universal Television
             - Walt Disney Productions
+            - Walt Disney Animation Studios
             - Warner Animation Group
             - Warner Premiere
-      - default: franchise
+      - default: separator_award
         template_variables:
-          name_mapping_Star Trek: "Star Trek Complete"
-          remove_data: [9485, 748, 10]
+          collection_section: "026"
+      - default: oscars
+        template_variables:
+          use_year_collections: false
+          use_best_director: false
+          collection_section: "026"
+      - default: golden
+        template_variables:
+          use_year_collections: false
+          use_best_director: false
+          collection_section: "026"
+      - default: razzie
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: bafta
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: cannes
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: venice
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: tiff
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: sundance
+        template_variables:
+          use_year_collections: false
+          collection_section: "026"
+      - default: based
+        template_variables:
+          collection_section: "027"
+      - file: config/stats.yml
       - default: universe
         template_variables:
+          collection_section: "029"
           name_mapping_fast: "Fast & Furious Universe"
-      - default: based
-      - default: seasonal
-      - default: resolution
-        template_variables:
-          use_other: false
-      - default: country
-        template_variables:
-          include:
-            - Israel
-          use_other: false
-          collection_section: "061"
-      - file: config/israeli_holidays.yml
-      # Curated bundles not built by default.
-      - file: config/collections.yml
-      - file: config/People.yml
       - file: config/IMDBGenres.yml
         schedule: weekly(sunday)
+      - default: franchise
+        template_variables:
+          collection_section: "031"
+          name_mapping_Star Trek: "Star Trek Complete"
+          name_mapping_137696: "Monsters, Inc. (Pixar)"
+          # X-Men, The Fast and the Furious, Star Wars (Skywalker — use universe)
+          # 1664903/1666066/1666384: TMDb removed these collection IDs (404 as of 2026-05)
+          exclude: [748, 9485, 10, 1664903, 1666066, 1666384]
+      - file: config/collections.yml
+      - file: config/People.yml
 
     operations:
       assets_for_all: true
@@ -234,7 +285,7 @@ libraries:
         template_variables:
           append_filters:
             label.not: Local
-      # - file: config/tv_status_ribbons.yml
+      - file: config/tv_status_ribbons.yml
     collection_files:
       - default: tautulli
         template_variables:
@@ -243,7 +294,7 @@ libraries:
           list_minimum: 0
           collection_section: "00"
       - file: config/shows.yml
-      - default: audio_language3
+      - default: audio_language
         template_variables:
           use_other: false
           use_separator: true
@@ -323,7 +374,7 @@ settings:
   show_unfiltered: false
   show_options: true
   save_report: true
-  ignore_ids: 1567451, 712168, 1016041, 753972, 1663155, 1641521
+  ignore_ids: 1567451, 712168, 1016041, 753972, 1663155, 1641521, 1663534
   item_refresh_delay: 0
   playlist_sync_to_users:
   playlist_exclude_users:

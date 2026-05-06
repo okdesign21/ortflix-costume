@@ -1,13 +1,17 @@
-# TV Show status ribbons — diagonal corner badge, top-right of poster.
+# TV Show status ribbons — diagonal corner badge, bottom-right of poster.
+#
+# Filters use Kometa 2.3+ semantics: `tmdb_status` (not deprecated `status`).
+# "Airing" matches default: status: episode_air_date within 14 days (TMDb has no `airing` status).
+# Shared overlay `group` + `weight` (40/30/20/10) so only one ribbon applies when multiple match.
 #
 # Requires 4 PNG ribbon files in config/overlays/Status/:
 #   returning.png  — blue  (#0D47A1) — "RETURNING"
 #   airing.png     — green (#1B5E20) — "AIRING"
 #   canceled.png   — red   (#B71C1C) — "CANCELED"
-#   ended.png      — grey  (#424242) — "ENDED"  (optional, see below)
+#   ended.png      — grey  (#424242) — "ENDED"
 #
 # Ribbon PNG specs: 220x220px, transparent background, diagonal band
-# across the top-right corner.  Text at ~28px bold white, rotated 45°.
+# across the bottom-right corner.  Text at ~28px bold white, rotated −45° (or mirror of top-ribbon layout).
 # Use the colours above to match the existing status overlay theme.
 #
 # Search: "Kometa ribbon overlay PNG template" or make in Canva / Photoshop.
@@ -20,48 +24,54 @@ overlays:
       name: "Status - Returning"
       file: config/overlays/Status/returning.png
       horizontal_align: right
-      vertical_align: top
+      vertical_align: bottom
       horizontal_offset: 0
       vertical_offset: 0
+      group: tv_show_status
+      weight: 30
     plex_all: true
     filters:
-      status: returning
+      tmdb_status: returning
 
   "Status - Airing":
     overlay:
       name: "Status - Airing"
       file: config/overlays/Status/airing.png
       horizontal_align: right
-      vertical_align: top
+      vertical_align: bottom
       horizontal_offset: 0
       vertical_offset: 0
-    plex_all: true
-    filters:
-      status: airing
+      group: tv_show_status
+      weight: 40
+    plex_search:
+      any:
+        # Same window as default: status → template variable `last` (14 days).
+        episode_air_date: 14
 
   "Status - Canceled":
     overlay:
       name: "Status - Canceled"
       file: config/overlays/Status/canceled.png
       horizontal_align: right
-      vertical_align: top
+      vertical_align: bottom
       horizontal_offset: 0
       vertical_offset: 0
+      group: tv_show_status
+      weight: 20
     plex_all: true
     filters:
-      status: canceled
+      tmdb_status: canceled
 
-  # "Ended" ribbon is optional — uncomment if you want it.
-  # Many people prefer not to badge every completed show.
-  #
-  # "Status - Ended":
-  #   overlay:
-  #     name: "Status - Ended"
-  #     file: config/overlays/Status/ended.png
-  #     horizontal_align: right
-  #     vertical_align: top
-  #     horizontal_offset: 0
-  #     vertical_offset: 0
-  #   plex_all: true
-  #   filters:
-  #     status: ended
+  "Status - Ended":
+    overlay:
+      name: "Status - Ended"
+      file: config/overlays/Status/ended.png
+      horizontal_align: right
+      vertical_align: bottom
+      horizontal_offset: 0
+      vertical_offset: 0
+      group: tv_show_status
+      weight: 10
+    plex_all: true
+    filters:
+      tmdb_status: ended

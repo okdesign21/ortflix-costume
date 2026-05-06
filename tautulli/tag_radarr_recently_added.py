@@ -40,7 +40,6 @@ from tautulli_utils import (
 
 import requests
 
-
 # ====== Overseerr logic ======
 def requester_tag(user: Optional[dict]) -> str:
     """Format the requester tag from user object, with email fallback for invalid usernames."""

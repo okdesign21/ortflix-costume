@@ -13,7 +13,7 @@
 #   -t  Tautulli: tautulli *.py + requirements.txt → /opt/tautulli/scripts
 #   -r  Radarr: radarr *.py + requirements.txt → /opt/radarr/scripts
 #   -kl Pull Kometa logs/reports from host → current directory (download only)
-#   If none of -k -a -o -t -r are given, all five run (excludes -kl).
+#   If none of -k -a -o -t -r -kl are given, all five run (excludes -kl).
 #
 # Optional:
 #   ORTFLIX_RSYNC_DELETE=1 — rsync --delete (Kometa YAML + assets + overlays; use with care)
@@ -91,7 +91,7 @@ Commands:
   sync-dry    Same as sync with --dry-run
   rsync       Alias for sync
   dry-run     Alias for sync-dry
-  ansible     ansible-playbook --tags kometa-sync,tautulli-sync (optional)
+  ansible     ansible-playbook --tags kometa-sync,tautulli-sync,radarr-sync (optional)
 
 sync / sync-dry flags (default if none: -k -a -o -t -r):
   -k          Kometa config (*.yml, *.yaml only)
@@ -355,7 +355,7 @@ cmd_ansible() {
   [[ -f "$ap/deploy.yml" ]] || die "Ansible playbook not found: $ap/deploy.yml (set ORTFLIX_ANSIBLE)"
   local inv="${ANSIBLE_INVENTORY:-$ap/inventory.yml}"
   [[ -f "$inv" ]] || die "Inventory not found: $inv (set ANSIBLE_INVENTORY or create from inventory.example.yml)"
-  local -a cmd=(ansible-playbook -i "$inv" "$ap/deploy.yml" --tags kometa-sync,tautulli-sync)
+  local -a cmd=(ansible-playbook -i "$inv" "$ap/deploy.yml" --tags kometa-sync,tautulli-sync,radarr-sync)
   cmd+=(-e costume_repo_source=local)
   cmd+=(-e "costume_repo_path=$COSTUME_ROOT")
   [[ -n "${ANSIBLE_SECRETS_FILE:-}" ]] && cmd+=(-e "@$ANSIBLE_SECRETS_FILE")

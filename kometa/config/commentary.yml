@@ -1,0 +1,7 @@
+# Last in audio block: sort after !023_<Language> Audio (use z-prefix; ~ can sort oddly in Plex).
+collections:
+  Movies with Commentary:
+    plex_all: true
+    filters:
+      audio_track_title: Commentary
+    sort_title: "!023_z_Movies with Commentary"

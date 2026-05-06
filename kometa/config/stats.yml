@@ -1,18 +1,12 @@
 collections:
-  Movies with Commentary:
-    plex_all: true
-    filters:
-      audio_track_title: Commentary
-    sort_title: "!090_Movies with Commentary" #audio language section
-
   My Lists:
     blank_collection: true
     collection_mode: hide
-    sort_title: "!091_!My Lists"
+    sort_title: "!0280_!My Lists"
     url_poster: https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/defaults/separators/orig/separator.png
 
   Unwatched Musicals:
-    sort_title: "!091_Unwatched Musicals"
+    sort_title: "!0280_Unwatched Musicals"
     smart_filter:
       all:
         unplayed: true
@@ -20,7 +14,7 @@ collections:
           genre: [Music, Musical]
 
   Fisheye Movies of the Year:
-    sort_title: "!091_Fisheye Movies of the Year"
+    sort_title: "!0280_Fisheye Movies of the Year"
     letterboxd_list_details:
       url: https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
     summary: Top 10 movies of the year according to fisheye community, for each year.
@@ -28,7 +22,7 @@ collections:
     cache_builders: 1
 
   Fisheye Best Performances:
-    sort_title: "!091_Fisheye Best Performances"
+    sort_title: "!0280_Fisheye Best Performances"
     letterboxd_list: >-
       https://letterboxd.com/okdesign/list/top-10-movies-of-the-year-according-to-fisheye/
     summary: Best performances according to fisheye community
@@ -36,7 +30,7 @@ collections:
     cache_builders: 1
 
   List of Lists:
-    sort_title: "!091_List of Lists"
+    sort_title: "!0280_List of Lists"
     letterboxd_list:
       - https://letterboxd.com/okdesign/list/most-popular-not-horror-movies-from-each/
       - https://letterboxd.com/okdesign/list/ors-birth-year-challange-1991/
@@ -51,7 +45,7 @@ collections:
       plays: 0
 
   LSC:
-    sort_title: "!091_LSC"
+    sort_title: "!0280_LSC"
     letterboxd_list:
       - https://letterboxd.com/okdesign/list/ors-8th-annual-letterboxd-season-challenge/
       - https://letterboxd.com/okdesign/list/ors-7th-annual-letterboxd-season-challenge/

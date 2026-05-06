@@ -18,6 +18,12 @@ Set ``TMDB_API_KEY`` (v3 key) in your environment or ``.env`` file::
 
     TMDB_API_KEY=your_key_here
 
+Optional: ``ASSET_RESOLVER_TV_OMIT_YEAR=1`` — for matches resolved via the **TV**
+search path only, use ``Official Name`` (plus optional `` - Season N`` suffix)
+without appending ``(year)``, so new folders align with typical Plex show titles.
+Leave unset (default) to keep ``Show (YYYY)`` behaviour; ambiguous reboots
+(e.g. multiple ``Doctor Who``) may still need ``exception_mappings.json`` entries.
+
 If the env var is absent the resolver is disabled and normalize_name falls
 back to the existing rules (no breakage, no network calls).
 """
@@ -30,8 +36,9 @@ import re
 import time
 import urllib.parse
 import urllib.request
+import os
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -166,8 +173,11 @@ class TmdbResolver:
                 return res_title
         return None
 
-    def _search(self, title: str, year: Optional[int]) -> Optional[str]:
-        """Query TMDb (movie then TV) and return the official title, or None."""
+    def _search(self, title: str, year: Optional[int]) -> Tuple[Optional[str], Optional[str]]:
+        """Query TMDb (movie then TV). Returns ``(official_title, kind)`` or ``(None, None)``.
+
+        *kind* is ``\"movie\"`` or ``\"tv\"`` so callers can format folder names differently.
+        """
         # Movie search
         params: dict = {"query": title, "include_adult": "false"}
         if year:
@@ -175,14 +185,17 @@ class TmdbResolver:
         results = self._fetch("search/movie", params)
         found = self._best_title(results, "title", "release_date", year)
         if found:
-            return found
+            return found, "movie"
 
         # TV search
         params2: dict = {"query": title}
         if year:
             params2["first_air_date_year"] = year
         results2 = self._fetch("search/tv", params2)
-        return self._best_title(results2, "name", "first_air_date", year)
+        found2 = self._best_title(results2, "name", "first_air_date", year)
+        if found2:
+            return found2, "tv"
+        return None, None
 
     # ------------------------------------------------------------------
     # Public API
@@ -227,10 +240,19 @@ class TmdbResolver:
         year = int(m.group(2))
 
         # 4. Query TMDb
-        official = self._search(raw_title, year)
+        official, media_kind = self._search(raw_title, year)
 
         if official:
-            canonical = f"{official} ({year}){season_suffix}"
+            # TV: Plex titles usually omit first-air year; movies keep ``Title (year)`` for disambiguation.
+            # Opt-in with ASSET_RESOLVER_TV_OMIT_YEAR=1 — default keeps legacy ``Show (YYYY)`` folders.
+            tv_plain = (
+                media_kind == "tv"
+                and os.getenv("ASSET_RESOLVER_TV_OMIT_YEAR", "").strip().lower() in ("1", "true", "yes")
+            )
+            if tv_plain:
+                canonical = f"{official}{season_suffix}"
+            else:
+                canonical = f"{official} ({year}){season_suffix}"
         else:
             canonical = None
 

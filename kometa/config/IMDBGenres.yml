@@ -1,11 +1,32 @@
 ######################################################
 #                Genre Collections                   #
 ######################################################
-# IMDb Genre template – all three variables are overrideable per collection:
-#   release_gte  default 1990-01-01  (push back for classic-era genres)
-#   votes_gte    default 100000      (lower for older films with fewer ratings)
-#   item_type    default movie        (set to documentary for Documentary)
+# sort_title !0281_* sorts after custom lists (!0280_* in stats.yml).
+#
+# Primary: TMDb Discover (with_genres) — see https://kometa.wiki/en/latest/files/builders/tmdb/discover/movie/
+#   release_gte       MM/DD/YYYY → primary_release_date.gte
+#   vote_count_gte    TMDb vote count floor (not comparable to IMDb vote totals)
+#   vote_average_gte  TMDb average rating floor
+#   tmdb_genre_id     one id, or comma-separated AND (e.g. 35,10749 for Rom-Com)
+#
+# Legacy IMDb template: Sport (no TMDb genre), Film Noir, Biography — still imdb_search.
 templates:
+  TMDb Genre:
+    default:
+      limit: 100
+      release_gte: "01/01/1990"
+      vote_count_gte: 1200
+      vote_average_gte: 6.0
+    tmdb_discover:
+      with_genres: <<tmdb_genre_id>>
+      primary_release_date.gte: <<release_gte>>
+      vote_count.gte: <<vote_count_gte>>
+      vote_average.gte: <<vote_average_gte>>
+      sort_by: vote_average.desc
+      limit: <<limit>>
+    sort_title: "!0281_<<collection_name>>"
+    sync_mode: sync
+    smart_label: random
   IMDb Genre:
     default:
       limit: 100
@@ -14,16 +35,16 @@ templates:
       item_type: movie
     imdb_search:
       type: <<item_type>>
-      release.gte: <<release_gte>>
+      release.after: <<release_gte>>
       rating.gte: 5.0
       votes.gte: <<votes_gte>>
       genre: <<genre>>
       limit: <<limit>>
-    sort_title: "!092_<<collection_name>>"
+    sort_title: "!0281_<<collection_name>>"
     sync_mode: sync
     smart_label: random
   Other Genre:
-    sort_title: "!092_<<collection_name>>"
+    sort_title: "!0281_<<collection_name>>"
     sync_mode: sync
     smart_label: random
 
@@ -31,84 +52,80 @@ collections:
   Genre Collections:
     blank_collection: true
     collection_mode: hide
-    sort_title: "!092_!Genre Collections"
-    url_poster: https://raw.githubusercontent.com/Kometa-Team/Kometa/nightly/defaults/separators/orig/separator.png
+    sort_title: "!0281_!Genre Collections"
 
-  # ── Standard IMDb genre searches ──────────────────────────────────────────
+  # ── TMDb discover by genre (with_genres) ──────────────────────────────────
   Action:
-    template: {name: IMDb Genre, genre: action}
+    template: {name: TMDb Genre, tmdb_genre_id: 28}
     summary: Action film is a genre wherein physical action takes precedence in the storytelling. The film will often have continuous motion and action including physical stunts, chases, fights, battles, and races. The story usually revolves around a hero that has a goal, but is facing incredible odds to obtain it.
 
   Adventure:
-    template: {name: IMDb Genre, genre: adventure}
+    template: {name: TMDb Genre, tmdb_genre_id: 12}
     summary: Adventure film is a genre that revolves around the conquests and explorations of a protagonist. The purpose of the conquest can be to retrieve a person or treasure, but often the main focus is simply the pursuit of the unknown. These films generally take place in exotic locations and play on historical myths.
 
   # Animation: extends back to 1937 (first Disney feature) with a lower vote threshold
   # so classics like Snow White, Fantasia, and Bambi are included.
   Animation:
-    template: {name: IMDb Genre, genre: animation, release_gte: "1937-01-01", votes_gte: 5000}
+    template: {name: TMDb Genre, tmdb_genre_id: 16, release_gte: "01/01/1937", vote_count_gte: 400}
     summary: Animated film is a collection of illustrations that are photographed frame-by-frame and then played in a quick succession. Since its inception, animation has had a creative and imaginative tendency. Being able to bring animals and objects to life, this genre has catered towards fairy tales and children's stories. However, animation has long been a genre enjoyed by all ages.
 
   Comedy:
-    template: {name: IMDb Genre, genre: comedy}
+    template: {name: TMDb Genre, tmdb_genre_id: 35}
     summary: Comedy is a genre of film that uses humor as a driving force. The aim of a comedy film is to illicit laughter from the audience through entertaining stories and characters. Although the comedy film may take on some serious material, most have a happy ending.
 
   Crime:
-    template: {name: IMDb Genre, genre: crime}
+    template: {name: TMDb Genre, tmdb_genre_id: 80}
     summary: Crime film is a genre that revolves around the action of a criminal mastermind. A Crime film will often revolve around the criminal himself, chronicling his rise and fall. Some Crime films will have a storyline that follows the criminal's victim, yet others follow the person in pursuit of the criminal.
 
-  # Documentary: uses item_type: documentary so IMDb filters by doc type (not feature).
-  # No year floor – important documentaries span every decade.
+  # Documentary: type must be movie; genre: documentary scopes IMDb results (type: documentary is invalid in Kometa).
   Documentary:
-    template: {name: IMDb Genre, genre: documentary, item_type: documentary, release_gte: "1900-01-01", votes_gte: 10000}
+    template: {name: TMDb Genre, tmdb_genre_id: 99, release_gte: "01/01/1900", vote_count_gte: 600, vote_average_gte: 5.5}
     summary: Documentary film is a non-fiction genre intended to document reality primarily for the purposes of instruction, education, or maintaining a historical record.
 
   Drama:
-    template: {name: IMDb Genre, genre: drama}
+    template: {name: TMDb Genre, tmdb_genre_id: 18}
     summary: Drama film is a genre that relies on the emotional and relational development of realistic characters. While Drama film relies heavily on this kind of development, dramatic themes play a large role in the plot as well. Often, these dramatic themes are taken from intense, real life issues.
 
   # Family: extends back to 1950 to include golden-age classics (Mary Poppins, Sound of Music, etc.)
   Family:
-    template: {name: IMDb Genre, genre: family, release_gte: "1950-01-01", votes_gte: 5000}
+    template: {name: TMDb Genre, tmdb_genre_id: 10751, release_gte: "01/01/1950", vote_count_gte: 400}
     summary: Family film is a genre that contains appropriate content for younger viewers. Family film aims to appeal not only to children, but to a wide range of ages. While the storyline may appeal to a younger audience, there are components of the film that are geared towards adults, such as witty jokes and humor.
 
   Fantasy:
-    template: {name: IMDb Genre, genre: fantasy}
+    template: {name: TMDb Genre, tmdb_genre_id: 14}
     summary: Fantasy film is a genre that incorporates imaginative and fantastic themes. These themes usually involve magic, supernatural events, or fantasy worlds. Although it is its own distinct genre, these films can overlap into the horror and science fiction genres.
 
   # History: extends back to 1940 to capture WWII-era epics and classic historical dramas.
   History:
-    template: {name: IMDb Genre, genre: history, release_gte: "1940-01-01", votes_gte: 5000, limit: 200}
+    template: {name: TMDb Genre, tmdb_genre_id: 36, release_gte: "01/01/1940", vote_count_gte: 400, limit: 200}
     summary: History film is a genre that takes historical events and people and interprets them in a larger scale. The drama of a History film is often accentuated by a sweeping musical score, lavish costumes, and high production value.
 
   Horror:
-    template: {name: IMDb Genre, genre: horror}
+    template: {name: TMDb Genre, tmdb_genre_id: 27}
     summary: Horror film is a genre that aims to create a sense of fear, panic, alarm, and dread for the audience. These films are often unsettling and rely on scaring the audience through a portrayal of their worst fears and nightmares.
 
   Music:
-    template: {name: IMDb Genre, genre: music, limit: 200}
+    template: {name: TMDb Genre, tmdb_genre_id: 10402, limit: 200}
     summary: Music film is a genre that revolves around music being an integral part of the characters' lives.
 
   # Musical: extends back to 1940 to include golden-age Hollywood musicals (Singin' in the Rain,
   # The Wizard of Oz, Guys and Dolls, etc.)
   Musical:
-    template: {name: IMDb Genre, genre: musical, limit: 200, release_gte: "1940-01-01", votes_gte: 5000}
+    template: {name: TMDb Genre, tmdb_genre_id: 10402, limit: 200, release_gte: "01/01/1940", vote_count_gte: 400}
     name_mapping: Musicals
     summary: A Musical interweaves vocal and dance performances into the narrative of the film. Traditional musicals center on a well-known star, famous for their dancing or singing skills (e.g. Fred Astaire, Gene Kelly, Judy Garland).
 
   Mystery:
-    template: {name: IMDb Genre, genre: mystery}
+    template: {name: TMDb Genre, tmdb_genre_id: 9648}
     summary: A Mystery film centers on a person of authority, usually a detective, that is trying to solve a mysterious crime. The main protagonist uses clues, investigation, and logical reasoning.
 
   Romance:
-    template: {name: IMDb Genre, genre: romance, limit: 200}
+    template: {name: TMDb Genre, tmdb_genre_id: 10749, limit: 200}
     summary: Romance film can be defined as a genre wherein the plot revolves around the love between two protagonists. This genre usually has a theme that explores an issue within love, including love at first sight, forbidden love, love triangles, and sacrificial love.
 
   Romantic Comedy:
-    template: {name: IMDb Genre, genre: "romance,comedy", limit: 200}
+    template: {name: TMDb Genre, tmdb_genre_id: "35,10749", limit: 200}
     name_mapping: Rom-Com
-    filters:
-      genre: Comedy
     summary: Romantic Comedy is a genre that attempts to catch the viewer's heart with the combination of love and humor. This sub-genre is light-hearted and usually places the two protagonists in humorous situations.
 
   # Romantic Drama:
@@ -118,7 +135,7 @@ collections:
   #   summary: Romantic Drama film is a genre that explores the complex side of love. The plot usually centers around an obstacle that is preventing love between two people.
 
   Sci-Fi:
-    template: {name: IMDb Genre, genre: sci-fi}
+    template: {name: TMDb Genre, tmdb_genre_id: 878}
     name_mapping: Science Fiction
     summary: Science Fiction (Sci-Fi) film is a genre that incorporates hypothetical, science-based themes into the plot of the film. Often, this genre incorporates futuristic elements and technologies to explore social, political, and philosophical issues.
 
@@ -127,19 +144,19 @@ collections:
     summary: A Sport Film revolves around a sport setting, event, or an athlete. Often, these films will center on a single sporting event that carries significant importance.
 
   Thriller:
-    template: {name: IMDb Genre, genre: thriller}
+    template: {name: TMDb Genre, tmdb_genre_id: 53}
     summary: Thriller Film is a genre that revolves around anticipation and suspense. The aim for Thrillers is to keep the audience alert and on the edge of their seats. The protagonist in these films is set against a problem – an escape, a mission, or a mystery.
 
   # War: extends back to 1939 (WWII start) so classics like Casablanca, The Bridge on the
   # River Kwai, and Schindler's List (1993) all appear. Lower vote threshold for older films.
   War:
-    template: {name: IMDb Genre, genre: war, limit: 200, release_gte: "1939-01-01", votes_gte: 5000}
+    template: {name: TMDb Genre, tmdb_genre_id: 10752, limit: 200, release_gte: "01/01/1939", vote_count_gte: 400}
     summary: War Film is a genre that looks at the reality of war on a grand scale. They often focus on landmark battles as well as political issues within war. This genre usually focuses on a main character and his team of support, giving the audience an inside look into the gritty reality of war.
 
   # Western: extends back to 1939 (Stagecoach, 1939) to include John Wayne, Gary Cooper,
   # and Clint Eastwood classics that define the genre.
   Western:
-    template: {name: IMDb Genre, genre: western, limit: 200, release_gte: "1939-01-01", votes_gte: 5000}
+    template: {name: TMDb Genre, tmdb_genre_id: 37, limit: 200, release_gte: "01/01/1939", vote_count_gte: 400}
     summary: Western Film is a genre that revolves around stories primarily set in the late 19th century in the American Old West. Common themes include the conquest of the wild west, outlaws, gunfights, and frontier justice.
 
   # ── Custom / keyword / list-based collections ─────────────────────────────
@@ -243,7 +260,7 @@ collections:
     summary: Survival and spectacle around large-scale catastrophes.
 
   Dramedy:
-    template: {name: IMDb Genre, genre: "comedy,drama", limit: 200}
+    template: {name: TMDb Genre, tmdb_genre_id: "35,18", limit: 200}
     summary: Films that blend comedic and dramatic tones in roughly equal measure.
 
   # Easter:

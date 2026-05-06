@@ -3,10 +3,50 @@
 # Shared utilities for Tautulli scripts.
 # Provides common helpers for Radarr, Sonarr, Overseerr, and Discord integrations.
 
+from __future__ import annotations
+
 import os
+import subprocess
 import sys
 from typing import Optional
 
+
+def _ensure_pydeps() -> None:
+    """Install third-party wheels into /config/.pydeps on first import (no image/init hooks)."""
+    packages = ("requests",)
+    target = os.environ.get("PY_DEPS_TARGET", "/config/.pydeps")
+    if target not in sys.path:
+        sys.path.insert(0, target)
+    try:
+        import requests  # noqa: F401
+        return
+    except ImportError:
+        pass
+    os.makedirs(target, mode=0o755, exist_ok=True)
+    try:
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "--no-cache-dir",
+                "--target",
+                target,
+                *packages,
+            ],
+            check=True,
+            timeout=600,
+        )
+    except (subprocess.CalledProcessError, OSError, subprocess.TimeoutExpired) as e:
+        print(
+            f"[ERROR] pip install {packages} -> {target} failed: {e}",
+            file=sys.stderr,
+        )
+        sys.exit(127)
+
+
+_ensure_pydeps()
 import requests
 
 

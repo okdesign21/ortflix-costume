@@ -1,4 +1,4 @@
-# Custom Plex collections that Kometa defaults do not create
+# Custom Plex collections — sort !031_* with default: franchise (Films library).
 
 collections:
   Disney Live-Action Remakes:
@@ -34,6 +34,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Disney live-action remakes and companion films.
+    sort_title: "!031_Disney Live-Action Remakes"
 
   # Spider-Man (MCU):
   #   plex_search:
@@ -56,6 +57,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Tobey Maguire Spider-Man Movies.
+    sort_title: "!031_Spider-Man (Tobey)"
 
   Spider-Man (Andrew):
     plex_search:
@@ -67,6 +69,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Andrew Garfield, aka the best Spider-Man, Spider-Man movies.
+    sort_title: "!031_Spider-Man (Andrew)"
 
   Pixar Shorts:
     plex_all: true
@@ -77,6 +80,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Pixar shorts (≤15 min) from Pixar Animation Studios.
+    sort_title: "!031_Pixar Shorts"
 
   A Star Is Born:
     plex_search:
@@ -85,6 +89,7 @@ collections:
     sync_mode: sync
     item_assets: true
     collection_order: release
+    sort_title: "!031_A Star Is Born"
 
   Robin Williams Live:
     plex_search:
@@ -95,6 +100,7 @@ collections:
     sync_mode: sync
     item_assets: true
     collection_order: release
+    sort_title: "!031_Robin Williams Live"
 
   The Lion King (Reboot):
     plex_search:
@@ -108,6 +114,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: The 2019 CGI Lion King and its 2024 prequel Mufasa.
+    sort_title: "!031_The Lion King (Reboot)"
 
   Cars Toons and Short Films:
     plex_search:
@@ -135,6 +142,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Cars Toons / Mater’s Tall Tales–style shorts.
+    sort_title: "!031_Cars Toons and Short Films"
 
   Royal Shakespeare Company Live:
     plex_search:
@@ -144,6 +152,7 @@ collections:
     item_assets: true
     collection_order: release
     summary: Live theatre recordings from the Royal Shakespeare Company, filmed at Stratford-upon-Avon.
+    sort_title: "!031_Royal Shakespeare Company Live"
 
   # ── Studio collections not covered by default: studio ─────────────────────
 
@@ -155,5 +164,5 @@ collections:
     item_assets: true
     collection_order: release
     summary: Films from Studio Ponoc, founded by former Ghibli producer Yoshiaki Nishimura.
-    sort_title: "!070_Studio Ponoc"
+    sort_title: "!031_Studio Ponoc"
 
