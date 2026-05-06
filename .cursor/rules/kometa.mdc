@@ -1,0 +1,9 @@
+---
+description: "Kometa, Plex, YAML, assets — canonical guidance in repo-root AGENTS.md"
+globs: "**/*kometa*,**/kometa.yaml,kometa/**,meta.log,*_report.yml,kometa/tools/asset-organizer/**,**/organize_assets.py"
+alwaysApply: false
+---
+
+@AGENTS.md
+
+When matched files are in scope, follow the relevant sections in this repository’s **`AGENTS.md`**. Edit that file to change guidance; do not duplicate long prose here.
