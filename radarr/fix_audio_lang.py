@@ -18,10 +18,13 @@ Radarr → Settings → Connect → Custom Script
   In bulk mode, language defaults to 'eng' (since the library was already
   bulk-fixed with per-file language data; this catches any newly added stragglers).
 
+  MKV “untagged” detection uses mkvmerge -J (Matroska-native). ffprobe often
+  still reports empty/und after mkvpropedit, which made dry runs repeat the same files.
+
 Requirements:
     sudo apt install mkvtoolnix ffmpeg
 """
-import subprocess, os, sys, json, re, shutil
+import subprocess, os, sys, json, re
 
 # telegram_post is only available when running as a Radarr script (radarr_utils on PATH)
 try:
@@ -45,6 +48,48 @@ SKIP_FOLDERS = {
 }
 
 DRY_RUN = "--apply" not in sys.argv
+
+
+def _safe_unlink(path):
+    try:
+        if os.path.exists(path):
+            os.remove(path)
+    except OSError:
+        pass
+
+
+def writable_for_mutate(path) -> bool:
+    """Bulk live mode must not call ffmpeg/mkvpropedit if we cannot replace the file."""
+    if DRY_RUN or os.environ.get("radarr_eventtype"):
+        return True
+    if os.access(path, os.W_OK):
+        return True
+    try:
+        st = os.stat(path)
+        meta = f"uid={st.st_uid} gid={st.st_gid} mode={oct(st.st_mode)}"
+    except OSError as e:
+        meta = str(e)
+    print(
+        f"    ERROR: no write permission ({meta}). "
+        "Run --apply as the user that owns the library (match Radarr PUID/PGID / media user), "
+        "or fix ownership (e.g. chown) on the movie tree."
+    )
+    return False
+
+
+def writable_parent_dir(path) -> bool:
+    """Creating a temp file beside the MP4 requires write+execute on the parent directory."""
+    if DRY_RUN or os.environ.get("radarr_eventtype"):
+        return True
+    d = os.path.dirname(path) or "."
+    if os.access(d, os.W_OK):
+        return True
+    print(
+        f"    ERROR: no write permission on directory {d!r} "
+        "(cannot create temp file next to the MP4)."
+    )
+    return False
+
 
 # ── ISO 639-1 (Radarr) → ISO 639-2/T (mkvpropedit / ffmpeg) ─────────────────
 LANG_MAP = {
@@ -78,7 +123,51 @@ def radarr_language() -> str | None:
 
 # ── Core helpers ──────────────────────────────────────────────────────────────
 
-def audio_streams(path):
+def _matroska_lang_from_mkvmerge_props(props):
+    """
+    Matroska can store Language (ISO-639-2) and/or LanguageIETF (BCP47).
+    ffprobe often omits or maps these poorly; mkvmerge -J matches mkvpropedit.
+    """
+    if not props:
+        return ""
+    ietf = props.get("language_ietf") or props.get("language_IETF")
+    classic = props.get("language")
+    for raw in (ietf, classic):
+        if raw is None:
+            continue
+        v = str(raw).strip()
+        if not v:
+            continue
+        if v.lower() in ("und", "none"):
+            continue
+        return v
+    return ""
+
+
+def _audio_streams_mkvmerge(path):
+    """Return ffprobe-shaped stream dicts for each audio track, or None on failure."""
+    r = subprocess.run(
+        ["mkvmerge", "-J", path],
+        capture_output=True,
+        text=True,
+    )
+    if r.returncode != 0:
+        return None
+    try:
+        data = json.loads(r.stdout)
+    except json.JSONDecodeError:
+        return None
+    out = []
+    for t in data.get("tracks", []):
+        if t.get("type") != "audio":
+            continue
+        props = t.get("properties") or {}
+        lang = _matroska_lang_from_mkvmerge_props(props)
+        out.append({"tags": {"language": lang}})
+    return out
+
+
+def _audio_streams_ffprobe(path):
     r = subprocess.run(
         ["ffprobe", "-v", "quiet", "-print_format", "json",
          "-show_streams", "-select_streams", "a", path],
@@ -90,9 +179,21 @@ def audio_streams(path):
         return []
 
 
+def audio_streams(path):
+    """Audio tracks as list of dicts with tags.language (empty / und ⇒ needs fix)."""
+    if path.lower().endswith(".mkv"):
+        merged = _audio_streams_mkvmerge(path)
+        if merged is not None:
+            return merged
+    return _audio_streams_ffprobe(path)
+
+
 def needs_tag(stream):
-    lang = stream.get("tags", {}).get("language", "")
-    return not lang or lang in ("und", "NONE")
+    tags = stream.get("tags") or {}
+    lang = str(tags.get("language", "") or tags.get("LANGUAGE", "")).strip()
+    if not lang:
+        return True
+    return lang.lower() in ("und", "none")
 
 
 def run_cmd(cmd):
@@ -115,29 +216,45 @@ def fix_mkv(path, lang):
         if needs_tag(s):
             args += ["--edit", f"track:a{i+1}", "--set", f"language={lang}"]
     if len(args) > 2:
+        if not writable_for_mutate(path):
+            return False
         return run_cmd(args)
     return True
 
 
 def fix_mp4(path, lang):
-    # Write temp to /tmp — avoids permission issues on restricted movie dirs
-    tmp = f"/tmp/langtmp_{os.path.basename(path)}"
+    # Temp beside the MP4 (same filesystem) — not /tmp: avoids snap-ffmpeg sandbox,
+    # sticky /tmp, and leftover langtmp_* owned by another user when mixing sudo and non-sudo.
+    dirname = os.path.dirname(path) or "."
+    base = os.path.basename(path)
+    tmp = os.path.join(dirname, f".langtmp.{base}")
     streams = audio_streams(path)
     meta_args = []
     for i, s in enumerate(streams):
         if needs_tag(s):
             meta_args += [f"-metadata:s:a:{i}", f"language={lang}"]
+    if not DRY_RUN:
+        _safe_unlink(tmp)
+        if not writable_parent_dir(path) or not writable_for_mutate(path):
+            return False
     cmd = ["ffmpeg", "-y", "-loglevel", "error",
            "-i", path, "-c", "copy", "-map", "0"] + meta_args + [tmp]
     ok = run_cmd(cmd)
-    if ok and not DRY_RUN:
-        if os.path.exists(tmp):
-            shutil.copy2(tmp, path)
-            os.remove(tmp)
-        else:
-            print("    ERROR: temp file not created")
-            return False
-    return ok
+    if not ok:
+        _safe_unlink(tmp)
+        return False
+    if DRY_RUN:
+        return True
+    if not os.path.exists(tmp):
+        print("    ERROR: temp file not created")
+        return False
+    try:
+        os.replace(tmp, path)
+    except OSError as e:
+        print(f"    ERROR: could not replace MP4 with patched file: {e}")
+        _safe_unlink(tmp)
+        return False
+    return True
 
 
 def clean_title(filename):
@@ -158,6 +275,8 @@ def clean_title(filename):
 
 
 def fix_avi(path, lang):
+    if not writable_for_mutate(path):
+        return "skipped"
     dirname   = os.path.dirname(path)
     avi_base  = os.path.basename(path)
     avi_clean = clean_title(avi_base)
@@ -307,11 +426,11 @@ def run_bulk_mode():
                 lang = "eng"
                 print(f"FIX [{ext.upper()}] [{lang}]  {fn}")
                 if ext == "mkv":
-                    fix_mkv(path, lang)
-                    counts["mkv"] += 1
+                    if fix_mkv(path, lang):
+                        counts["mkv"] += 1
                 elif ext == "mp4":
-                    fix_mp4(path, lang)
-                    counts["mp4"] += 1
+                    if fix_mp4(path, lang):
+                        counts["mp4"] += 1
                 elif ext == "avi":
                     result = fix_avi(path, lang)
                     if result == "deleted":

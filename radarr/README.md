@@ -22,7 +22,7 @@ sees it correctly from day one.
 
 **What it does**:
 1. Reads `radarr_moviefile_path` from Radarr's env
-2. Checks if any audio stream has a missing / `und` language tag
+2. Checks if any audio stream has a missing / `und` language tag (MKV: **`mkvmerge -J`**, so detection matches Matroska after `mkvpropedit`; MP4/AVI: `ffprobe`)
 3. Detects the correct language from the filename (keyword lookup table)
 4. Patches the tag in-place via `mkvpropedit` (MKV) or `ffmpeg` stream-copy (MP4)
 5. Triggers Plex to re-analyze just that item
@@ -47,11 +47,13 @@ sudo apt install mkvtoolnix ffmpeg
 | `PLEX_TOKEN` | no | reads `~/docker_secrets/plex_token` |
 | `PLEX_MOVIES_SECTION` | no | `1` |
 
-Can also be used as a one-off bulk fixer:
+Can also be used as a one-off bulk fixer (needs **Python on the machine you run** — not inside stock `linuxserver/radarr`, which has no interpreter). **`--apply` must run as a user that can write movie files** (same ownership as Radarr/downloader, or use `sudo -u thatuser`); otherwise you get `PermissionError` when replacing MP4s. MP4 patching writes a short-lived **`.langtmp.<same name>`** next to the file (not under `/tmp`), so mixed `sudo`/normal runs and snap-packaged `ffmpeg` do not fight over `/tmp`.
 ```bash
 python3 fix_audio_lang.py           # dry run — shows what would change
 python3 fix_audio_lang.py --apply   # apply to all files in MOVIES_DIR
 ```
+
+**Radarr Connect test exits 127:** means “command not found” — usually missing `python3` for the script shebang. The Radarr container must include Python plus `ffmpeg` / `mkvtoolnix` (same tools the script shells out to). Wire `DOCKER_MODS=ghcr.io/linuxserver/mods:universal-package-install` and `INSTALL_PACKAGES=python3|py3-pip|ffmpeg|mkvtoolnix` in **`ortflix/compose/docker-compose-onelayer.yml`** (Docker) and **`ortflix/k3s/values/media/radarr.yaml`** (k3s). Recreate the workload and wait for the mod’s package install in logs before re-testing the script.
 
 ---
 
