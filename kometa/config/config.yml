@@ -374,7 +374,8 @@ settings:
   show_unfiltered: false
   show_options: true
   save_report: true
-  ignore_ids: 1567451, 712168, 1016041, 753972, 1663155, 1641521, 1663534
+  # 1472042: removed/invalid TMDb movie ID surfaced via universe IMDb list ls543971628 (Alien / Predator)
+  ignore_ids: 1567451, 712168, 1016041, 753972, 1663155, 1641521, 1663534, 1472042
   item_refresh_delay: 0
   playlist_sync_to_users:
   playlist_exclude_users:

@@ -16,6 +16,18 @@ templates:
         producer: tmdb
       sort_by: random
       validate: false
+  # Plex advanced filters use agent spelling; TMDb "actor: tmdb" names can miss (accents, formal names).
+  PersonPlexName:
+    minimum_items: 2
+    sort_title: "zzz_<<collection_name>>"
+    smart_filter:
+      any:
+        actor: <<plex_name>>
+        director: <<plex_name>>
+        writer: <<plex_name>>
+        producer: <<plex_name>>
+      sort_by: random
+      validate: false
 
 collections:
   People Collections:
@@ -26,7 +38,7 @@ collections:
   # —— Active (A–Z by collection name) ———————————————
 
   Alfonso Cuarón:
-    template: {name: Person, person: 11218}
+    template: {name: PersonPlexName, plex_name: Alfonso Cuaron}
 
   Andrew Garfield:
     template: {name: Person, person: 37625}
@@ -44,7 +56,7 @@ collections:
     template: {name: Person, person: 2638}
 
   Charlie Chaplin:
-    template: {name: Person, person: 13848}
+    template: {name: PersonPlexName, plex_name: Charles Chaplin}
 
   Chris Evans:
     template: {name: Person, person: 16828}
@@ -92,7 +104,7 @@ collections:
     template: {name: Person, person: 1892}
 
   Matthew Perry:
-    template: {name: Person, person: 14408}
+    template: {name: PersonPlexName, plex_name: Matthew L. Perry}
 
   Meg Ryan:
     template: {name: Person, person: 5344}
