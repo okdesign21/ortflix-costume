@@ -23,7 +23,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: TruffleHog Secret Scan
@@ -37,7 +37,7 @@ jobs:
   trivy-kometa-fs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Run Trivy vulnerability scan on Kometa sources
         uses: aquasecurity/trivy-action@master
         continue-on-error: true
