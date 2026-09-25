@@ -1,2 +1,0 @@
-# Reference only — radarr_utils.py installs into /config/.pydeps on first import.
-requests
