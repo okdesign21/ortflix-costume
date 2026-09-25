@@ -70,6 +70,7 @@ ASSET_PLEX_LIBRARIES = [
 ASSET_PLEX_INDEX_CACHE = os.getenv("ASSET_PLEX_INDEX_CACHE", "plex_index_cache.json")
 ASSET_PLEX_INDEX_MAX_AGE_HOURS = float(os.getenv("ASSET_PLEX_INDEX_MAX_AGE_HOURS", "24"))
 ASSET_PLEX_FUZZY_CUTOFF = float(os.getenv("ASSET_PLEX_FUZZY_CUTOFF", "0.86"))
+ASSET_PLEX_PEOPLE_FUZZY_CUTOFF = float(os.getenv("ASSET_PLEX_PEOPLE_FUZZY_CUTOFF", "0.95"))
 ASSET_MATCH_REVIEW_OUTPUT = os.getenv("ASSET_MATCH_REVIEW_OUTPUT", "match_review.json")
 
 HANDLERS = {"poster_handler", "overlay_handler"}
@@ -240,6 +241,17 @@ def main() -> int:
         help="Minimum similarity ratio (0-1) for a fuzzy Plex match to be accepted (default: 0.86)",
     )
     parser.add_argument(
+        "--plex-people-fuzzy-cutoff",
+        type=float,
+        default=ASSET_PLEX_PEOPLE_FUZZY_CUTOFF,
+        help=(
+            "Minimum similarity ratio (0-1) for a fuzzy Plex 'people' match "
+            "to be accepted (default: 0.95). Kept stricter than "
+            "--plex-fuzzy-cutoff since different real names (e.g. 'Adam "
+            "Sandler' vs 'Adam Anders') can score deceptively similar."
+        ),
+    )
+    parser.add_argument(
         "--match-review-output",
         type=str,
         default=ASSET_MATCH_REVIEW_OUTPUT,
@@ -307,6 +319,7 @@ def main() -> int:
         exception_mappings=exception_mappings_data,
         fuzzy_cutoff=args.plex_fuzzy_cutoff,
         review=match_review,
+        category_fuzzy_cutoffs={"people": args.plex_people_fuzzy_cutoff},
     )
     if title_matcher.enabled:
         logger.info("Plex-based matching enabled")

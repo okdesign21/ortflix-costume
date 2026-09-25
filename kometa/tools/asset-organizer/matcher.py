@@ -32,6 +32,15 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_FUZZY_CUTOFF = 0.86
 
+# Per-category overrides for the fuzzy-match cutoff. "people" needs a much
+# stricter threshold than titles: two different real names (e.g. "Adam
+# Sandler" vs "Adam Anders", "David Bowie" vs "David Bowers") can score
+# 85-90% similar under difflib despite being unrelated people, whereas movie
+# titles rarely have that kind of close-but-wrong near-neighbor.
+CATEGORY_FUZZY_CUTOFFS: dict[str, float] = {
+    "people": 0.95,
+}
+
 
 @dataclass
 class MatchResult:
@@ -117,11 +126,16 @@ class TitleMatcher:
         exception_mappings: Optional[dict[str, str]] = None,
         fuzzy_cutoff: float = DEFAULT_FUZZY_CUTOFF,
         review: Optional[MatchReview] = None,
+        category_fuzzy_cutoffs: Optional[dict[str, float]] = None,
     ) -> None:
         self.index = index
         self.exception_mappings = exception_mappings or {}
         self.fuzzy_cutoff = fuzzy_cutoff
         self.review = review if review is not None else MatchReview()
+        self.category_fuzzy_cutoffs = category_fuzzy_cutoffs or CATEGORY_FUZZY_CUTOFFS
+
+    def _cutoff_for(self, category: str) -> float:
+        return self.category_fuzzy_cutoffs.get(category, self.fuzzy_cutoff)
 
     @property
     def enabled(self) -> bool:
@@ -169,7 +183,7 @@ class TitleMatcher:
         for cat in categories:
             table = self.index.get(cat)
             candidates = difflib.get_close_matches(
-                key, table.keys(), n=1, cutoff=self.fuzzy_cutoff
+                key, table.keys(), n=1, cutoff=self._cutoff_for(cat)
             )
             if not candidates:
                 continue
