@@ -33,6 +33,12 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_FUZZY_CUTOFF = 0.86
 
+# Ignored when comparing "does every real word line up" between a source
+# name and a fuzzy candidate — common filler words vary/drop between titles
+# (e.g. "Fun and Fancy Free" vs "Fun & Fancy Free") without changing meaning.
+_WORD_MATCH_STOPWORDS = {"the", "a", "an", "and", "of", "with"}
+_WORD_MATCH_MIN_RATIO = 0.75
+
 # Per-category overrides for the fuzzy-match cutoff. "people" needs a much
 # stricter threshold than titles: two different real names (e.g. "Adam
 # Sandler" vs "Adam Anders", "David Bowie" vs "David Bowers") can score
@@ -169,6 +175,41 @@ class TitleMatcher:
             return False
         if not source_digits and candidate_digits:
             return False
+        return TitleMatcher._words_correspond(source_key, candidate_key)
+
+    @staticmethod
+    def _words_correspond(source_key: str, candidate_key: str) -> bool:
+        """Reject a fuzzy match where a real word has no counterpart at all.
+
+        difflib's ratio is a whole-string character overlap score, so two
+        short titles that differ by one *entire* word (e.g. "the star" vs
+        "the bar", "cars collection" vs "chart collections") can still score
+        85-90% similar — well above the default cutoff — purely because the
+        surrounding characters happen to line up. That's a different title,
+        not a spelling/punctuation variant. Require every non-filler,
+        non-numeric word on the source side to have a reasonably close
+        counterpart (or be a substring of) some word on the candidate side;
+        this still allows apostrophe/spacing differences ("Bugs"/"Bug s"),
+        missing filler words ("Fun and Fancy Free"/"Fun Fancy Free"), and
+        trailing-year truncation ("... (1993)"/"...", digits are ignored
+        here since they're already checked separately).
+        """
+        source_words = [
+            w for w in source_key.split() if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
+        ]
+        candidate_words = [
+            w for w in candidate_key.split() if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
+        ]
+        if not source_words or not candidate_words:
+            return True
+        candidate_joined = "".join(candidate_words)
+        for word in source_words:
+            best_ratio = max(
+                (difflib.SequenceMatcher(None, word, cw).ratio() for cw in candidate_words),
+                default=0.0,
+            )
+            if best_ratio < _WORD_MATCH_MIN_RATIO and word not in candidate_joined:
+                return False
         return True
 
     def match(self, category: str | Iterable[str], source_name: str) -> MatchResult:
