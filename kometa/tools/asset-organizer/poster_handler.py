@@ -278,8 +278,15 @@ class PosterOrganizer(Organizer):
                 if self._is_collection_poster_file(fname, collection_name):
                     self.process_poster(item, collection_dir, category, collection=True)
                 else:
+                    # An item under a mega-collection/studio folder could be a
+                    # standalone title OR a nested franchise/collection poster
+                    # (e.g. "How to Train Your Dragon Collection.png" inside a
+                    # "DreamWorks Animation" studio folder) — check both tables,
+                    # exact-first, so a real Plex collection like "How to Train
+                    # Your Dragon" isn't fuzzy-matched onto the wrong movie
+                    # (e.g. "How to Train Your Dragon (2010)").
                     item_name = self.normalize_kometa_collection_folder_name(
-                        fname, category="movies_shows"
+                        fname, category=("movies_shows", "collections")
                     )
                     item_dir = target_base / item_name
                     self.process_poster(item, item_dir, category)

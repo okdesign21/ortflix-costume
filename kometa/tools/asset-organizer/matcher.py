@@ -22,6 +22,7 @@ from __future__ import annotations
 import difflib
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterable, Optional
@@ -141,6 +142,26 @@ class TitleMatcher:
     def enabled(self) -> bool:
         return self.index is not None and not self.index.is_empty()
 
+    @staticmethod
+    def _fuzzy_candidate_is_safe(source_key: str, candidate_key: str) -> bool:
+        """Reject a fuzzy match that invents a year/sequel number.
+
+        A bare franchise/collection name with no digits (e.g. "how to train
+        your dragon") can score deceptively high (>90%) against a *specific*
+        dated/numbered entry (e.g. "how to train your dragon 2010") since the
+        appended digits barely move difflib's ratio on a long title. Treating
+        that as a match silently narrows an ambiguous/collection name down to
+        one particular title, which has caused real folder collisions (e.g.
+        "The Secret Life of Pets" -> "The Secret Life of Pets 2 (2019)").
+        Only accept the match if it doesn't introduce digits the source
+        didn't already have.
+        """
+        source_digits = set(re.findall(r"\d+", source_key))
+        candidate_digits = set(re.findall(r"\d+", candidate_key))
+        if not source_digits and candidate_digits:
+            return False
+        return True
+
     def match(self, category: str | Iterable[str], source_name: str) -> MatchResult:
         """Match ``source_name`` (a pre-cleaned candidate title) within ``category``.
 
@@ -183,14 +204,15 @@ class TitleMatcher:
         for cat in categories:
             table = self.index.get(cat)
             candidates = difflib.get_close_matches(
-                key, table.keys(), n=1, cutoff=self._cutoff_for(cat)
+                key, table.keys(), n=3, cutoff=self._cutoff_for(cat)
             )
-            if not candidates:
-                continue
-            best_key = candidates[0]
-            ratio = difflib.SequenceMatcher(None, key, best_key).ratio()
-            if ratio > best_ratio:
-                best_ratio, best_canonical = ratio, table[best_key]
+            for candidate_key in candidates:
+                if not self._fuzzy_candidate_is_safe(key, candidate_key):
+                    continue
+                ratio = difflib.SequenceMatcher(None, key, candidate_key).ratio()
+                if ratio > best_ratio:
+                    best_ratio, best_canonical = ratio, table[candidate_key]
+                break  # candidates are ranked best-first; take the first safe one
 
         if best_canonical is not None:
             result = MatchResult(canonical=best_canonical, confidence=best_ratio, method="fuzzy")
