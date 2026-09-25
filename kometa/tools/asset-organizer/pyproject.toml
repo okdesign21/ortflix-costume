@@ -39,9 +39,20 @@ dev = [
     "black>=23.0.0",
     "pyyaml>=6.0",
 ]
+plex = [
+    "plexapi>=4.15.0",
+]
 
 [tool.setuptools]
-py-modules = ["organize_assets", "handlers", "poster_handler"]
+py-modules = [
+    "organize_assets",
+    "handlers",
+    "poster_handler",
+    "overlay_handler",
+    "tmdb_resolver",
+    "plex_index",
+    "matcher",
+]
 
 [tool.setuptools_scm]
 # Version derived from git tags (e.g., v0.1.0 -> 0.1.0)

@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 from handlers import Organizer, compute_file_hash, read_hash_sidecar, write_hash_sidecar
 
 if TYPE_CHECKING:
+    from matcher import TitleMatcher
     from tmdb_resolver import TmdbResolver
 
 # Detect if Pillow is available without importing it (avoid unused import warnings)
@@ -52,11 +53,13 @@ class PosterOrganizer(Organizer):
         strip_collection_suffix: bool = True,
         incremental: bool = False,
         tmdb_resolver: TmdbResolver | None = None,
+        title_matcher: TitleMatcher | None = None,
     ) -> None:
         """Initialize PosterOrganizer."""
         super().__init__(
             source_dir, target_dir, exception_file, force_png, dry_run, incremental,
             tmdb_resolver=tmdb_resolver,
+            title_matcher=title_matcher,
         )
         self.strip_collection_suffix = strip_collection_suffix
 
@@ -65,19 +68,19 @@ class PosterOrganizer(Organizer):
         """Return the person's name with role in parentheses when present."""
         s = stem.strip()
         if re.search(r"\(.*\)", s):
-            return self.normalize_name(s)
+            return self.normalize_name(s, category="people")
         m = re.search(self.ROLE_REGEX, s)
         if m:
             name = s[: m.start()].strip()
             role = m.group(1).capitalize()
-            return self.normalize_name(f"{name} ({role})")
-        return self.normalize_name(s)
+            return self.normalize_name(f"{name} ({role})", category="people")
+        return self.normalize_name(s, category="people")
 
     def extract_people_name(self, stem: str) -> str:
         """Return the person's name without any role suffix (Directing/Writing/Acting)."""
         s = stem.strip()
         s = re.sub(self.ROLE_REGEX, "", s)
-        return self.normalize_name(s.strip())
+        return self.normalize_name(s.strip(), category="people")
 
     def extract_collection_name(self, folder_name: str) -> str:
         """Extract a clean collection name from dated/suffixed folders.
@@ -88,14 +91,36 @@ class PosterOrganizer(Organizer):
         name = re.sub(r"\s+set by\s+[\w\-]+$", "", name, flags=re.IGNORECASE)
         return name.strip()
 
-    def normalize_kometa_collection_folder_name(self, raw: str) -> str:
+    def normalize_kometa_collection_folder_name(
+        self, raw: str, category: str | tuple[str, ...] = "collections"
+    ) -> str:
         """Normalize then strip trailing ' Collection' to match Kometa franchise naming.
 
         See Kometa ``defaults/movie/franchise.yml`` (``remove_suffix: Collection``).
         Disable via ``strip_collection_suffix=False`` when a Plex collection keeps
-        the full TMDb-style title including 'Collection'.
+        the full TMDb-style title including 'Collection'. *category* selects which
+        Plex index table(s) (``collections`` and/or ``movies_shows``) back the
+        match — callers pass a tuple for ambiguous standalone poster files that
+        could be either a franchise or an individual title.
+
+        An exception-mapping override on the *raw* (pre-strip) name always wins,
+        matching legacy behaviour where mappings like
+        ``"101 Dalmatians (Animated) Collection" -> "101 Dalmatians Collection"``
+        are recorded with the suffix still attached and stripped afterward.
+        Otherwise the ' Collection' suffix is stripped *before* the Plex/legacy
+        lookup, since Plex collection titles ("Cars") never carry it.
         """
-        n = self.normalize_name(raw)
+        override = self.exception_mappings.get(raw)
+        if override:
+            n = override
+        else:
+            lookup_raw = raw
+            if self.strip_collection_suffix and raw.lower().endswith(
+                self._COLLECTION_SUFFIX
+            ):
+                lookup_raw = raw[: -len(self._COLLECTION_SUFFIX)].strip()
+            n = self.normalize_name(lookup_raw, category=category)
+
         if not self.strip_collection_suffix:
             return n
         if n.lower().endswith(self._COLLECTION_SUFFIX):
@@ -142,6 +167,18 @@ class PosterOrganizer(Organizer):
     ) -> bool:
         """Process a single poster file."""
         self._ensure_target_dir(dest_dir)
+
+        previous_src = self._written_this_run.get(dest_dir)
+        if previous_src is not None and previous_src != src.name:
+            logger.warning(
+                "COLLISION: %r and %r both resolved to the same target folder %s "
+                "this run — the second file will overwrite the first's poster. "
+                "Check for a bad name-normalization/fuzzy match.",
+                previous_src,
+                src.name,
+                dest_dir,
+            )
+        self._written_this_run[dest_dir] = src.name
 
         if self.incremental and any(dest_dir.glob("poster.*")):
             src_hash = compute_file_hash(src)
@@ -192,6 +229,32 @@ class PosterOrganizer(Organizer):
             dest_dir = target_base / item_name
             self.process_poster(item, dest_dir, category)
 
+    def _is_collection_poster_file(self, fname: str, collection_name: str) -> bool:
+        """Decide whether ``fname`` is this folder's own collection poster.
+
+        Only an *exact* exception-mapping or Plex match to the "collections"
+        table is trusted here — a *fuzzy* match can otherwise mistake a
+        numbered/sequel entry (e.g. "The Hunchback of Notre Dame II (2002)")
+        for the bare collection name ("The Hunchback of Notre Dame") since
+        difflib's ratio barely penalizes a trailing " II (2002)" on a long
+        title. Trusting that fuzzy match here would wrongly overwrite the
+        real collection poster with the sequel's poster. Fuzzy corrections
+        are still applied normally (see the caller) when placing individual
+        items into their own folder — only the collection-poster decision
+        itself requires exact confidence.
+        """
+        override = self.exception_mappings.get(fname)
+        if override:
+            return self._is_collection_poster(override, collection_name)
+
+        if self.title_matcher is not None:
+            result = self.title_matcher.match(("collections", "movies_shows"), fname)
+            if result.matched and result.method == "exact":
+                return self._is_collection_poster(result.canonical, collection_name)
+
+        legacy_stem = self.normalize_name(fname, category=None)
+        return self._is_collection_poster(legacy_stem, collection_name)
+
     def process_collection_folder(
         self, folder_path: Path, target_base: Path, category: str
     ) -> None:
@@ -212,12 +275,19 @@ class PosterOrganizer(Organizer):
         try:
             for item in self._iter_image_files(folder_path):
                 fname = item.stem
-                norm_stem = self.normalize_name(fname)
-
-                if self._is_collection_poster(norm_stem, collection_name):
+                if self._is_collection_poster_file(fname, collection_name):
                     self.process_poster(item, collection_dir, category, collection=True)
                 else:
-                    item_name = self.normalize_kometa_collection_folder_name(fname)
+                    # An item under a mega-collection/studio folder could be a
+                    # standalone title OR a nested franchise/collection poster
+                    # (e.g. "How to Train Your Dragon Collection.png" inside a
+                    # "DreamWorks Animation" studio folder) — check both tables,
+                    # exact-first, so a real Plex collection like "How to Train
+                    # Your Dragon" isn't fuzzy-matched onto the wrong movie
+                    # (e.g. "How to Train Your Dragon (2010)").
+                    item_name = self.normalize_kometa_collection_folder_name(
+                        fname, category=("movies_shows", "collections")
+                    )
                     item_dir = target_base / item_name
                     self.process_poster(item, item_dir, category)
         except Exception as e:
@@ -241,11 +311,21 @@ class PosterOrganizer(Organizer):
             logger.error("Error reading folder %s: %s", folder_path.name, e)
             self.update_category_tracking(category, error=str(e))
 
+    # Maps our asset category names to the Plex index table they should match against.
+    PLEX_INDEX_CATEGORY = {
+        "Companies": "studios",
+        "Genres": "genres",
+        "People": "people",
+        "Movies_Shows": "movies_shows",
+    }
+
     def process_generic_image_folder(
         self, folder_path: Path, asset_subfolder: str, category: str
     ) -> None:
+        plex_category = self.PLEX_INDEX_CATEGORY.get(category)
+        name_mapper = lambda stem: self.normalize_name(stem, category=plex_category)  # noqa: E731
         self._process_folder_with_error_handling(
-            folder_path, asset_subfolder, self.normalize_name, category
+            folder_path, asset_subfolder, name_mapper, category
         )
 
     def process_people_folder(self, folder_path: Path, category: str) -> None:
@@ -264,11 +344,17 @@ class PosterOrganizer(Organizer):
                 if item.is_dir():
                     self.process_collection_folder(item, target_base, category)
 
-            # Then process any top-level poster files (franchise names match Kometa)
+            # Then process any top-level poster files. These may be a franchise
+            # poster ("Cars Collection.png") or a standalone movie/show poster
+            # ("Toy Story That Time Forgot (2014).png") — ambiguous until
+            # matched, so check both Plex tables.
+            top_level_mapper = lambda stem: self.normalize_kometa_collection_folder_name(  # noqa: E731
+                stem, category=("collections", "movies_shows")
+            )
             self._process_images_to_subfolders(
                 folder_path,
                 target_base,
-                self.normalize_kometa_collection_folder_name,
+                top_level_mapper,
                 category,
             )
         except Exception as e:
@@ -287,7 +373,9 @@ class PosterOrganizer(Organizer):
         """Process a single file (helper method)."""
         if category is None:
             return None  # cannot process without category
-        item_name = self.normalize_name(file_path.stem)
+        item_name = self.normalize_name(
+            file_path.stem, category=self.PLEX_INDEX_CATEGORY.get(category)
+        )
         item_dir = self.target_dir / item_name
         self.process_poster(file_path, item_dir, category)
 

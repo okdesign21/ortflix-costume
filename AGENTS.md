@@ -146,11 +146,9 @@ Kometa builds `secret_args` from every non-empty `KOMETA_*` env var (`KOMETA_MDB
 | `-k` | Kometa YAML (*.yml/*.yaml, no assets) | `kometa/config/` → `/opt/kometa/config/` |
 | `-a` | Kometa assets (full tree) | `kometa/config/assets/` → `/opt/kometa/config/assets/` |
 | `-o` | Kometa overlays | `kometa/config/overlays/` → `/opt/kometa/config/overlays/` |
-| `-t` | Tautulli scripts | `tautulli/` → `/opt/tautulli/scripts/` |
-| `-r` | Radarr scripts | `radarr/` → `/opt/radarr/scripts/` |
 | `-kl` | Pull logs **from** server | `/opt/kometa/config/*report*` + `logs/meta.log` → current dir |
 
-No flags = all of `-k -a -o -t -r`.
+No flags = all of `-k -a -o`.
 
 **Usage:**
 
@@ -159,15 +157,12 @@ No flags = all of `-k -a -o -t -r`.
 ./scripts/sync_to_host.sh sync -k -a     # push YAML + assets only
 ./scripts/sync_to_host.sh sync-dry       # dry run
 ./scripts/sync_to_host.sh sync -kl       # pull logs/reports down
-./scripts/sync_to_host.sh sync -r        # Radarr scripts only
 ./scripts/sync_to_host.sh check          # validate all YAML locally
 ```
 
 **Connection env:** `ORTFLIX_SYNC_HOST`, `ORTFLIX_SYNC_USER` (default: whoami), `ORTFLIX_SYNC_PORT` (default: 22). Can live in `scripts/.env`.
 
 **`ORTFLIX_RSYNC_DELETE=1`** enables `--delete` on YAML/assets/overlays syncs — use with care.
-
-**Python deps (Tautulli/Radarr):** `tautulli_utils.py` / `radarr_utils.py` run `python3 -m pip install --target /config/.pydeps` on first import if `requests` is missing (no init hooks, no extra compose volumes). Override with env `PY_DEPS_TARGET` if needed.
 
 **Server paths:** Kometa runs in Docker/k3s, config mounted at `/opt/kometa/config` (maps to `/config` inside container).
 

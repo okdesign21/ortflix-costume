@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from matcher import TitleMatcher
     from tmdb_resolver import TmdbResolver
 
 logger = logging.getLogger(__name__)
@@ -103,6 +104,7 @@ class Organizer(ABC):
         dry_run: bool,
         incremental: bool = False,
         tmdb_resolver: TmdbResolver | None = None,
+        title_matcher: TitleMatcher | None = None,
     ) -> None:
         self.source_dir = source_dir
         self.target_dir = target_dir
@@ -110,6 +112,7 @@ class Organizer(ABC):
         self.dry_run = dry_run
         self.incremental = incremental
         self.tmdb_resolver = tmdb_resolver
+        self.title_matcher = title_matcher
 
         if exception_file.exists():
             try:
@@ -126,6 +129,12 @@ class Organizer(ABC):
         # Initialize tracking
         for category in self.ASSET_CATEGORIES:
             self.ASSET_CATEGORIES[category] = (0, [])
+
+        # dest_dir -> source file name that most recently wrote there this run.
+        # Used to detect two different source posters mapping to the same
+        # target folder (e.g. via a mis-normalization/fuzzy-match collision)
+        # so it's surfaced as a loud warning instead of a silent overwrite.
+        self._written_this_run: dict[Path, str] = {}
 
     def _iter_image_files(self, folder_path: Path):
         """Iterate over image files in folder."""
@@ -234,15 +243,22 @@ class Organizer(ABC):
             errs.append(error)
         self.ASSET_CATEGORIES[category] = (count, errs)
 
-    def normalize_name(self, name: str) -> str:
+    def normalize_name(self, name: str, category: str | tuple[str, ...] | None = None) -> str:
         """Normalize asset names to match expected naming conventions.
 
         Lookup order:
-          1. ``exception_mappings.json`` — manual/auto-written overrides (fastest).
-          2. Standard rules — colon→dash, asterisk→dash, double-space→&, unicode.
-          3. TMDb API — last resort, only when a year is present in *name* and
-             ``TMDB_API_KEY`` is set.  Results are cached and written back to
-             ``exception_mappings.json`` so subsequent runs skip the network call.
+          1. ``exception_mappings.json`` — manual/auto-written overrides (fastest,
+             also the right place for genuine one-offs like Kometa
+             ``title_override``/``name_mapping`` cases).
+          2. Plex index match — authoritative, only when *category* is given and
+             a :class:`TitleMatcher` is configured (see ``plex_index.py`` /
+             ``matcher.py``). Exact matches are used verbatim; fuzzy matches are
+             used too but flagged in the end-of-run match review.
+          3. Standard rules — colon→dash, asterisk→dash, double-space→&, unicode.
+          4. TMDb API — last resort, only when a year is present in *name*, Plex
+             didn't match, and ``TMDB_API_KEY`` is set. Results are cached and
+             written back to ``exception_mappings.json`` so subsequent runs skip
+             the network call.
         """
         import re
 
@@ -251,7 +267,13 @@ class Organizer(ABC):
         if mapped:
             return mapped
 
-        # 2. Standard normalization rules
+        # 2. Plex index match (authoritative; category-aware)
+        if category is not None and self.title_matcher is not None:
+            plex_match = self.title_matcher.match(category, name)
+            if plex_match.matched:
+                return plex_match.canonical
+
+        # 3. Standard normalization rules
         result = unicodedata.normalize("NFKC", name).strip()
         result = (
             result.replace("\u2019", "'")
@@ -276,7 +298,7 @@ class Organizer(ABC):
         result = re.sub(r"  +", " & ", result)
         result = re.sub(r"\s+", " ", result).strip()
 
-        # 3. TMDb last-resort (only for "Title (YYYY)" items, only when resolver active)
+        # 4. TMDb last-resort (only for "Title (YYYY)" items, only when resolver active)
         if self.tmdb_resolver is not None and re.search(r"\(\d{4}\)", name):
             tmdb_result = self.tmdb_resolver.resolve(name)
             if tmdb_result:

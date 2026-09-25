@@ -6,20 +6,72 @@ Automated asset organization for Kometa. Downloads and organizes posters, overla
 
 - **Automatic Poster Organization**: Organize downloaded posters into proper directory structure
 - **Overlay Organization**: Mirror custom overlay images into `config/overlays/`, preserving subdirectory structure
-- **Exception Handling**: Custom mappings for non-standard title formats
+- **Plex-Authoritative Matching**: Match downloaded asset names against your actual Plex library (titles, collections, people, genres, studios) instead of guessing via regex — see [Plex-Based Matching](#plex-based-matching) below
+- **Exception Handling**: Custom mappings for genuine one-off title overrides (Kometa `title_override`/`name_mapping` cases)
 - **Exception Mapping Bootstrap**: Optional auto-create for missing `exception_mappings.json`
 - **Incremental Mode**: Skip unchanged assets using SHA-256 source hash sidecars; re-process only new or updated files
 - **Extensible Architecture**: Support for multiple asset types (posters, overlays, backgrounds)
 - **Dry-run Mode**: Preview changes before applying them
 - **Environment-driven Configuration**: Flexible setup via environment variables or .env files
-- **Robust Name Normalization**: Handles common punctuation/unicode mismatches (`:`, `*`, `·`, double spaces)
+- **Robust Name Normalization**: Handles common punctuation/unicode mismatches (`:`, `*`, `·`, double spaces) as a fallback when Plex/TMDb don't have a match
 - **Docker Ready**: Includes Dockerfile for containerized deployment
 
 ## Requirements
 
 - Python 3.11+
 - Optional: Pillow (PIL) for PNG conversion; without it files are copied as-is
+- Optional: `plexapi` (`pip install .[plex]`) for Plex-based authoritative matching
 - Required packages (see handler requirements)
+
+## Plex-Based Matching
+
+Instead of reconstructing the correct asset folder name purely from string
+transforms (`normalize_name`'s old colon/asterisk/space rules) plus an
+ever-growing `exception_mappings.json`, the organizer can query your Plex
+server directly and build an index of the *actual* titles, collections,
+people, genres, and studios it already knows about (`plex_index.py`). Source
+names are then matched against this index (`matcher.py`) instead of guessed:
+
+1. **`exception_mappings.json`** — exact override, always wins. Reserve this
+   for genuine one-offs (Kometa `title_override`/`name_mapping` renames).
+2. **Plex index — exact match** — used verbatim.
+3. **Plex index — fuzzy match** (`difflib`, cutoff configurable) — used, but
+   flagged in the end-of-run **match review** so you can verify it.
+4. **Legacy regex normalization** — colon→dash, asterisk→dash, etc. — applied
+   when Plex has no match at all.
+5. **TMDb search** — last resort, only for `Title (YYYY)`-shaped names not
+   yet in your Plex library (e.g. upcoming additions). Results are cached and
+   written back to `exception_mappings.json`.
+
+Categories map to Plex index tables as follows: `Movies_Shows` → titles and
+collections (checked together, since a top-level poster file could be
+either); `People` → cast/crew names; `Genres` → genre tags; `Companies` →
+studio/network values.
+
+### Match review
+
+Any fuzzy or unmatched result is written to `match_review.json` (path
+configurable via `--match-review-output`) at the end of a run, and logged as
+warnings. Use it to spot-check fuzzy matches and to decide which unmatched
+items genuinely need a new `exception_mappings.json` entry versus items not
+yet added to Plex.
+
+### Plex environment variables
+
+| Variable                  | Required | Default                | Description                                                                                   |
+| -------------------------- | -------- | ----------------------- | ----------------------------------------------------------------------------------------------- |
+| `KOMETA_PLEXURL`            | ❌       | derived from `ORTFLIX_SYNC_HOST` | Plex server base URL. Literal, file path, or `sudo cat /path/to/secret`.                 |
+| `KOMETA_PLEXTOKEN`          | ❌ (recommended) | *(none)*        | Plex auth token. Literal, file path, or `sudo cat /path/to/secret`.                            |
+| `ASSET_PLEX_MATCHING`       | ❌       | `true`                  | Master switch for Plex-based matching (`--no-plex` disables it for one run).                    |
+| `ASSET_PLEX_LIBRARIES`      | ❌       | `Films,TV Programmes`   | Comma-separated Plex library names to index.                                                    |
+| `ASSET_PLEX_INDEX_CACHE`    | ❌       | `plex_index_cache.json` | Path to the cached Plex title index snapshot (not committed to git).                            |
+| `ASSET_PLEX_INDEX_MAX_AGE_HOURS` | ❌  | `24`                    | Rebuild the index from Plex once the cache is older than this.                                  |
+| `ASSET_PLEX_FUZZY_CUTOFF`   | ❌       | `0.86`                  | Minimum `difflib` similarity ratio (0-1) for a fuzzy match to be accepted.                       |
+| `ASSET_MATCH_REVIEW_OUTPUT` | ❌       | `match_review.json`     | Path to write the end-of-run fuzzy/unmatched match review (not committed to git).                |
+
+When Plex credentials are unset, or the server is unreachable and no usable
+cache exists, the organizer degrades gracefully to legacy normalization —
+Plex matching never blocks or crashes a run.
 
 ## Environment Variables
 
@@ -34,6 +86,8 @@ Automated asset organization for Kometa. Downloads and organizes posters, overla
 | `ASSET_INCREMENTAL`              | ❌       | `false`                   | Skip assets whose source hash matches the last run; only process new or changed files                                                                                                                                                                                            |
 | `KOMETA_STRIP_COLLECTION_SUFFIX` | ❌       | `true`                    | Strip trailing ` Collection` from `Movies_Shows` folder names so output matches Kometa's movie [franchise default](https://kometa.wiki/en/latest/defaults/movie/franchise/) (`remove_suffix: Collection`). Set to `false` if your Plex collections keep the full TMDb-style title. |
 
+See [Plex environment variables](#plex-environment-variables) above for Plex-based matching configuration.
+
 Notes:
 
 - Relative `--source`, `--target`, `--overlays-source`, `--overlays-target`, and `--exception-mappings` paths are resolved from the script directory first, then project root.
@@ -42,6 +96,7 @@ Notes:
 ## Setup
 
 ### Local Development
+
 
 1. Navigate to directory:
 
@@ -164,7 +219,13 @@ For collections renamed by Kometa `title_override` / `name_mapping` (e.g. some *
 
 ### Exception Mappings
 
-The `exception_mappings.json` file handles special cases where title formatting doesn't match standard patterns:
+With Plex-based matching enabled, `exception_mappings.json` is only needed for
+genuine one-offs the Plex/TMDb lookups can't resolve on their own — e.g.
+Kometa `title_override`/`name_mapping` renames, or titles Plex knows under a
+completely different name than the download set (`"101 Dalmatians (1961)" ->
+"One Hundred and One Dalmatians (1961)"`). Simple typos/punctuation
+differences (`"A Bugs Life" -> "A Bug's Life"`) are now handled automatically
+by the fuzzy Plex match — no entry required.
 
 ```json
 {
@@ -172,6 +233,9 @@ The `exception_mappings.json` file handles special cases where title formatting 
   "Special Collection Name": "collection_name"
 }
 ```
+
+Check `match_review.json` after a run before adding a new entry — the item
+may already resolve correctly (exact or fuzzy) via Plex.
 
 ### Asset Organization Structure
 
@@ -306,8 +370,9 @@ Reference overlays in Kometa YAML by their relative path under `config/overlays/
 ## Architecture
 
 - **Modular Design**: Separate handlers for different asset types (posters, overlays, backgrounds)
+- **Plex-Authoritative Matching**: `plex_index.py` builds a cached snapshot of real Plex titles/collections/people/genres/studios; `matcher.py` scores source names against it (exact / fuzzy / unmatched) instead of guessing via regex
 - **Extensible**: New handlers can be added by subclassing the `Organizer` base class
-- **Error Handling**: Comprehensive logging and exception mapping for non-standard titles
+- **Error Handling**: Comprehensive logging, a fuzzy/unmatched match review, and exception mapping for genuine one-off titles
 - **Dry-run Support**: Test changes before applying them with `--dry-run` flag
 - **Type Safety**: Uses Python type hints throughout for better IDE support
 - **Testing**: Full pytest test suite with coverage reporting
