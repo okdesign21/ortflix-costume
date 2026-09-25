@@ -70,3 +70,8 @@ _version.py
 # Runtime snapshots / reports (regenerated per run, not source of truth)
 plex_index_cache.json
 match_review.json
+
+# Source poster downloads (large binary media, not code — regenerate/re-download,
+# don't commit to git)
+Posters/
+posters.txt

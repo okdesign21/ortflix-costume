@@ -144,7 +144,7 @@ class TitleMatcher:
 
     @staticmethod
     def _fuzzy_candidate_is_safe(source_key: str, candidate_key: str) -> bool:
-        """Reject a fuzzy match that invents a year/sequel number.
+        """Reject a fuzzy match that invents or swaps a year/sequel number.
 
         A bare franchise/collection name with no digits (e.g. "how to train
         your dragon") can score deceptively high (>90%) against a *specific*
@@ -153,11 +153,20 @@ class TitleMatcher:
         that as a match silently narrows an ambiguous/collection name down to
         one particular title, which has caused real folder collisions (e.g.
         "The Secret Life of Pets" -> "The Secret Life of Pets 2 (2019)").
-        Only accept the match if it doesn't introduce digits the source
-        didn't already have.
+
+        The same failure mode also happens when *both* sides already have
+        digits but they *disagree* (e.g. source "cloudy with a chance of
+        meatballs 2017" vs. Plex's only entry "... 2009"): a long, otherwise
+        identical title still scores well above the cutoff even though the
+        year is completely different, and there's no way to tell "this is a
+        typo for the one Plex entry" apart from "this is a different,
+        unlisted entry in the same franchise" — so both cases are rejected
+        and left for manual review/exception mapping rather than guessed.
         """
         source_digits = set(re.findall(r"\d+", source_key))
         candidate_digits = set(re.findall(r"\d+", candidate_key))
+        if source_digits and candidate_digits and source_digits != candidate_digits:
+            return False
         if not source_digits and candidate_digits:
             return False
         return True
