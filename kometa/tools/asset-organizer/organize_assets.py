@@ -59,6 +59,19 @@ KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
     "KOMETA_STRIP_COLLECTION_SUFFIX", "true"
 ).strip().lower() in {"1", "true", "yes", "on"}
 
+# Plex-based authoritative matching (see plex_index.py / matcher.py)
+ASSET_PLEX_MATCHING = os.getenv("ASSET_PLEX_MATCHING", "true").strip().lower() in {
+    "1", "true", "yes", "on",
+}
+ASSET_PLEX_LIBRARIES = [
+    lib.strip() for lib in os.getenv("ASSET_PLEX_LIBRARIES", "Films,TV Programmes").split(",")
+    if lib.strip()
+]
+ASSET_PLEX_INDEX_CACHE = os.getenv("ASSET_PLEX_INDEX_CACHE", "plex_index_cache.json")
+ASSET_PLEX_INDEX_MAX_AGE_HOURS = float(os.getenv("ASSET_PLEX_INDEX_MAX_AGE_HOURS", "24"))
+ASSET_PLEX_FUZZY_CUTOFF = float(os.getenv("ASSET_PLEX_FUZZY_CUTOFF", "0.86"))
+ASSET_MATCH_REVIEW_OUTPUT = os.getenv("ASSET_MATCH_REVIEW_OUTPUT", "match_review.json")
+
 HANDLERS = {"poster_handler", "overlay_handler"}
 
 
@@ -188,6 +201,50 @@ def main() -> int:
         default=ASSET_MAX_POSTER_BYTES,
         help=f"Max poster file size in bytes (default: {ASSET_MAX_POSTER_BYTES}, Plex/Kometa limit)",
     )
+    parser.add_argument(
+        "--no-plex",
+        action="store_true",
+        default=not ASSET_PLEX_MATCHING,
+        help=(
+            "Disable Plex-based authoritative matching even if credentials are set. "
+            "Falls back to legacy regex normalization + exception_mappings only."
+        ),
+    )
+    parser.add_argument(
+        "--plex-libraries",
+        type=str,
+        default=",".join(ASSET_PLEX_LIBRARIES),
+        help="Comma-separated Plex library names to index (default: Films,TV Programmes)",
+    )
+    parser.add_argument(
+        "--plex-index-cache",
+        type=str,
+        default=ASSET_PLEX_INDEX_CACHE,
+        help="Path to the cached Plex title index JSON snapshot",
+    )
+    parser.add_argument(
+        "--plex-index-max-age-hours",
+        type=float,
+        default=ASSET_PLEX_INDEX_MAX_AGE_HOURS,
+        help="Rebuild the Plex index from the server once the cache is older than this (default: 24)",
+    )
+    parser.add_argument(
+        "--refresh-plex-index",
+        action="store_true",
+        help="Force a fresh Plex index build even if a recent cache exists",
+    )
+    parser.add_argument(
+        "--plex-fuzzy-cutoff",
+        type=float,
+        default=ASSET_PLEX_FUZZY_CUTOFF,
+        help="Minimum similarity ratio (0-1) for a fuzzy Plex match to be accepted (default: 0.86)",
+    )
+    parser.add_argument(
+        "--match-review-output",
+        type=str,
+        default=ASSET_MATCH_REVIEW_OUTPUT,
+        help="Path to write the end-of-run fuzzy/unmatched match review JSON",
+    )
     args = parser.parse_args()
 
     handlers: list[logging.Handler] = [logging.StreamHandler()]
@@ -209,7 +266,9 @@ def main() -> int:
         ensure_exception_mapping_file(exception_mappings, args.dry_run)
 
     from handlers import Organizer, shrink_all_posters_under_limit
+    from matcher import MatchReview, TitleMatcher
     from overlay_handler import OverlayOrganizer
+    from plex_index import build_or_load_index
     from poster_handler import PosterOrganizer
     from tmdb_resolver import build_resolver
 
@@ -218,6 +277,43 @@ def main() -> int:
         logger.info("TMDb lookups disabled (--no-tmdb)")
     elif tmdb_resolver is None:
         logger.info("TMDb lookups disabled (TMDB_API_KEY not set)")
+
+    exception_mappings_data: dict = {}
+    if exception_mappings.is_file():
+        import json as _json
+
+        try:
+            exception_mappings_data = _json.loads(
+                exception_mappings.read_text(encoding="utf-8")
+            )
+        except _json.JSONDecodeError as exc:
+            logger.warning("Failed to parse %s: %s", exception_mappings, exc)
+
+    match_review = MatchReview()
+    plex_index = None
+    if not args.no_plex:
+        plex_libraries = [lib.strip() for lib in args.plex_libraries.split(",") if lib.strip()]
+        plex_index = build_or_load_index(
+            resolve_path(args.plex_index_cache),
+            libraries=plex_libraries,
+            max_age_hours=args.plex_index_max_age_hours,
+            force_refresh=args.refresh_plex_index,
+        )
+    else:
+        logger.info("Plex-based matching disabled (--no-plex)")
+
+    title_matcher = TitleMatcher(
+        plex_index,
+        exception_mappings=exception_mappings_data,
+        fuzzy_cutoff=args.plex_fuzzy_cutoff,
+        review=match_review,
+    )
+    if title_matcher.enabled:
+        logger.info("Plex-based matching enabled")
+    elif not args.no_plex:
+        logger.info(
+            "Plex-based matching unavailable this run; falling back to legacy normalization"
+        )
 
     max_poster = args.max_poster_bytes
 
@@ -246,6 +342,7 @@ def main() -> int:
                 strip_collection_suffix=args.strip_collection_suffix,
                 incremental=not args.full,
                 tmdb_resolver=tmdb_resolver,
+                title_matcher=title_matcher,
             )
             for category in Organizer.ASSET_CATEGORIES:
                 if not organizer.organize(category):
@@ -273,6 +370,14 @@ def main() -> int:
             "TMDb: %d live API call(s) this run — future runs will use cache",
             tmdb_resolver.api_call_count,
         )
+
+    # Surface any fuzzy/unmatched Plex lookups so they can be verified or turned
+    # into exception_mappings.json entries, instead of silently guessing.
+    match_review.log_summary()
+    if not args.dry_run and not match_review.is_clean():
+        review_path = resolve_path(args.match_review_output)
+        match_review.save(review_path)
+        logger.info("Match review written to %s", review_path)
 
     # After ingest, cap any poster.png still over Plex limit (e.g. pre-existing huge files).
     if not args.dry_run and not args.shrink_large_posters and args.force_png:
