@@ -11,6 +11,6 @@ except Exception:
 __author__ = "okdesign21"
 __license__ = "MIT"
 
-from .handlers import Organizer
+from handlers import Organizer
 
 __all__ = ["Organizer"]
