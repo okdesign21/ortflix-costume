@@ -130,6 +130,12 @@ class Organizer(ABC):
         for category in self.ASSET_CATEGORIES:
             self.ASSET_CATEGORIES[category] = (0, [])
 
+        # dest_dir -> source file name that most recently wrote there this run.
+        # Used to detect two different source posters mapping to the same
+        # target folder (e.g. via a mis-normalization/fuzzy-match collision)
+        # so it's surfaced as a loud warning instead of a silent overwrite.
+        self._written_this_run: dict[Path, str] = {}
+
     def _iter_image_files(self, folder_path: Path):
         """Iterate over image files in folder."""
         for item in sorted(folder_path.iterdir()):

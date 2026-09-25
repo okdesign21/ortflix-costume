@@ -168,6 +168,18 @@ class PosterOrganizer(Organizer):
         """Process a single poster file."""
         self._ensure_target_dir(dest_dir)
 
+        previous_src = self._written_this_run.get(dest_dir)
+        if previous_src is not None and previous_src != src.name:
+            logger.warning(
+                "COLLISION: %r and %r both resolved to the same target folder %s "
+                "this run — the second file will overwrite the first's poster. "
+                "Check for a bad name-normalization/fuzzy match.",
+                previous_src,
+                src.name,
+                dest_dir,
+            )
+        self._written_this_run[dest_dir] = src.name
+
         if self.incremental and any(dest_dir.glob("poster.*")):
             src_hash = compute_file_hash(src)
             stored_hash = read_hash_sidecar(dest_dir)
@@ -217,6 +229,32 @@ class PosterOrganizer(Organizer):
             dest_dir = target_base / item_name
             self.process_poster(item, dest_dir, category)
 
+    def _is_collection_poster_file(self, fname: str, collection_name: str) -> bool:
+        """Decide whether ``fname`` is this folder's own collection poster.
+
+        Only an *exact* exception-mapping or Plex match to the "collections"
+        table is trusted here — a *fuzzy* match can otherwise mistake a
+        numbered/sequel entry (e.g. "The Hunchback of Notre Dame II (2002)")
+        for the bare collection name ("The Hunchback of Notre Dame") since
+        difflib's ratio barely penalizes a trailing " II (2002)" on a long
+        title. Trusting that fuzzy match here would wrongly overwrite the
+        real collection poster with the sequel's poster. Fuzzy corrections
+        are still applied normally (see the caller) when placing individual
+        items into their own folder — only the collection-poster decision
+        itself requires exact confidence.
+        """
+        override = self.exception_mappings.get(fname)
+        if override:
+            return self._is_collection_poster(override, collection_name)
+
+        if self.title_matcher is not None:
+            result = self.title_matcher.match(("collections", "movies_shows"), fname)
+            if result.matched and result.method == "exact":
+                return self._is_collection_poster(result.canonical, collection_name)
+
+        legacy_stem = self.normalize_name(fname, category=None)
+        return self._is_collection_poster(legacy_stem, collection_name)
+
     def process_collection_folder(
         self, folder_path: Path, target_base: Path, category: str
     ) -> None:
@@ -237,13 +275,7 @@ class PosterOrganizer(Organizer):
         try:
             for item in self._iter_image_files(folder_path):
                 fname = item.stem
-                # Could be the collection's own poster (matches "collections") or an
-                # individual title within it (matches "movies_shows") — try both.
-                norm_stem = self.normalize_name(
-                    fname, category=("collections", "movies_shows")
-                )
-
-                if self._is_collection_poster(norm_stem, collection_name):
+                if self._is_collection_poster_file(fname, collection_name):
                     self.process_poster(item, collection_dir, category, collection=True)
                 else:
                     item_name = self.normalize_kometa_collection_folder_name(
