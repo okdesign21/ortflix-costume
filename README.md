@@ -8,8 +8,6 @@ Automation repository for Ortflix media customization:
 **AI / agent / contributor guide:** [`AGENTS.md`](./AGENTS.md) (Kometa layout, sync, asset organizer, gotchas) — same content Cursor loads via the parent workspace’s `.cursor/rules/kometa.mdc`.
 
 - `kometa/` — assets, collection config, and tooling
-- `tautulli/` — notification and tagging scripts
-- `radarr/` — custom script hooks
 - `scripts/` — host sync and operational utilities
 
 ## Repository Structure
@@ -17,10 +15,8 @@ Automation repository for Ortflix media customization:
 - `kometa/config/` — Kometa collection and metadata config (YAML)
 - `kometa/tools/asset-organizer/` — Kometa assets organizer Python package
 - `kometa/tools/update_jewish_dates.py` — refresh Israeli holiday schedule windows via HebCal API
-- `radarr/` — Radarr custom script hooks (audio language fix, Overseerr requester tagging)
-- `tautulli/` — Tautulli automation scripts (recently-added and watched tagging)
 - `scripts/sync_to_host.sh` — rsync config, scripts, and assets to the host server
-- `scripts/check_plex_titles.py` — compare Plex library items to Kometa asset folders
+- `ortflix-telegram/scripts/check_plex_titles.py` — compare Plex library items to Kometa asset folders
 
 ## Quick Start
 

@@ -98,7 +98,7 @@ libraries:
         template_variables:
           use_popular: false
           use_lowest: false
-          use_top: false
+          use_top: true
       - default: resolution
         template_variables:
           use_other: false
@@ -303,7 +303,7 @@ libraries:
         template_variables:
           use_popular: false
           use_lowest: false
-          use_top: false
+          use_top: true
       - default: network
         template_variables:
           append_addons:

@@ -38,3 +38,4 @@ Organizer_Report.txt
 logs/
 # Generated version file (setuptools_scm) — regenerate, don't track
 kometa/_version.py
+match_review.json
