@@ -1,10 +1,10 @@
 # Agent instructions (Kometa / Plex stack)
 
-**Canonical copy (versioned):** this file at the **root of the `ortflix-costume` repository**. Any IDE or agent that reads `AGENTS.md` at repo root (Copilot, Codex, Claude Code, JetBrains, etc.) picks it up here.
+**Scope:** this file is the project-specific agent guide at the root of the `ortflix-costume` repository. The sibling `homeserver/AGENTS.md` contains shared rules for the multi-root workspace; follow both when working in this repository, with this file controlling Kometa-specific details.
 
-**Multi-folder workspace:** if you use a parent folder (e.g. `myserver/`) that contains `ortflix-costume/` as a subfolder, some tools expect `AGENTS.md` at the workspace root — keep a **symlink** there pointing to `ortflix-costume/AGENTS.md`, or open the `ortflix-costume` folder as the workspace root.
+**Workspace layout:** `homeserver/` is the coordination hub and workspace file; `ortflix`, `ortflix-costume`, and `ortflix-integrations-bot` are separate sibling repositories. Keep changes in their owning repository. No root-level symlink to this file is needed.
 
-**Cursor:** use **`ortflix-costume/.cursor/rules/kometa.mdc`** when this repo is the workspace root (`@AGENTS.md`). If the workspace root is a parent folder (e.g. `myserver/`), use **`.cursor/rules/kometa.mdc`** there with `@ortflix-costume/AGENTS.md` (or rely on the optional symlink `AGENTS.md` → `ortflix-costume/AGENTS.md` at the parent root).
+**Cursor:** the repository-local `.cursor/rules/kometa.mdc` imports this file with `@AGENTS.md`. Edit this file for project guidance; keep the Cursor rule as a short include rather than duplicating this content.
 
 **Upstream (do not guess — read or cite):**
 
@@ -17,19 +17,23 @@
 
 ### Project layout
 
-Typical layout when this repo lives under a parent `myserver/` workspace:
+The multi-root workspace is organized as sibling repositories:
 
 ```
-myserver/
-├── meta.log                          # pulled from server — last Kometa run log
-├── Films_report.yml                  # pulled from server — Films library report
-├── TV Programmes_report.yml          # pulled from server — TV library report
-├── Musicals_report.yml               # pulled from server — Musicals library report
-└── ortflix-costume/                  # this repository
-    ├── AGENTS.md                     # this file
-    ├── kometa/
-    │   ├── config/                   # ALL Kometa YAML config
-    ...
+server/
+├── homeserver/                       # coordination hub and workspace file
+│   ├── AGENTS.md                     # shared workspace rules
+│   ├── meta.log                      # pulled Kometa run log (ignored by *.log)
+│   ├── Films_report.yml              # pulled Films report (gitignored)
+│   ├── TV Programmes_report.yml      # pulled TV report (gitignored)
+│   └── Musicals_report.yml           # pulled Musicals report (gitignored)
+├── ortflix/                          # server stack and deployment
+├── ortflix-costume/                  # this repository; Kometa configuration
+│   ├── AGENTS.md                     # project-specific guidance
+│   ├── kometa/
+│   │   └── config/                   # Kometa YAML, assets, and overlays
+│   └── scripts/
+└── ortflix-integrations-bot/         # integrations and automation
 ```
 
 Paths below are relative to **this repo root** (`ortflix-costume/`) unless stated otherwise.
@@ -168,7 +172,7 @@ No flags = all of `-k -a -o`.
 
 ### Reports and logs
 
-After a run, pull with `sync_to_host.sh sync -kl`. Files land in the workspace root (often parent `myserver/` when using a monorepo folder):
+After a run, pull with `sync_to_host.sh sync -kl` from the `homeserver` hub folder. The files land there; `meta.log` is ignored by the hub's `*.log` rule, and the three report files have explicit hub `.gitignore` entries:
 
 - `meta.log` — full Kometa run log; check **Error Summary** and **Warning Summary** sections at the end
 - `Films_report.yml` — per-item report for Films library (TMDb IDs, titles, filter results)
@@ -233,4 +237,4 @@ After a run, pull with `sync_to_host.sh sync -kl`. Files land in the workspace r
 
 ## Editing convention
 
-Edit **this `AGENTS.md` file** for facts and policy. Cursor rule stubs (**`ortflix-costume/.cursor/rules/kometa.mdc`** and, if used, **`<parent>/.cursor/rules/kometa.mdc`**) should only `@`-include this file; do not fork long prose into `.mdc` files or it will drift.
+Edit **this repository's `AGENTS.md` file** for Kometa facts and policy. The repository-local Cursor rule at **`.cursor/rules/kometa.mdc`** should only `@`-include this file; do not fork long prose into `.mdc` files or it will drift.

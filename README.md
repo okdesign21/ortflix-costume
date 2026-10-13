@@ -5,7 +5,7 @@
 
 Automation repository for Ortflix media customization:
 
-**AI / agent / contributor guide:** [`AGENTS.md`](./AGENTS.md) (Kometa layout, sync, asset organizer, gotchas) — same content Cursor loads via the parent workspace’s `.cursor/rules/kometa.mdc`.
+**AI / agent / contributor guide:** [`AGENTS.md`](./AGENTS.md) (Kometa layout, sync, asset organizer, gotchas). The repository-local `.cursor/rules/kometa.mdc` loads this guide; shared workspace rules live in the sibling `homeserver/AGENTS.md`.
 
 - `kometa/` — assets, collection config, and tooling
 - `scripts/` — host sync and operational utilities
