@@ -35,7 +35,9 @@ def test_is_collection_poster_does_not_match_other_collection_name(tmp_path):
 def test_normalize_kometa_collection_folder_name_strips_franchise_suffix(tmp_path):
     organizer = make_organizer(tmp_path)
 
-    assert organizer.normalize_kometa_collection_folder_name("Cars Collection") == "Cars"
+    assert (
+        organizer.normalize_kometa_collection_folder_name("Cars Collection") == "Cars"
+    )
     assert (
         organizer.normalize_kometa_collection_folder_name(
             "Pirates of the Caribbean Collection"

@@ -31,5 +31,5 @@ jobs:
           pip install ruff
       - name: Run ruff checks
         run: |
-          ruff check kometa tautulli radarr
-          ruff format --check kometa tautulli radarr
+          ruff check .
+          ruff format --check .

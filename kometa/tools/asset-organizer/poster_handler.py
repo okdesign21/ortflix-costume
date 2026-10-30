@@ -11,7 +11,7 @@ import importlib.util
 import logging
 import re
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from handlers import Organizer, compute_file_hash, read_hash_sidecar, write_hash_sidecar
 
@@ -57,7 +57,12 @@ class PosterOrganizer(Organizer):
     ) -> None:
         """Initialize PosterOrganizer."""
         super().__init__(
-            source_dir, target_dir, exception_file, force_png, dry_run, incremental,
+            source_dir,
+            target_dir,
+            exception_file,
+            force_png,
+            dry_run,
+            incremental,
             tmdb_resolver=tmdb_resolver,
             title_matcher=title_matcher,
         )
@@ -290,7 +295,7 @@ class PosterOrganizer(Organizer):
                     )
                     item_dir = target_base / item_name
                     self.process_poster(item, item_dir, category)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Error reading folder %s: %s", folder_path.name, e)
             self.update_category_tracking(category, error=str(e))
 
@@ -307,12 +312,12 @@ class PosterOrganizer(Organizer):
             self._process_images_to_subfolders(
                 folder_path, target_base, name_mapper, category
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Error reading folder %s: %s", folder_path.name, e)
             self.update_category_tracking(category, error=str(e))
 
     # Maps our asset category names to the Plex index table they should match against.
-    PLEX_INDEX_CATEGORY = {
+    PLEX_INDEX_CATEGORY: ClassVar[dict[str, str]] = {
         "Companies": "studios",
         "Genres": "genres",
         "People": "people",
@@ -323,7 +328,7 @@ class PosterOrganizer(Organizer):
         self, folder_path: Path, asset_subfolder: str, category: str
     ) -> None:
         plex_category = self.PLEX_INDEX_CATEGORY.get(category)
-        name_mapper = lambda stem: self.normalize_name(stem, category=plex_category)  # noqa: E731
+        name_mapper = lambda stem: self.normalize_name(stem, category=plex_category)
         self._process_folder_with_error_handling(
             folder_path, asset_subfolder, name_mapper, category
         )
@@ -348,8 +353,10 @@ class PosterOrganizer(Organizer):
             # poster ("Cars Collection.png") or a standalone movie/show poster
             # ("Toy Story That Time Forgot (2014).png") — ambiguous until
             # matched, so check both Plex tables.
-            top_level_mapper = lambda stem: self.normalize_kometa_collection_folder_name(  # noqa: E731
-                stem, category=("collections", "movies_shows")
+            top_level_mapper = lambda stem: (
+                self.normalize_kometa_collection_folder_name(
+                    stem, category=("collections", "movies_shows")
+                )
             )
             self._process_images_to_subfolders(
                 folder_path,
@@ -357,7 +364,7 @@ class PosterOrganizer(Organizer):
                 top_level_mapper,
                 category,
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(
                 "Error reading Movies and Shows folder %s: %s", folder_path.name, e
             )
@@ -366,13 +373,13 @@ class PosterOrganizer(Organizer):
     def process_folder(self, folder_path: Path, category: str | None = None) -> None:
         """Process a single folder (helper method)."""
         if category is None:
-            return None  # cannot process without category
+            return  # cannot process without category
         self.process_collection_folder(folder_path, self.target_dir, category)
 
     def process_file(self, file_path: Path, category: str | None = None) -> None:
         """Process a single file (helper method)."""
         if category is None:
-            return None  # cannot process without category
+            return  # cannot process without category
         item_name = self.normalize_name(
             file_path.stem, category=self.PLEX_INDEX_CATEGORY.get(category)
         )

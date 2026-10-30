@@ -132,21 +132,17 @@ class OverlayOrganizer(Organizer):
     # Public interface
     # ------------------------------------------------------------------
 
-    def organize(self, category: str = "Overlays") -> bool:  # noqa: ARG002
+    def organize(self, category: str = "Overlays") -> bool:
         """Walk source and mirror overlay files into the target directory."""
         self._processed = 0
         self._skipped = 0
         self._errors = []
 
         if not self.source_dir.exists():
-            logger.info(
-                "Overlays source not found, skipping (%s)", self.source_dir
-            )
+            logger.info("Overlays source not found, skipping (%s)", self.source_dir)
             return True
 
-        logger.info(
-            "%sOrganizing overlays...", "[DRY RUN] " if self.dry_run else ""
-        )
+        logger.info("%sOrganizing overlays...", "[DRY RUN] " if self.dry_run else "")
         logger.info("Overlays source: %s", self.source_dir)
         logger.info("Overlays target: %s", self.target_dir)
 

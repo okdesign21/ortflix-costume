@@ -46,9 +46,10 @@ import re
 import subprocess
 import time
 import unicodedata
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +79,7 @@ def normalize_key(name: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def _try_resolve_secret(raw: Optional[str]) -> Optional[str]:
+def _try_resolve_secret(raw: str | None) -> str | None:
     if raw is None:
         return None
     s = raw.strip()
@@ -92,7 +93,11 @@ def _try_resolve_secret(raw: Optional[str]) -> Optional[str]:
             return path.read_text(encoding="utf-8").strip()
         try:
             r = subprocess.run(
-                ["sudo", "cat", str(path)], capture_output=True, text=True, timeout=60
+                ["sudo", "cat", str(path)],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                check=False,
             )
             if r.returncode == 0:
                 return r.stdout.strip()
@@ -105,7 +110,7 @@ def _try_resolve_secret(raw: Optional[str]) -> Optional[str]:
     return s
 
 
-def load_plex_credentials() -> tuple[Optional[str], Optional[str]]:
+def load_plex_credentials() -> tuple[str | None, str | None]:
     """Return ``(url, token)``, or ``(None, None)`` components that are unset."""
     url = _try_resolve_secret(os.getenv("KOMETA_PLEXURL"))
     if not url:
@@ -156,7 +161,7 @@ class PlexIndex:
         return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
 
     @classmethod
-    def from_json(cls, text: str) -> "PlexIndex":
+    def from_json(cls, text: str) -> PlexIndex:
         data = json.loads(text)
         return cls(
             movies_shows=data.get("movies_shows", {}),
@@ -173,7 +178,7 @@ class PlexIndex:
         path.write_text(self.to_json(), encoding="utf-8")
 
     @classmethod
-    def load(cls, path: Path) -> Optional["PlexIndex"]:
+    def load(cls, path: Path) -> PlexIndex | None:
         if not path.is_file():
             return None
         try:
@@ -277,7 +282,7 @@ def build_or_load_index(
     libraries: Iterable[str] = DEFAULT_LIBRARIES,
     max_age_hours: float = DEFAULT_MAX_AGE_HOURS,
     force_refresh: bool = False,
-) -> Optional[PlexIndex]:
+) -> PlexIndex | None:
     """Return a fresh-enough :class:`PlexIndex`, refreshing from Plex if needed.
 
     Returns ``None`` (never raises) when Plex is unreachable/unconfigured and
@@ -285,7 +290,11 @@ def build_or_load_index(
     the legacy normalization rules) rather than fail the whole run.
     """
     cached = None if force_refresh else PlexIndex.load(cache_path)
-    if cached is not None and not cached.is_empty() and cached.age_hours() <= max_age_hours:
+    if (
+        cached is not None
+        and not cached.is_empty()
+        and cached.age_hours() <= max_age_hours
+    ):
         logger.info(
             "Using cached Plex index (%.1fh old): %s", cached.age_hours(), cache_path
         )

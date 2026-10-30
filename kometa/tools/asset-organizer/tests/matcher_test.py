@@ -1,5 +1,5 @@
-from plex_index import PlexIndex, normalize_key
 from matcher import MatchReview, TitleMatcher
+from plex_index import PlexIndex, normalize_key
 
 
 def make_index() -> PlexIndex:
@@ -17,7 +17,9 @@ def make_index() -> PlexIndex:
 
 
 def test_exception_mapping_always_wins():
-    matcher = TitleMatcher(make_index(), exception_mappings={"Weird Name": "Correct Name"})
+    matcher = TitleMatcher(
+        make_index(), exception_mappings={"Weird Name": "Correct Name"}
+    )
     result = matcher.match("movies_shows", "Weird Name")
     assert result.canonical == "Correct Name"
     assert result.method == "exception"
@@ -75,7 +77,9 @@ def test_match_review_only_records_low_confidence():
     matcher = TitleMatcher(make_index(), review=review)
     matcher.match("movies_shows", "Friends")  # exact -> not recorded
     matcher.match("movies_shows", "A Bugs Life (1998)")  # fuzzy -> recorded
-    matcher.match("movies_shows", "Totally Unknown Title (2099)")  # unmatched -> recorded
+    matcher.match(
+        "movies_shows", "Totally Unknown Title (2099)"
+    )  # unmatched -> recorded
 
     assert len(review.entries) == 2
     assert len(review.fuzzy()) == 1

@@ -23,9 +23,9 @@ import difflib
 import json
 import logging
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Optional
 
 from plex_index import PlexIndex, normalize_key
 
@@ -53,7 +53,7 @@ CATEGORY_FUZZY_CUTOFFS: dict[str, float] = {
 class MatchResult:
     """Outcome of matching a source name against one Plex index category."""
 
-    canonical: Optional[str]
+    canonical: str | None
     confidence: float  # 1.0 = exact/override, 0.0-1.0 = fuzzy ratio, 0.0 = unmatched
     method: str  # "exception" | "exact" | "fuzzy" | "unmatched"
 
@@ -129,11 +129,11 @@ class TitleMatcher:
 
     def __init__(
         self,
-        index: Optional[PlexIndex],
-        exception_mappings: Optional[dict[str, str]] = None,
+        index: PlexIndex | None,
+        exception_mappings: dict[str, str] | None = None,
         fuzzy_cutoff: float = DEFAULT_FUZZY_CUTOFF,
-        review: Optional[MatchReview] = None,
-        category_fuzzy_cutoffs: Optional[dict[str, float]] = None,
+        review: MatchReview | None = None,
+        category_fuzzy_cutoffs: dict[str, float] | None = None,
     ) -> None:
         self.index = index
         self.exception_mappings = exception_mappings or {}
@@ -195,17 +195,24 @@ class TitleMatcher:
         here since they're already checked separately).
         """
         source_words = [
-            w for w in source_key.split() if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
+            w
+            for w in source_key.split()
+            if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
         ]
         candidate_words = [
-            w for w in candidate_key.split() if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
+            w
+            for w in candidate_key.split()
+            if w not in _WORD_MATCH_STOPWORDS and not w.isdigit()
         ]
         if not source_words or not candidate_words:
             return True
         candidate_joined = "".join(candidate_words)
         for word in source_words:
             best_ratio = max(
-                (difflib.SequenceMatcher(None, word, cw).ratio() for cw in candidate_words),
+                (
+                    difflib.SequenceMatcher(None, word, cw).ratio()
+                    for cw in candidate_words
+                ),
                 default=0.0,
             )
             if best_ratio < _WORD_MATCH_MIN_RATIO and word not in candidate_joined:
@@ -265,11 +272,12 @@ class TitleMatcher:
                 break  # candidates are ranked best-first; take the first safe one
 
         if best_canonical is not None:
-            result = MatchResult(canonical=best_canonical, confidence=best_ratio, method="fuzzy")
+            result = MatchResult(
+                canonical=best_canonical, confidence=best_ratio, method="fuzzy"
+            )
             self.review.record(review_label, source_name, result)
             return result
 
         result = MatchResult(canonical=None, confidence=0.0, method="unmatched")
         self.review.record(review_label, source_name, result)
         return result
-

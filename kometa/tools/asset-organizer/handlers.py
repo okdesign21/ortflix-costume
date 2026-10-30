@@ -11,10 +11,11 @@ import unicodedata
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 if TYPE_CHECKING:
     from matcher import TitleMatcher
+    from PIL import Image
     from tmdb_resolver import TmdbResolver
 
 logger = logging.getLogger(__name__)
@@ -88,7 +89,7 @@ class Organizer(ABC):
     """Base class for asset organizers."""
 
     # Category tracking: (processed_count, [errors_list])
-    ASSET_CATEGORIES = {
+    ASSET_CATEGORIES: ClassVar[dict[str, tuple[int, list]]] = {
         "Companies": (0, []),
         "Genres": (0, []),
         "Movies_Shows": (0, []),
@@ -118,7 +119,7 @@ class Organizer(ABC):
             try:
                 with open(exception_file, "r") as f:
                     self.exception_mappings = json.load(f)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 msg = f"Failed to load exception mappings {exception_file}: {e}"
                 logger.warning(msg)
                 self.exception_mappings = {}
@@ -168,9 +169,9 @@ class Organizer(ABC):
                             logger.debug(
                                 "removed existing %s", p.relative_to(self.target_dir)
                             )
-                        except Exception as e:
+                        except Exception as e:  # noqa: BLE001
                             logger.error("Error removing %s: %s", p.name, e)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Error scanning for existing files in %s: %s", dir_path, e)
 
     def save_as_png(self, src: Path, dest: Path) -> bool:
@@ -194,10 +195,12 @@ class Organizer(ABC):
                         out = img.convert("RGBA")
                     else:
                         out = img.convert("RGB")
-                save_png_under_plex_limit(out, dest, max_bytes=effective_max_poster_bytes())
+                save_png_under_plex_limit(
+                    out, dest, max_bytes=effective_max_poster_bytes()
+                )
                 logger.debug("saved PNG %s (%d bytes)", dest, dest.stat().st_size)
                 return True
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error("Error converting %s to PNG: %s", src.name, e)
                 return False
         else:
@@ -205,7 +208,7 @@ class Organizer(ABC):
             try:
                 shutil.copy2(src, dest)
                 return True
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error("Error copying %s: %s", src.name, e)
                 return False
 
@@ -225,7 +228,7 @@ class Organizer(ABC):
                 shutil.copy2(src, dest)
                 logger.debug("copied %s", dest)
                 return True
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error("Error copying %s: %s", src.name, e)
                 return False
 
@@ -243,7 +246,9 @@ class Organizer(ABC):
             errs.append(error)
         self.ASSET_CATEGORIES[category] = (count, errs)
 
-    def normalize_name(self, name: str, category: str | tuple[str, ...] | None = None) -> str:
+    def normalize_name(
+        self, name: str, category: str | tuple[str, ...] | None = None
+    ) -> str:
         """Normalize asset names to match expected naming conventions.
 
         Lookup order:
@@ -352,7 +357,9 @@ class Organizer(ABC):
         ...
 
 
-def _encode_png(img: "Image.Image", *, optimize: bool = True, compress_level: int = 9) -> bytes:
+def _encode_png(
+    img: Image.Image, *, optimize: bool = True, compress_level: int = 9
+) -> bytes:
     """Serialize a PIL image to PNG bytes."""
     buf = BytesIO()
     img.save(
@@ -365,7 +372,7 @@ def _encode_png(img: "Image.Image", *, optimize: bool = True, compress_level: in
 
 
 def save_png_under_plex_limit(
-    img: "Image.Image",
+    img: Image.Image,
     dest: Path,
     *,
     max_bytes: int | None = None,
@@ -445,7 +452,7 @@ def shrink_poster_file_if_needed(
                 out = img.convert("RGB")
         save_png_under_plex_limit(out, path, max_bytes=max_bytes)
         return True
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error("Failed to shrink %s: %s", path, e)
         return False
 
