@@ -20,16 +20,18 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 # Priority: kometa/.env  →  ortflix-costume/scripts/.env  →  ortflix-costume/.env
 _COSTUME_ROOT = SCRIPT_DIR.parent.parent.parent  # ortflix-costume/
 _ENV_CANDIDATES = [
-    SCRIPT_DIR.parent.parent / ".env",       # kometa/.env  (legacy)
-    _COSTUME_ROOT / "scripts" / ".env",      # scripts/.env (shared credentials)
-    _COSTUME_ROOT / ".env",                  # ortflix-costume/.env
+    SCRIPT_DIR.parent.parent / ".env",  # kometa/.env  (legacy)
+    _COSTUME_ROOT / "scripts" / ".env",  # scripts/.env (shared credentials)
+    _COSTUME_ROOT / ".env",  # ortflix-costume/.env
 ]
 try:
     from dotenv import load_dotenv as _load_dotenv
 
     for _env_path in _ENV_CANDIDATES:
         if _env_path.exists():
-            _load_dotenv(_env_path, override=False)  # override=False: env vars set later win
+            _load_dotenv(
+                _env_path, override=False
+            )  # override=False: env vars set later win
             logger.debug("Loaded env from %s", _env_path)
 except ImportError:
     logger.debug("python-dotenv not installed; skipping .env load")
@@ -51,9 +53,7 @@ ASSET_EXCEPTION_MAPPINGS = os.getenv(
     "ASSET_EXCEPTION_MAPPINGS", "exception_mappings.json"
 )
 # Match Kometa/Plex poster upload limit (bytes)
-ASSET_MAX_POSTER_BYTES = int(
-    os.getenv("ASSET_MAX_POSTER_BYTES", str(10_480_000))
-)
+ASSET_MAX_POSTER_BYTES = int(os.getenv("ASSET_MAX_POSTER_BYTES", str(10_480_000)))
 # Match Kometa movie franchise remove_suffix: "Collection" when naming output folders
 KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
     "KOMETA_STRIP_COLLECTION_SUFFIX", "true"
@@ -61,16 +61,24 @@ KOMETA_STRIP_COLLECTION_SUFFIX = os.getenv(
 
 # Plex-based authoritative matching (see plex_index.py / matcher.py)
 ASSET_PLEX_MATCHING = os.getenv("ASSET_PLEX_MATCHING", "true").strip().lower() in {
-    "1", "true", "yes", "on",
+    "1",
+    "true",
+    "yes",
+    "on",
 }
 ASSET_PLEX_LIBRARIES = [
-    lib.strip() for lib in os.getenv("ASSET_PLEX_LIBRARIES", "Films,TV Programmes").split(",")
+    lib.strip()
+    for lib in os.getenv("ASSET_PLEX_LIBRARIES", "Films,TV Programmes").split(",")
     if lib.strip()
 ]
 ASSET_PLEX_INDEX_CACHE = os.getenv("ASSET_PLEX_INDEX_CACHE", "plex_index_cache.json")
-ASSET_PLEX_INDEX_MAX_AGE_HOURS = float(os.getenv("ASSET_PLEX_INDEX_MAX_AGE_HOURS", "24"))
+ASSET_PLEX_INDEX_MAX_AGE_HOURS = float(
+    os.getenv("ASSET_PLEX_INDEX_MAX_AGE_HOURS", "24")
+)
 ASSET_PLEX_FUZZY_CUTOFF = float(os.getenv("ASSET_PLEX_FUZZY_CUTOFF", "0.86"))
-ASSET_PLEX_PEOPLE_FUZZY_CUTOFF = float(os.getenv("ASSET_PLEX_PEOPLE_FUZZY_CUTOFF", "0.95"))
+ASSET_PLEX_PEOPLE_FUZZY_CUTOFF = float(
+    os.getenv("ASSET_PLEX_PEOPLE_FUZZY_CUTOFF", "0.95")
+)
 ASSET_MATCH_REVIEW_OUTPUT = os.getenv("ASSET_MATCH_REVIEW_OUTPUT", "match_review.json")
 
 HANDLERS = {"poster_handler", "overlay_handler"}
@@ -264,7 +272,9 @@ def main() -> int:
         log_path = Path(args.log_file)
         log_path.parent.mkdir(parents=True, exist_ok=True)
         handlers.append(logging.FileHandler(log_path, encoding="utf-8"))
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s", handlers=handlers)
+    logging.basicConfig(
+        level=logging.INFO, format="%(levelname)s: %(message)s", handlers=handlers
+    )
 
     os.environ["ASSET_MAX_POSTER_BYTES"] = str(args.max_poster_bytes)
 
@@ -304,7 +314,9 @@ def main() -> int:
     match_review = MatchReview()
     plex_index = None
     if not args.no_plex:
-        plex_libraries = [lib.strip() for lib in args.plex_libraries.split(",") if lib.strip()]
+        plex_libraries = [
+            lib.strip() for lib in args.plex_libraries.split(",") if lib.strip()
+        ]
         plex_index = build_or_load_index(
             resolve_path(args.plex_index_cache),
             libraries=plex_libraries,
@@ -394,9 +406,7 @@ def main() -> int:
 
     # After ingest, cap any poster.png still over Plex limit (e.g. pre-existing huge files).
     if not args.dry_run and not args.shrink_large_posters and args.force_png:
-        n = shrink_all_posters_under_limit(
-            target, max_bytes=max_poster, dry_run=False
-        )
+        n = shrink_all_posters_under_limit(target, max_bytes=max_poster, dry_run=False)
         if n:
             logger.info(
                 "Post-organize: shrunk %d existing poster(s) over %d bytes",

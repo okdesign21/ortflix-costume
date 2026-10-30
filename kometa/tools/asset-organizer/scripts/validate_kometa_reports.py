@@ -28,7 +28,7 @@ _ORG = Path(__file__).resolve().parent.parent
 if str(_ORG) not in sys.path:
     sys.path.insert(0, str(_ORG))
 
-from poster_handler import PosterOrganizer  # noqa: E402
+from poster_handler import PosterOrganizer
 
 
 def load_report_keys(path: Path) -> list[str]:
@@ -202,11 +202,11 @@ def main() -> int:
 
     print("Kometa report vs organizer (normalize_name)")
     print(f"  Unique collection titles (all reports): {len(unique_keys)}")
-    print(
-        f"  Titles where normalize_name(title) != title: {len(normalize_mismatches)}"
-    )
+    print(f"  Titles where normalize_name(title) != title: {len(normalize_mismatches)}")
     if normalize_mismatches:
-        print("\n  These need exception_mappings (or folder names must match Kometa, not normalize output):")
+        print(
+            "\n  These need exception_mappings (or folder names must match Kometa, not normalize output):"
+        )
         for row in normalize_mismatches[:50]:
             print(f"    {row['report_title']!r}")
             print(f"      -> normalize_name: {row['normalize_name_output']!r}")
@@ -220,7 +220,9 @@ def main() -> int:
         for cat, info in inventory_derived.items():
             print(f"  {cat}: {info['raw_entries_sampled']} raw entries")
         if args.inventory_overlap:
-            print("\n  --inventory-overlap: entries with derived name not in merged report keys")
+            print(
+                "\n  --inventory-overlap: entries with derived name not in merged report keys"
+            )
             for cat, info in inventory_derived.items():
                 nmiss = info["not_in_any_report_key_count"]
                 print(f"  {cat}: {nmiss}")

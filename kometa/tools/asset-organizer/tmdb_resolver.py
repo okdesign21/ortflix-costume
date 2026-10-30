@@ -32,13 +32,12 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 import time
 import urllib.parse
 import urllib.request
-import os
 from pathlib import Path
-from typing import Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -75,8 +74,8 @@ class TmdbResolver:
     def __init__(
         self,
         api_key: str,
-        cache_path: Optional[Path] = None,
-        exception_mappings_path: Optional[Path] = None,
+        cache_path: Path | None = None,
+        exception_mappings_path: Path | None = None,
         write_back: bool = True,
         rate_limit_delay: float = 0.1,
     ) -> None:
@@ -93,9 +92,11 @@ class TmdbResolver:
             try:
                 self._cache = json.loads(cache_path.read_text(encoding="utf-8"))
                 logger.debug(
-                    "TMDb cache: loaded %d entries from %s", len(self._cache), cache_path
+                    "TMDb cache: loaded %d entries from %s",
+                    len(self._cache),
+                    cache_path,
                 )
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 logger.warning("Failed to load TMDb cache %s: %s", cache_path, exc)
 
     # ------------------------------------------------------------------
@@ -114,10 +115,12 @@ class TmdbResolver:
         try:
             self.cache_path.parent.mkdir(parents=True, exist_ok=True)
             self.cache_path.write_text(
-                json.dumps(dict(sorted(self._cache.items())), ensure_ascii=False, indent=2),
+                json.dumps(
+                    dict(sorted(self._cache.items())), ensure_ascii=False, indent=2
+                ),
                 encoding="utf-8",
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.warning("Failed to save TMDb cache: %s", exc)
 
     def _write_back(self, source_name: str, canonical: str) -> None:
@@ -134,13 +137,15 @@ class TmdbResolver:
                 return  # already present — don't overwrite manual entries
             mappings[source_name] = canonical
             self.exception_mappings_path.write_text(
-                json.dumps(dict(sorted(mappings.items())), ensure_ascii=False, indent=2),
+                json.dumps(
+                    dict(sorted(mappings.items())), ensure_ascii=False, indent=2
+                ),
                 encoding="utf-8",
             )
             logger.info(
                 "TMDb write-back → exception_mappings: %r -> %r", source_name, canonical
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.warning("Failed to write back to exception_mappings: %s", exc)
 
     def _fetch(self, endpoint: str, params: dict) -> list[dict]:
@@ -153,7 +158,7 @@ class TmdbResolver:
             self._api_calls += 1
             with urllib.request.urlopen(url, timeout=8) as resp:
                 return json.loads(resp.read().decode("utf-8")).get("results", [])
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.debug("TMDb fetch failed (%s): %s", url, exc)
             return []
 
@@ -162,8 +167,8 @@ class TmdbResolver:
         results: list[dict],
         title_field: str,
         date_field: str,
-        year: Optional[int],
-    ) -> Optional[str]:
+        year: int | None,
+    ) -> str | None:
         """Return the title of the best-matching result, or None."""
         for item in results[:5]:
             res_title = item.get(title_field, "")
@@ -173,7 +178,7 @@ class TmdbResolver:
                 return res_title
         return None
 
-    def _search(self, title: str, year: Optional[int]) -> Tuple[Optional[str], Optional[str]]:
+    def _search(self, title: str, year: int | None) -> tuple[str | None, str | None]:
         """Query TMDb (movie then TV). Returns ``(official_title, kind)`` or ``(None, None)``.
 
         *kind* is ``\"movie\"`` or ``\"tv\"`` so callers can format folder names differently.
@@ -201,7 +206,7 @@ class TmdbResolver:
     # Public API
     # ------------------------------------------------------------------
 
-    def resolve(self, name: str) -> Optional[str]:
+    def resolve(self, name: str) -> str | None:
         """Return the TMDb-canonical folder name for *name*, or ``None``.
 
         *name* should be the **pre-normalization** stem, e.g.
@@ -245,10 +250,9 @@ class TmdbResolver:
         if official:
             # TV: Plex titles usually omit first-air year; movies keep ``Title (year)`` for disambiguation.
             # Opt-in with ASSET_RESOLVER_TV_OMIT_YEAR=1 — default keeps legacy ``Show (YYYY)`` folders.
-            tv_plain = (
-                media_kind == "tv"
-                and os.getenv("ASSET_RESOLVER_TV_OMIT_YEAR", "").strip().lower() in ("1", "true", "yes")
-            )
+            tv_plain = media_kind == "tv" and os.getenv(
+                "ASSET_RESOLVER_TV_OMIT_YEAR", ""
+            ).strip().lower() in ("1", "true", "yes")
             if tv_plain:
                 canonical = f"{official}{season_suffix}"
             else:
@@ -275,7 +279,7 @@ class TmdbResolver:
 
 def build_resolver(
     exception_mappings_path: Path,
-) -> Optional[TmdbResolver]:
+) -> TmdbResolver | None:
     """Create a TmdbResolver from env, or return None if TMDB_API_KEY is unset."""
     import os
 
