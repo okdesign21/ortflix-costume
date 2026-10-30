@@ -28,6 +28,9 @@ kometa/config/overlays/
 plex_titles_report.txt
 Organizer_Report.txt
 
+# Private operator files (git-ignored; the repository is public)
+bot/config/
+
 # OS/editor
 .DS_Store
 .vscode/
