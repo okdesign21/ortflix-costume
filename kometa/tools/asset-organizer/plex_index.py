@@ -21,7 +21,7 @@ Resolved in this order (first match wins), mirroring the retired
 ``scripts/check_plex_titles.py`` helper:
 
   1. ``KOMETA_PLEXURL`` / ``KOMETA_PLEXTOKEN`` env vars (Kometa's own Docker
-     naming — see ``ortflix/compose/docker-compose-onelayer.yml``).
+     naming — see ``ortflix/compose/automation.yml``).
   2. If ``KOMETA_PLEXURL`` is unset, fall back to
      ``http://{ORTFLIX_SYNC_HOST}:{KOMETA_PLEX_PORT or 32400}``.
 

@@ -135,7 +135,7 @@ Passed via environment variables (Docker secrets / `.env`); config.yml uses `<<P
 
 Kometa builds `secret_args` from every non-empty `KOMETA_*` env var (`KOMETA_MDBLISTAPIKEY` → `<<MDBLISTAPIKEY>>`). If `KOMETA_MDBLISTAPIKEY` is missing or empty, you get **Config Error: mdblist sub-attribute apikey is blank** and MDBList **401**.
 
-- **Compose:** sibling repo `ortflix/compose/docker-compose-onelayer.yml` — `kometa` service mounts **`mbdlist_api_key`** and the entrypoint exports **`KOMETA_MDBLISTAPIKEY`** together with Plex / TMDb / Tautulli (same block as the other keys).
+- **Compose:** sibling repo [automation.yml](../ortflix/compose/automation.yml), included by [compose.yaml](../ortflix/compose/compose.yaml) — `kometa` service mounts **`mbdlist_api_key`** and the entrypoint exports **`KOMETA_MDBLISTAPIKEY`** together with Plex / TMDb / Tautulli (same block as the other keys).
 - **Manual `docker exec`:** your shell snippet must include **the same four exports** as that entrypoint (including `mbdlist_api_key` → `KOMETA_MDBLISTAPIKEY`); otherwise only ad-hoc runs break while the container’s main process is fine.
 - **K8s:** `kometa.yaml` expects `media-secrets` key **`mbdlist-api-key`**; ensure Infisical/sync populates it.
 
