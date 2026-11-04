@@ -1,14 +1,14 @@
 # Israeli / Jewish seasonal movie collections (Films library).
 # sort_title !001_* matches default: seasonal collection_section "001" so holidays and seasonal stay grouped at the top.
 #
-# Schedule windows are maintained by scripts/update_jewish_dates.py, which
+# Schedule windows are maintained by kometa-assets-organizer/scripts/update_jewish_dates.py, which
 # fetches each holiday's Gregorian anchor date via the HebCal API and rewrites
 # the start_date / end_date fields below.  Run it once before Rosh Hashana to
 # keep the windows correct for the coming year.
 #
-#   python ortflix-costume/scripts/update_jewish_dates.py
-#   python ortflix-costume/scripts/update_jewish_dates.py --dry-run
-#   python ortflix-costume/scripts/update_jewish_dates.py --year 2027
+# From the ortflix-costume root, using the active shared Python environment:
+#   python ../kometa-assets-organizer/scripts/update_jewish_dates.py --config kometa/config/israeli_holidays.yml
+# Add --dry-run to preview or --year 2027 to plan for a specific year.
 
 templates:
   IsraeliHoliday:
