@@ -60,8 +60,7 @@ ortflix-costume/
 │   │   │   └── People/
 │   │   └── overlays/
 │   │       └── Status/
-│   └── tools/
-│       └── asset-organizer/          # poster pipeline — see “Kometa: asset organizer tool” below
+│   └── organizer/                   # personal title mappings and local runtime data
 └── scripts/
     └── sync_to_host.sh               # rsync/ssh deploy to server
 ```
@@ -102,7 +101,7 @@ settings:
   delete_below_minimum: true
 ```
 
-**Asset folder naming:** Kometa matches by the **exact Plex title**. With `asset_depth: 2` the expected path is `assets/<Category>/<PlexTitle>/poster.png`. If Plex shows a title without year (e.g. "Friends") but the folder has year (e.g. `Friends (1994)/`), Kometa will warn "Unable to find asset folder". **Triage:** treat those log lines as noise when there is **no** corresponding folder anywhere under `kometa/config/assets/` (you never shipped a custom poster). If a folder **does** exist but uses a different spelling (common: Plex `Title` vs organizer/TMDb output `Title (YYYY)`), fix by **renaming** the asset folder to the Plex title, and/or add **`exception_mappings.json`** entries (same pattern as `Friends (1994)` → `Friends`). Optional: set `ASSET_RESOLVER_TV_OMIT_YEAR=1` when running `organize_assets.py` so TMDb TV resolutions omit the year in new folder names (movies still use `(year)`). For bulk TV renames already on disk, use `kometa/tools/asset-organizer/rename_tv_folders_to_plex.py` (Star Trek block today; extend the table for other shows). **`dimensional_asset_rename`** in Kometa `config.yml` only renames image files inside a matched folder by aspect ratio — it does **not** map Plex titles to folder names.
+**Asset folder naming:** Kometa matches by the **exact Plex title**. With `asset_depth: 2` the expected path is `assets/<Category>/<PlexTitle>/poster.png`. Ignore missing-asset warnings only when no corresponding custom asset exists. When an asset exists with a different spelling or year, rename its folder or update `kometa/organizer/exception_mappings.json`. Set `ASSET_RESOLVER_TV_OMIT_YEAR=1` in the separate organizer to omit years on new TMDb TV resolutions. `dimensional_asset_rename` only renames image files inside matched folders; it does not map Plex titles to folder names.
 
 ### Language overlay weights
 
@@ -185,42 +184,24 @@ After a run, pull with `sync_to_host.sh sync -kl` from the `homeserver` hub fold
 
 ## Kometa: asset organizer tool
 
-**Entry point:** `kometa/tools/asset-organizer/organize_assets.py`
+Reusable tooling lives in the private sibling repository
+[`kometa-assets-organizer`](https://github.com/okdesign21/kometa-assets-organizer).
+It owns the organizer package, tests, report validator, and holiday updater.
+Do not copy its implementation back into this repository.
 
-**What it does:** Takes downloaded posters from a source folder, normalises names, converts to PNG (Pillow), caps size at 10,480,000 bytes (Plex/Kometa limit), and places them into `config/assets/<Category>/<Name>/poster.png`.
+Use the shared `homeserver/.venv` and `python -m kometa_assets_organizer`.
+The [README](README.md#kometa-tools-local) has commands wired to this repo's
+personal asset targets, title mappings, and Plex library names.
 
-**Modules:**
+Paths resolve from the caller's current directory. Export credentials/settings
+explicitly; the tool no longer loads costume `.env` files or derives Plex URLs
+from `ORTFLIX_SYNC_HOST`. Personal mappings live in
+`kometa/organizer/exception_mappings.json`; caches and source downloads alongside
+them are ignored. Organized assets and overlays stay under `kometa/config`.
 
-- `organize_assets.py` — CLI, arg parsing, env defaults, wires handlers together
-- `handlers.py` — base `Organizer` class, image conversion, size-shrinking logic, `normalize_name()`, SHA-256 hash sidecar (`.poster_source_hash`) for incremental mode
-- `poster_handler.py` — `PosterOrganizer`: handles Movies_Shows, People, Companies, Genres; strips role suffixes from people names; strips " Collection" suffix from franchise folder names to match Kometa's `remove_suffix: "Collection"` default
-- `overlay_handler.py` — `OverlayOrganizer`: handles overlay PNGs → `config/overlays/`
-- `tmdb_resolver.py` — last-resort TMDb API lookup for `Title (YYYY)` items; caches into `exception_mappings.json`
-- `exception_mappings.json` — manual + auto-written name overrides (source → Kometa folder name)
-
-**Asset categories:** `Companies`, `Genres`, `Movies_Shows`, `People`
-
-**Name normalisation order:**
-
-1. `exception_mappings.json` exact match
-2. Standard rules: NFKC unicode, curly quotes → straight, `–`/`—` → `-`, `:` between digits → `-`, other `:` → ` -`, `*` → `-`, double space → ` & `
-3. TMDb API (only for `Title (YYYY)` format, only when `TMDB_API_KEY` is set; writes result back to `exception_mappings.json`)
-
-**Key CLI flags:**
-
-- `--dry-run` — show what would happen, no writes
-- `--full` — re-process everything, ignore hash sidecars
-- `--force-png` / `--no-force-png` — convert to PNG (default: on)
-- `--shrink-large-posters` — walk target and shrink existing oversized posters, then exit
-- `--no-tmdb` — skip TMDb lookups (fast incremental runs)
-- `--strip-collection-suffix` / `--no-strip-collection-suffix`
-- `--source`, `--target`, `--overlays-source`, `--overlays-target`
-- `--exception-mappings` — path to mappings JSON
-
-**Env var defaults** (can also go in `kometa/.env`, `scripts/.env`, or repo-root `.env`):
-`POSTERS_SOURCE_DIR`, `OVERLAYS_SOURCE_DIR`, `ASSET_TARGET_DIR`, `OVERLAY_TARGET_DIR`, `ASSET_FORCE_PNG`, `ASSET_EXCEPTION_MAPPINGS`, `ASSET_MAX_POSTER_BYTES`, `KOMETA_STRIP_COLLECTION_SUFFIX`, `TMDB_API_KEY`, `ASSET_RESOLVER_TV_OMIT_YEAR` (optional: `1` / `true` — TMDb **TV** hits omit `(year)` in output folder names to match Plex; default unchanged).
-
-**One-off renames:** `kometa/tools/asset-organizer/rename_tv_folders_to_plex.py` renames on-disk `Movies_Shows` folders from TMDb-style `Show (YYYY)` to Plex-style titles for the Star Trek table inside the script (extend for other series).
+The holiday updater runs from the new repo's `scripts/` directory with a
+required `--config` pointing to `kometa/config/israeli_holidays.yml`. Use
+`--dry-run` first. HTTPS verification is enabled by default.
 
 ---
 

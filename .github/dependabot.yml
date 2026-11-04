@@ -13,17 +13,3 @@ updates:
     allow:
       - dependency-type: "indirect"
       - dependency-type: "direct"
-
-  - package-ecosystem: "pip"
-    directory: "/kometa/tools/asset-organizer"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
-    labels:
-      - "dependencies"
-      - "python"
-    allow:
-      - dependency-type: "indirect"
-      - dependency-type: "direct"

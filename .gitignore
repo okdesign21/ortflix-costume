@@ -39,6 +39,11 @@ bot/config/
 *~
 
 logs/
+
 # Generated version file (setuptools_scm) — regenerate, don't track
 kometa/_version.py
 match_review.json
+kometa/organizer/tmdb_cache.json
+kometa/organizer/plex_index_cache.json
+kometa/organizer/Posters/
+kometa/organizer/Overlays/
