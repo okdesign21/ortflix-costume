@@ -17,8 +17,7 @@ Personal configuration repository for Ortflix media customization:
 - Reusable organizer and holiday updater:
   [`kometa-assets-organizer`](https://github.com/okdesign21/kometa-assets-organizer)
   (private; clone as a sibling repository)
-- `scripts/sync_to_host.sh` — rsync config, scripts, and assets to the host server
-- `ortflix-telegram/scripts/check_plex_titles.py` — compare Plex library items to Kometa asset folders
+- `scripts/sync_to_host.sh` — rsync Kometa config, assets, and overlays to the host server
 
 ### Sync preview
 
@@ -70,15 +69,22 @@ HTTPS certificates; use `REQUESTS_CA_BUNDLE` for a trusted custom CA.
 
 ## CI/CD
 
-- `lint.yml` — Ruff, yamllint, ShellCheck, hadolint
+- `lint.yml` — Kometa YAML parsing, personal mappings JSON validation, shell
+  syntax, and offline sync regression tests
 - `security.yml` — TruffleHog and Trivy scans
+
+Required checks are `config-checks` and `sync-tests`, with up-to-date branches
+required before merging. Python tests and Ruff checks belong to the standalone
+organizer repository. Local pre-commit hooks retain YAML, shell, Markdown,
+workflow, and general file checks.
 
 This repository does **not** publish GitHub releases.
 
 ## Related Repositories
 
 - Main stack: [`ortflix`](https://github.com/okdesign21/ortflix)
-- Telegram bot and releases: [`ortflix-telegram`](https://github.com/okdesign21/ortflix-telegram)
+- Integrations and Telegram workflows: [`ortflix-integrations-bot`](https://github.com/okdesign21/ortflix-integrations-bot)
+- Reusable Kometa tools: [`kometa-assets-organizer`](https://github.com/okdesign21/kometa-assets-organizer)
 
 ## License
 

@@ -1,6 +1,6 @@
 ---
 description: "Kometa, Plex, YAML, assets — canonical guidance in repo-root AGENTS.md"
-globs: "**/*kometa*,**/kometa.yaml,kometa/**,meta.log,*_report.yml,kometa/tools/asset-organizer/**,**/organize_assets.py"
+globs: "**/*kometa*,**/kometa.yaml,kometa/**,meta.log,*_report.yml"
 alwaysApply: false
 ---
 
