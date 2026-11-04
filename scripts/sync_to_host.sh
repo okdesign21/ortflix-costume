@@ -82,7 +82,7 @@ Commands:
   check       Validate YAML under kometa/config (Python+PyYAML or Ruby)
   paths       Print resolved paths and remote destinations
   sync        Rsync (see flags below)
-  sync-dry    Same as sync with --dry-run
+  sync-dry    Preview transfers with --dry-run; do not create remote directories
   rsync       Alias for sync
   dry-run     Alias for sync-dry
   ansible     ansible-playbook --tags kometa-sync (optional)
@@ -238,7 +238,9 @@ cmd_sync() {
   shift
   parse_sync_selectors "$@"
   resolve_connection
-  ensure_remote_dirs
+  if [[ "$dry" != "1" ]]; then
+    ensure_remote_dirs
+  fi
   [[ "$SYNC_K"  == "1" ]] && rsync_kometa_yaml "$dry"
   [[ "$SYNC_A"  == "1" ]] && rsync_kometa_assets "$dry"
   [[ "$SYNC_O"  == "1" ]] && rsync_kometa_overlays "$dry"

@@ -18,6 +18,24 @@ Automation repository for Ortflix media customization:
 - `scripts/sync_to_host.sh` — rsync config, scripts, and assets to the host server
 - `ortflix-telegram/scripts/check_plex_titles.py` — compare Plex library items to Kometa asset folders
 
+### Sync preview
+
+Run `bash scripts/sync_to_host.sh sync-dry` (alias: `dry-run`) to preview
+transfers without creating remote directories or writing/deleting transferred
+files. Selectors `-k`, `-a`, `-o`, and `-kl` work as with `sync`, including
+deletion previews when `ORTFLIX_RSYNC_DELETE=1`.
+
+Preview still requires SSH access and rsync on both ends. Missing remote parent
+directories may cause rsync to fail; create them explicitly or use normal `sync`
+when ready to apply changes. Normal `sync`/`rsync` still creates the selected
+destination directories before transferring files.
+
+Run the offline sync regression checks with:
+
+```bash
+bash scripts/tests/sync_to_host_test.sh
+```
+
 ## Quick Start
 
 ```bash
