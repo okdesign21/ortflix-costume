@@ -71,7 +71,11 @@ HTTPS certificates; use `REQUESTS_CA_BUNDLE` for a trusted custom CA.
 
 - `lint.yml` — Kometa YAML parsing, personal mappings JSON validation, shell
   syntax, and offline sync regression tests
-- `security.yml` — TruffleHog and Trivy scans
+- `security.yml` — Gitleaks, TruffleHog, and Trivy scans
+
+Gitleaks scans a tracked-file snapshot offline with redacted findings. It does
+not scan Git history or untracked files; its pinned container version needs
+manual updates.
 
 Required checks are `config-checks` and `sync-tests`, with up-to-date branches
 required before merging. Python tests and Ruff checks belong to the standalone
